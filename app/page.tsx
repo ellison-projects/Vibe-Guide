@@ -303,6 +303,13 @@ function BucketView({
     attachBucket(term, selectedBucket),
   );
   const shouldCollapseBucketSummary = Boolean(selectedTermId);
+  const filteredTerms =
+    shouldCollapseBucketSummary && selectedTermId
+      ? terms.filter((term) => term.id === selectedTermId)
+      : terms;
+  const visibleTerms = filteredTerms.length > 0 ? filteredTerms : terms;
+  const hasCollapsedTerms =
+    shouldCollapseBucketSummary && visibleTerms.length < terms.length;
 
   return (
     <div className="space-y-6 rounded-3xl border border-slate-800/60 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
@@ -339,8 +346,14 @@ function BucketView({
         </>
       )}
 
+      {hasCollapsedTerms && (
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          Showing selected term — clear the selection to browse all {terms.length} items.
+        </p>
+      )}
+
       <div className="grid gap-4">
-        {terms.map((term) => (
+        {visibleTerms.map((term) => (
           <TermCard key={term.id} term={term} onSelect={onSelectTerm} />
         ))}
       </div>
