@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Fragment,
   Suspense,
   useCallback,
   useEffect,
@@ -40,6 +41,7 @@ function VocabularyApp() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [recentTerms, setRecentTerms] = useState<TermWithBucket[]>([]);
+  const [isOliModalOpen, setIsOliModalOpen] = useState(false);
 
   const tabParam = searchParams.get("tab");
   const activeTab: TabId = isTabId(tabParam) ? tabParam : "home";
@@ -120,6 +122,14 @@ function VocabularyApp() {
     [updateParams],
   );
 
+  const openOliModal = useCallback(() => {
+    setIsOliModalOpen(true);
+  }, []);
+
+  const closeOliModal = useCallback(() => {
+    setIsOliModalOpen(false);
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-28 pt-6 lg:flex-row lg:pb-10 lg:gap-10">
@@ -141,6 +151,7 @@ function VocabularyApp() {
               recentTerms={recentTerms}
               onSelectBucket={handleSelectBucket}
               onSelectTerm={handleSelectTerm}
+              onShowOliInfo={openOliModal}
             />
           )}
 
@@ -151,6 +162,7 @@ function VocabularyApp() {
               onSelectBucket={handleSelectBucket}
               onSelectTerm={handleSelectTerm}
               selectedTermId={selectedTerm?.id ?? null}
+              onShowOliInfo={openOliModal}
             />
           )}
 
@@ -161,16 +173,22 @@ function VocabularyApp() {
               suggestions={suggestedTerms}
               onQueryChange={handleQueryChange}
               onSelectTerm={handleSelectTerm}
+              onShowOliInfo={openOliModal}
             />
           )}
         </div>
 
         <section className="w-full lg:max-w-md lg:self-start lg:sticky lg:top-6">
-          <TermDetailPanel term={selectedTerm} onClose={handleClearTerm} />
+          <TermDetailPanel
+            term={selectedTerm}
+            onClose={handleClearTerm}
+            onShowOliInfo={openOliModal}
+          />
         </section>
       </div>
 
       <BottomNav activeTab={activeTab} onChange={handleTabChange} />
+      <OliInfoModal open={isOliModalOpen} onClose={closeOliModal} />
     </div>
   );
 }
@@ -196,6 +214,7 @@ type HomeViewProps = {
   recentTerms: TermWithBucket[];
   onSelectBucket: (bucketId: string) => void;
   onSelectTerm: (term: TermWithBucket) => void;
+  onShowOliInfo: () => void;
 };
 
 function HomeView({
@@ -203,6 +222,7 @@ function HomeView({
   recentTerms,
   onSelectBucket,
   onSelectTerm,
+  onShowOliInfo,
 }: HomeViewProps) {
   return (
     <div className="space-y-8">
@@ -223,10 +243,10 @@ function HomeView({
               onClick={() => onSelectBucket(bucket.id)}
             >
               <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-                {bucket.title}
+                {renderOliAwareText(bucket.title, onShowOliInfo)}
               </p>
               <p className="mt-2 text-base font-medium text-slate-100">
-                {bucket.description}
+                {renderOliAwareText(bucket.description, onShowOliInfo)}
               </p>
               <p className="mt-4 text-xs font-medium text-slate-500">
                 {bucket.terms.length} vocabulary terms
@@ -267,13 +287,13 @@ function HomeView({
                 onClick={() => onSelectTerm(term)}
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  {term.bucketTitle}
+                  {renderOliAwareText(term.bucketTitle, onShowOliInfo)}
                 </p>
                 <p className="mt-2 text-base font-semibold text-slate-100">
-                  {term.title}
+                  {renderOliAwareText(term.title, onShowOliInfo)}
                 </p>
                 <p className="mt-2 text-sm text-slate-400">
-                  {term.shortDescription}
+                  {renderOliAwareText(term.shortDescription, onShowOliInfo)}
                 </p>
               </button>
             ))}
@@ -290,6 +310,7 @@ type BucketViewProps = {
   onSelectBucket: (bucketId: string) => void;
   onSelectTerm: (term: TermWithBucket) => void;
   selectedTermId?: string | null;
+  onShowOliInfo: () => void;
 };
 
 function BucketView({
@@ -298,6 +319,7 @@ function BucketView({
   onSelectBucket,
   onSelectTerm,
   selectedTermId,
+  onShowOliInfo,
 }: BucketViewProps) {
   const terms = selectedBucket.terms.map((term) =>
     attachBucket(term, selectedBucket),
@@ -320,10 +342,10 @@ function BucketView({
               Buckets
             </p>
             <h2 className="text-2xl font-semibold text-slate-100">
-              {selectedBucket.title}
+              {renderOliAwareText(selectedBucket.title, onShowOliInfo)}
             </h2>
             <p className="text-sm text-slate-400">
-              {selectedBucket.description}
+              {renderOliAwareText(selectedBucket.description, onShowOliInfo)}
             </p>
           </header>
 
@@ -354,7 +376,12 @@ function BucketView({
 
       <div className="grid gap-4">
         {visibleTerms.map((term) => (
-          <TermCard key={term.id} term={term} onSelect={onSelectTerm} />
+          <TermCard
+            key={term.id}
+            term={term}
+            onSelect={onSelectTerm}
+            onShowOliInfo={onShowOliInfo}
+          />
         ))}
       </div>
     </div>
@@ -367,6 +394,7 @@ type SearchViewProps = {
   suggestions: TermWithBucket[];
   onQueryChange: (value: string) => void;
   onSelectTerm: (term: TermWithBucket) => void;
+  onShowOliInfo: () => void;
 };
 
 function SearchView({
@@ -375,6 +403,7 @@ function SearchView({
   suggestions,
   onQueryChange,
   onSelectTerm,
+  onShowOliInfo,
 }: SearchViewProps) {
   const trimmedQuery = query.trim();
   const showSuggestions = trimmedQuery.length === 0;
@@ -415,6 +444,7 @@ function SearchView({
                 key={term.id}
                 term={term}
                 onSelect={onSelectTerm}
+                onShowOliInfo={onShowOliInfo}
               />
             ))}
           </div>
@@ -435,7 +465,12 @@ function SearchView({
           ) : (
             <div className="grid gap-3">
               {results.map((term) => (
-                <TermCard key={term.id} term={term} onSelect={onSelectTerm} />
+                <TermCard
+                  key={term.id}
+                  term={term}
+                  onSelect={onSelectTerm}
+                  onShowOliInfo={onShowOliInfo}
+                />
               ))}
             </div>
           )}
@@ -448,21 +483,26 @@ function SearchView({
 type TermCardProps = {
   term: TermWithBucket;
   onSelect: (term: TermWithBucket) => void;
+  onShowOliInfo: () => void;
 };
 
-function TermCard({ term, onSelect }: TermCardProps) {
+function TermCard({ term, onSelect, onShowOliInfo }: TermCardProps) {
   return (
     <button
       className="group rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-400/60 hover:bg-slate-900/80 hover:shadow-lg hover:shadow-emerald-500/10"
       onClick={() => onSelect(term)}
     >
       <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-        {term.bucketTitle}
+        {renderOliAwareText(term.bucketTitle, onShowOliInfo)}
       </p>
       <div className="mt-2 flex items-start justify-between gap-4">
         <div>
-          <p className="text-lg font-semibold text-slate-100">{term.title}</p>
-          <p className="mt-1 text-sm text-slate-400">{term.shortDescription}</p>
+          <p className="text-lg font-semibold text-slate-100">
+            {renderOliAwareText(term.title, onShowOliInfo)}
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {renderOliAwareText(term.shortDescription, onShowOliInfo)}
+          </p>
         </div>
         <ChevronRightIcon className="mt-1 h-4 w-4 text-slate-500 transition group-hover:text-emerald-300" />
       </div>
@@ -473,19 +513,24 @@ function TermCard({ term, onSelect }: TermCardProps) {
 type SuggestionCardProps = {
   term: TermWithBucket;
   onSelect: (term: TermWithBucket) => void;
+  onShowOliInfo: () => void;
 };
 
-function SuggestionCard({ term, onSelect }: SuggestionCardProps) {
+function SuggestionCard({ term, onSelect, onShowOliInfo }: SuggestionCardProps) {
   return (
     <button
       className="rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4 text-left transition hover:border-emerald-400/60 hover:bg-slate-900/80"
       onClick={() => onSelect(term)}
     >
       <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-        {term.bucketTitle}
+        {renderOliAwareText(term.bucketTitle, onShowOliInfo)}
       </p>
-      <p className="mt-2 text-base font-semibold text-slate-100">{term.title}</p>
-      <p className="mt-1 text-sm text-slate-400">{term.shortDescription}</p>
+      <p className="mt-2 text-base font-semibold text-slate-100">
+        {renderOliAwareText(term.title, onShowOliInfo)}
+      </p>
+      <p className="mt-1 text-sm text-slate-400">
+        {renderOliAwareText(term.shortDescription, onShowOliInfo)}
+      </p>
     </button>
   );
 }
@@ -493,9 +538,10 @@ function SuggestionCard({ term, onSelect }: SuggestionCardProps) {
 type TermDetailPanelProps = {
   term: TermWithBucket | null;
   onClose: () => void;
+  onShowOliInfo: () => void;
 };
 
-function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
+function TermDetailPanel({ term, onClose, onShowOliInfo }: TermDetailPanelProps) {
   const [copiedPhrase, setCopiedPhrase] = useState<string | null>(null);
 
   useEffect(() => {
@@ -526,10 +572,10 @@ function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300/80">
-            {term.bucketTitle}
+            {renderOliAwareText(term.bucketTitle, onShowOliInfo)}
           </p>
           <h2 className="mt-1 text-2xl font-semibold text-slate-100">
-            {term.title}
+            {renderOliAwareText(term.title, onShowOliInfo)}
           </h2>
         </div>
         <button
@@ -541,8 +587,12 @@ function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
       </div>
 
       <div className="mt-4 space-y-4 text-sm text-slate-300">
-        <DetailBlock label="Definition">{term.definition}</DetailBlock>
-        <DetailBlock label="When to use it">{term.whenToUse}</DetailBlock>
+        <DetailBlock label="Definition">
+          {renderOliAwareText(term.definition, onShowOliInfo)}
+        </DetailBlock>
+        <DetailBlock label="When to use it">
+          {renderOliAwareText(term.whenToUse, onShowOliInfo)}
+        </DetailBlock>
       </div>
 
       <div className="mt-6 space-y-3">
@@ -555,7 +605,9 @@ function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
               key={phrase}
               className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4"
             >
-              <p className="text-sm text-slate-100">{phrase}</p>
+              <p className="text-sm text-slate-100">
+                {renderOliAwareText(phrase, onShowOliInfo)}
+              </p>
               <button
                 className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-emerald-300 transition hover:text-emerald-200"
                 onClick={() => handleCopy(phrase)}
@@ -579,7 +631,7 @@ function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
                 key={example}
                 className="rounded-2xl border border-slate-800 bg-slate-900/40 p-3"
               >
-                {example}
+                {renderOliAwareText(example, onShowOliInfo)}
               </li>
             ))}
           </ul>
@@ -602,6 +654,103 @@ function DetailBlock({
         {label}
       </p>
       <p className="text-sm text-slate-200">{children}</p>
+    </div>
+  );
+}
+
+const OLI_GARDNER_NAME = "Oli Gardner";
+
+function renderOliAwareText(text: string, onShowOliInfo: () => void): ReactNode {
+  if (!text.includes(OLI_GARDNER_NAME)) {
+    return text;
+  }
+
+  const parts = text.split(OLI_GARDNER_NAME);
+  return (
+    <span>
+      {parts.map((part, index) => (
+        <Fragment key={`oli-fragment-${index}`}>
+          {part}
+          {index < parts.length - 1 && (
+            <button
+              type="button"
+              className="inline font-semibold text-emerald-300 underline decoration-dotted underline-offset-4 transition hover:text-emerald-200"
+              onClick={onShowOliInfo}
+            >
+              {OLI_GARDNER_NAME}
+            </button>
+          )}
+        </Fragment>
+      ))}
+    </span>
+  );
+}
+
+type OliInfoModalProps = {
+  open: boolean;
+  onClose: () => void;
+};
+
+function OliInfoModal({ open, onClose }: OliInfoModalProps) {
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 px-4 py-6"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Who is Oli Gardner"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-lg rounded-3xl border border-slate-800 bg-slate-900/95 p-6 text-left text-slate-100 shadow-2xl shadow-emerald-500/10"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300/80">
+              Conversion mentor
+            </p>
+            <h2 className="mt-1 text-2xl font-semibold text-white">
+              Who is {OLI_GARDNER_NAME}?
+            </h2>
+          </div>
+          <button
+            className="rounded-full border border-slate-700 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300 transition hover:border-slate-400 hover:text-white"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="mt-5 space-y-3 text-sm text-slate-300">
+          <p>
+            {OLI_GARDNER_NAME} co-founded Unbounce and is famous for obsessive
+            landing page experiments, attention ratio discipline, and high-converting
+            copy frameworks.
+          </p>
+          <p>
+            We channel his lens to keep this vocabulary focused on ruthless clarity:
+            one page, one goal; clarity over clever; visual hierarchy or bust.
+          </p>
+          <ul className="list-disc space-y-1 pl-5 text-slate-200/90">
+            <li>Every element must push toward a single CTA.</li>
+            <li>Headlines answer what and why before they get witty.</li>
+            <li>Visual order, proof, and friction removal build conversion momentum.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
