@@ -1,239 +1,99 @@
 {
   "buckets": [
     {
-      "id": "design",
-      "title": "Working on design",
-      "description": "Improve visual polish, color usage, and component styling.",
+      "id": "landing-page",
+      "title": "Label the landing page",
+      "description": "Seven Oli-style section labels to keep a one-page, one-goal teardown honest.",
       "terms": [
         {
-          "id": "visual-hierarchy",
-          "title": "Visual hierarchy",
-          "shortDescription": "Clarify the order in which elements compete for attention.",
-          "definition": "Visual hierarchy is the intentional use of scale, weight, color, and spacing to signal what the user should notice first, second, and last.",
-          "whenToUse": "Request this when a layout feels flat, when CTAs are lost, or when primary metrics are competing with secondary details.",
+          "id": "one-page-one-goal",
+          "title": "One page, one goal",
+          "shortDescription": "Force every element to ladder up to the one conversion that matters.",
+          "definition": "Give the page a single job—book the call, start the trial, download the deck—and delete or relabel anything that does not point there.",
+          "whenToUse": "When the hero carries two CTAs, stakeholders debate metrics mid-page, or nobody can answer \"what's the one action\" in a single verb.",
           "aiPhrases": [
-            "Reinforce the primary CTA so it reads as the first stop in the layout.",
-            "Dial down visual noise on secondary actions to restore hierarchy.",
-            "Use spacing and contrast to ladder information from primary to tertiary."
+            "Act as Oli Gardner and strip this page to a single CTA, labeling each remaining block as either Goal or Noise before rewriting."
           ],
           "examples": [
-            "Ask the AI to resize or recolor the hero KPI so it outranks sidebar stats.",
-            "Prompt for more whitespace above section headers to separate content blocks."
+            "Tag hero, proof bar, and footer CTA as Goal-supporting; move blog links into a parking lot doc."
           ]
         },
         {
-          "id": "color-intent",
-          "title": "Color intent",
-          "shortDescription": "Align palette choices with emotion and accessibility goals.",
-          "definition": "Color intent focuses on why each hue exists—reinforcing meaning, emotion, and brand credibility without sacrificing contrast.",
-          "whenToUse": "Use this when colors feel arbitrary, brand tones are off, or WCAG contrast is questionable.",
+          "id": "clarity-beats-clever",
+          "title": "Clarity beats clever",
+          "shortDescription": "Headline answers what it is and why it should matter in one breath.",
+          "definition": "Name the outcome plainly, then earn the right to be interesting. Cleverness can sit in the subhead once the promise is unmistakable.",
+          "whenToUse": "When the hero line is metaphor heavy, includes internal brand-speak, or forces a reread before you know the offer.",
           "aiPhrases": [
-            "Propose a palette that signals trust first, experimentation second.",
-            "Audit accent colors for AA contrast on light and dark backgrounds.",
-            "Tie interaction states (hover, focus, active) back to the core palette."
+            "Rewrite the hero headline so the first five words answer what the product is and the next five answer why it matters."
           ],
           "examples": [
-            "Have the AI suggest a calm neutral background for analyst dashboards.",
-            "Ask for an alert color family that is brand aligned but still high contrast."
+            "Swap \"Give your funnels wings\" for \"Ship CRO-ready landing pages in hours.\""
           ]
         },
         {
-          "id": "component-density",
-          "title": "Component density",
-          "shortDescription": "Balance breathing room with information per view.",
-          "definition": "Component density defines how much content fits inside a module before cognitive load spikes.",
-          "whenToUse": "Invoke this when cards feel cramped, forms stretch too tall, or data tables lack scan anchors.",
+          "id": "visual-hierarchy-king",
+          "title": "Visual hierarchy is king",
+          "shortDescription": "Eyes flow headline → subhead → CTA with zero sideways detours.",
+          "definition": "Scale, contrast, and spacing guide the scan. Anything competing with the CTA gets demoted, muted, or moved down the page.",
+          "whenToUse": "When secondary cards, badges, or nav links shout louder than the hero CTA or proof statement.",
           "aiPhrases": [
-            "Calibrate padding so cards fit three per row on desktop without crowding.",
-            "Group related form inputs to shorten the perceived path.",
-            "Introduce lightweight dividers to keep dense data scannable."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ux",
-      "title": "Working on UX",
-      "description": "Clarify flows, feedback, and user confidence throughout interactions.",
-      "terms": [
-        {
-          "id": "progressive-disclosure",
-          "title": "Progressive disclosure",
-          "shortDescription": "Reveal complexity only when the user signals readiness.",
-          "definition": "Progressive disclosure staggers advanced controls so novice users stay focused while experts still have access on demand.",
-          "whenToUse": "Use when onboarding feels overwhelming or advanced toggles distract from the happy path.",
-          "aiPhrases": [
-            "Gate advanced filters behind a \u201cMore options\u201d drawer with clear affordances.",
-            "Stage the import wizard into primary vs. advanced steps with inline cues.",
-            "Surface only the top three metrics, tucking the rest under a disclosure."
+            "Reorder typography and spacing so the eye hits headline, support copy, then CTA in under two seconds."
           ],
           "examples": [
-            "Request a collapsed section for power-user columns in the report builder."
+            "Reduce partner logo strip to monochrome and drop it below the fold."
           ]
         },
         {
-          "id": "empty-state",
-          "title": "Empty state coaching",
-          "shortDescription": "Turn blank screens into helpful guidance.",
-          "definition": "Empty state coaching supplies context, example data, and a next step when there is nothing to display yet.",
-          "whenToUse": "Invoke when new projects start blank or data depends on upstream integrations.",
+          "id": "attention-ratio",
+          "title": "Attention ratio",
+          "shortDescription": "One primary CTA, everything else is supportive microcopy.",
+          "definition": "The attention ratio is 1:1 when there is exactly one action to take per campaign. Links that do not advance the goal either move to the footer or vanish.",
+          "whenToUse": "When pricing, docs, careers, or social links leak traffic before the main conversion.",
           "aiPhrases": [
-            "Draft an empty state with a single action and one sentence promise.",
-            "Show sample rows so users know what data will appear once connected.",
-            "Pair the primary CTA with a backup help link for stalled teams."
-          ]
-        },
-        {
-          "id": "friction-log",
-          "title": "Friction log",
-          "shortDescription": "Document sticking points inside the flow.",
-          "definition": "A friction log is a timestamped list of minor annoyances that together erode user confidence.",
-          "whenToUse": "Use during usability reviews when you can feel \u201clittle papercuts\u201d slowing progress.",
-          "aiPhrases": [
-            "Summarize all friction points from this flow ordered by severity.",
-            "Suggest lightweight experiments that remove two clicks from the review loop.",
-            "Translate the friction log into a prioritized bug backlog."
+            "List every link on the page, keep the primary CTA, and recommend where each extra link should move or how to restyle it as supportive text."
           ],
           "examples": [
-            "Ask for UX copy that explains why a step is disabled instead of leaving it silent."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "structure",
-      "title": "Working on structure",
-      "description": "Organize layouts, grids, and content groupings for clarity.",
-      "terms": [
-        {
-          "id": "information-architecture",
-          "title": "Information architecture",
-          "shortDescription": "Map relationships between pages, sections, and tasks.",
-          "definition": "Information architecture (IA) decides how content is chunked, labeled, and navigated so users form a reliable mental model.",
-          "whenToUse": "Use this when navigation feels ad hoc, users guess where to click, or content piles up without hierarchy.",
-          "aiPhrases": [
-            "Propose a sitemap that keeps strategic work separate from daily tasks.",
-            "Rename navigation to reflect user intent over internal jargon.",
-            "Bundle insights, actions, and history into predictable clusters."
+            "Collapse nav to a logo plus CTA for paid campaigns."
           ]
         },
         {
-          "id": "layout-grid",
-          "title": "Layout grid",
-          "shortDescription": "Anchor spacing, alignment, and rhythm.",
-          "definition": "A layout grid defines columns, gutters, and margins so every component aligns to a shared rhythm.",
-          "whenToUse": "Invoke when cards drift, typography alignment breaks, or responsive states feel improvised.",
+          "id": "conversion-momentum",
+          "title": "Conversion momentum",
+          "shortDescription": "Problem → Value → Proof → Action, zero filler in between.",
+          "definition": "Each scroll depth builds belief: define the pain, show the promise, prove it, then ask for action. Anything off-sequence becomes a sidebar note.",
+          "whenToUse": "When case studies appear before the problem statement or CTAs hit before context exists.",
           "aiPhrases": [
-            "Lock the desktop grid to 12 columns with 24px gutters and show how hero, cards, and footers snap to it.",
-            "Demonstrate how the grid collapses at tablet and mobile breakpoints.",
-            "Audit current screens for off-grid elements and propose fixes."
+            "Relabel sections as Problem, Value, Proof, or Action and rewrite until the order builds unstoppable momentum."
           ],
           "examples": [
-            "Request a diagram labeling safe areas vs. bleed areas for charts."
+            "Move testimonial carousel beneath the value stack with outcome metrics in bold."
           ]
         },
         {
-          "id": "content-grouping",
-          "title": "Content grouping",
-          "shortDescription": "Collect related signals so scanning becomes effortless.",
-          "definition": "Content grouping bundles related data points so the eye can scan one cluster at a time instead of bouncing randomly.",
-          "whenToUse": "Use when dashboards feel noisy, lists alternate unrelated items, or when teams mix metrics and narrative.",
+          "id": "contextual-design",
+          "title": "Contextual design",
+          "shortDescription": "Every element nudges the visitor from mindset A to B.",
+          "definition": "If a module does not advance the mental state—confused → curious, curious → convinced—it does not earn real estate.",
+          "whenToUse": "When decorative illustrations, generic stats, or culture photos interrupt the story.",
           "aiPhrases": [
-            "Group health metrics separately from growth experiments in the overview.",
-            "Add clear dividers and labels when context switches.",
-            "Provide summary chips per cluster to aid quick scanning."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "content",
-      "title": "Working on content clarity",
-      "description": "Sharpen copy, tone, and narrative sequencing.",
-      "terms": [
-        {
-          "id": "microcopy",
-          "title": "Microcopy tune-up",
-          "shortDescription": "Optimize short bits of UI text for tone and clarity.",
-          "definition": "Microcopy tune-ups adjust helper text, labels, and button copy so they reinforce intent and reduce hesitation.",
-          "whenToUse": "Use when tooltips ramble, CTA verbs mismatch outcomes, or helper text reads robotic.",
-          "aiPhrases": [
-            "Rewrite this helper text to set expectations in under 12 words.",
-            "Offer three CTA options that emphasize momentum over obligation.",
-            "Align microcopy tone with confident, plain-spoken product language."
-          ]
-        },
-        {
-          "id": "readability-pass",
-          "title": "Readability pass",
-          "shortDescription": "Ensure paragraphs are scannable and jargon free.",
-          "definition": "A readability pass trims dense paragraphs, swaps jargon, and improves rhythm so teams grasp the message on first read.",
-          "whenToUse": "Invoke when summaries get TL;DR reactions or stakeholders misinterpret plan docs.",
-          "aiPhrases": [
-            "Rewrite this section at an 8th grade reading level without losing nuance.",
-            "Convert long paragraphs into a lead sentence plus bullets.",
-            "Highlight any jargon and offer plainer replacements."
-          ]
-        },
-        {
-          "id": "voice-consistency",
-          "title": "Voice consistency",
-          "shortDescription": "Keep tone, tense, and perspective aligned across surfaces.",
-          "definition": "Voice consistency ensures every touchpoint sounds like the same teammate, regardless of feature or channel.",
-          "whenToUse": "Use when marketing, product, and support copy feel written by different people.",
-          "aiPhrases": [
-            "Audit this flow for shifts between first and second person voice.",
-            "Normalize tense and tone to match the brand voice guide.",
-            "Provide a side-by-side showing current vs. aligned voice."
+            "For each section, state the visitor's mindset before and after consuming it; delete or rewrite anything without a shift."
           ],
           "examples": [
-            "Ask for a quick checklist writers can run before shipping release notes."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "prompts",
-      "title": "Working on AI prompts",
-      "description": "Shape better instructions for AI collaborators.",
-      "terms": [
-        {
-          "id": "role-priming",
-          "title": "Role priming",
-          "shortDescription": "Set context for the AI before making the ask.",
-          "definition": "Role priming frames who the AI should act as so responses mirror the right expertise and priorities.",
-          "whenToUse": "Use when answers feel generic or the AI keeps missing business context.",
-          "aiPhrases": [
-            "Act as a senior product designer coaching a cross-functional trio.",
-            "Take the perspective of a UX researcher translating findings to PMs.",
-            "Respond with the bias of protecting user trust over acquisition."
+            "Replace culture photo grid with a comparison table that actually answers objections."
           ]
         },
         {
-          "id": "multi-shot",
-          "title": "Multi-shot prompting",
-          "shortDescription": "Show examples of success before asking for more.",
-          "definition": "Multi-shot prompting feeds a few curated examples so the AI mirrors structure, tone, or level of detail in future answers.",
-          "whenToUse": "Invoke when outputs wobble in quality or when you need consistency across variations.",
+          "id": "friction-removal",
+          "title": "Friction removal",
+          "shortDescription": "Forms, microcopy, and reassurance cues calm every hesitation.",
+          "definition": "Cut fields, explain why data is needed, and sprinkle microcopy that removes fear right where it appears.",
+          "whenToUse": "When forms ask for phone numbers too early, privacy reassurance is buried, or button copy feels high-commitment.",
           "aiPhrases": [
-            "Here are two sample critiques\u2014match their depth when reviewing the next screen.",
-            "Given these example prompts, craft three more covering related scenarios.",
-            "Keep the same outline structure shown above when expanding to new use cases."
-          ]
-        },
-        {
-          "id": "guardrail-prompt",
-          "title": "Guardrail prompt",
-          "shortDescription": "Define boundaries the AI should not cross.",
-          "definition": "Guardrail prompts spell out failure modes, banned ideas, or privacy constraints so the AI self checks before responding.",
-          "whenToUse": "Use when collaborating on sensitive data, regulated content, or when the AI tends to over-promise.",
-          "aiPhrases": [
-            "Never invent research data; flag any missing stats instead.",
-            "Do not recommend solutions requiring net-new ML models.",
-            "Keep all suggestions within one sprint of effort."
+            "Rewrite the form area so every field has a plain-English label, optional helper text, and a commitment-calming CTA."
           ],
           "examples": [
-            "Pair the guardrail with acceptance criteria so the AI knows when to stop ideating."
+            "Change \"Request a demo\" to \"See the playbook\" with a note about 15-minute walkthroughs."
           ]
         }
       ]
