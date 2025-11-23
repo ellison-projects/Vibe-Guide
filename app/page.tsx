@@ -122,7 +122,7 @@ function VocabularyApp() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-28 pt-6 md:flex-row md:pb-10 lg:gap-10">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-28 pt-6 lg:flex-row lg:pb-10 lg:gap-10">
         <div className="flex-1 space-y-6">
           <BreadcrumbsBar
             activeTab={activeTab}
@@ -164,31 +164,12 @@ function VocabularyApp() {
           )}
         </div>
 
-        <aside className="hidden w-full max-w-sm md:block lg:max-w-md">
-          <TermDetailPanel
-            term={selectedTerm}
-            variant="desktop"
-            onClose={handleClearTerm}
-          />
-        </aside>
+        <section className="w-full lg:max-w-md lg:self-start lg:sticky lg:top-6">
+          <TermDetailPanel term={selectedTerm} onClose={handleClearTerm} />
+        </section>
       </div>
 
       <BottomNav activeTab={activeTab} onChange={handleTabChange} />
-
-      {selectedTerm && (
-        <div className="md:hidden">
-          <div
-            aria-hidden
-            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-[2px]"
-            onClick={handleClearTerm}
-          />
-          <TermDetailPanel
-            term={selectedTerm}
-            variant="mobile"
-            onClose={handleClearTerm}
-          />
-        </div>
-      )}
     </div>
   );
 }
@@ -488,11 +469,10 @@ function SuggestionCard({ term, onSelect }: SuggestionCardProps) {
 
 type TermDetailPanelProps = {
   term: TermWithBucket | null;
-  variant: "mobile" | "desktop";
   onClose: () => void;
 };
 
-function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
+function TermDetailPanel({ term, onClose }: TermDetailPanelProps) {
   const [copiedPhrase, setCopiedPhrase] = useState<string | null>(null);
 
   useEffect(() => {
@@ -501,27 +481,10 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
     return () => clearTimeout(timeout);
   }, [copiedPhrase]);
 
-  const baseClasses =
-    "bg-slate-900/95 shadow-2xl transition-all duration-300 ease-out flex h-full flex-col overflow-y-auto border border-slate-800";
-  const variantClasses =
-    variant === "mobile"
-      ? "fixed inset-0 z-50 p-6"
-      : "sticky top-6 rounded-3xl p-6";
-
-  if (!term && variant === "mobile") {
-    return null;
-  }
-
   if (!term) {
     return (
-      <div
-        className={cn(
-          baseClasses,
-          variantClasses,
-          "items-center justify-center rounded-3xl text-center text-sm text-slate-400",
-        )}
-      >
-        <p>Select a term to open the detail coach.</p>
+      <div className="rounded-3xl border border-dashed border-slate-800 bg-slate-900/70 p-8 text-center text-sm text-slate-400">
+        <p>Select any term from Home, Categories, or Search to open the AI coach.</p>
       </div>
     );
   }
@@ -536,13 +499,7 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
   };
 
   return (
-    <div
-      className={cn(
-        baseClasses,
-        variantClasses,
-        variant === "mobile" ? "rounded-none" : "rounded-3xl",
-      )}
-    >
+    <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-emerald-500/5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300/80">
