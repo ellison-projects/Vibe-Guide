@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vibe Guide",
-  description: "A Next.js app with Tailwind CSS",
+  title: "Design Vocabulary Coach",
+  description:
+    "Mobile-first vocabulary coach for describing design, UX, structure, and content work to AI collaborators.",
 };
 
 export default function RootLayout({
@@ -13,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="bg-stone-50 font-sans text-slate-900 antialiased">
         {children}
       </body>
     </html>
