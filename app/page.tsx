@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Suspense,
   useCallback,
   useEffect,
   useMemo,
@@ -35,7 +36,7 @@ const suggestedTerms = allTerms.slice(0, 6);
 const isTabId = (value: string | null): value is TabId =>
   tabIds.includes(value as TabId);
 
-export default function HomePage() {
+function VocabularyApp() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [recentTerms, setRecentTerms] = useState<TermWithBucket[]>([]);
@@ -189,6 +190,22 @@ export default function HomePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-200">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+            Loading vocabulary coach…
+          </p>
+        </div>
+      }
+    >
+      <VocabularyApp />
+    </Suspense>
   );
 }
 
