@@ -1,9 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode, type SVGProps } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+  type SVGProps,
+} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   allTerms,
   buckets,
+  getBucketById,
+  getTermById,
   type TermWithBucket,
   type VocabularyBucket,
   type VocabularyTerm,
@@ -11,6 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type TabId = "home" | "categories" | "search";
+type ParamKey = "tab" | "bucket" | "term" | "q";
 
 const tabs: Array<{ id: TabId; label: string; description: string }> = [
   { id: "home", label: "Home", description: "Overview & recents" },
@@ -18,19 +29,29 @@ const tabs: Array<{ id: TabId; label: string; description: string }> = [
   { id: "search", label: "Search", description: "Find specific terms" },
 ];
 
+const tabIds: TabId[] = ["home", "categories", "search"];
 const suggestedTerms = allTerms.slice(0, 6);
 
-export default function HomePage() {
-  const [activeTab, setActiveTab] = useState<TabId>("home");
-  const [selectedBucketId, setSelectedBucketId] = useState(
-    buckets[0]?.id ?? "",
-  );
-  const [selectedTerm, setSelectedTerm] = useState<TermWithBucket | null>(null);
-  const [recentTerms, setRecentTerms] = useState<TermWithBucket[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+const isTabId = (value: string | null): value is TabId =>
+  tabIds.includes(value as TabId);
 
+export default function HomePage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [recentTerms, setRecentTerms] = useState<TermWithBucket[]>([]);
+
+  const tabParam = searchParams.get("tab");
+  const activeTab: TabId = isTabId(tabParam) ? tabParam : "home";
+
+  const selectedTermId = searchParams.get("term");
+  const selectedTerm = getTermById(selectedTermId) ?? null;
+
+  const bucketParam = searchParams.get("bucket");
+  const fallbackBucketId = selectedTerm?.bucketId ?? buckets[0]?.id ?? "";
   const selectedBucket =
-    buckets.find((bucket) => bucket.id === selectedBucketId) ?? buckets[0];
+    getBucketById(bucketParam) ??
+    (fallbackBucketId ? getBucketById(fallbackBucketId) : undefined);
+  const searchQuery = searchParams.get("q") ?? "";
 
   const searchResults = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -42,26 +63,76 @@ export default function HomePage() {
     });
   }, [searchQuery]);
 
-  const handleSelectBucket = (bucketId: string) => {
-    setSelectedBucketId(bucketId);
-    setActiveTab("categories");
-  };
+  const updateParams = useCallback(
+    (changes: Partial<Record<ParamKey, string | null>>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      Object.entries(changes).forEach(([key, value]) => {
+        if (value === null || value === "") {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+      const query = params.toString();
+      router.replace(query ? `?${query}` : "?", { scroll: false });
+    },
+    [router, searchParams],
+  );
 
-  const handleSelectTerm = (term: TermWithBucket) => {
-    setSelectedTerm(term);
-    setRecentTerms((prev) => {
-      const filtered = prev.filter((item) => item.id !== term.id);
-      return [term, ...filtered].slice(0, 6);
-    });
-  };
+  const handleTabChange = useCallback(
+    (tab: TabId) => {
+      updateParams({ tab: tab === "home" ? null : tab });
+    },
+    [updateParams],
+  );
 
-  const handleClearTerm = () => setSelectedTerm(null);
+  const handleSelectBucket = useCallback(
+    (bucketId: string) => {
+      updateParams({ tab: "categories", bucket: bucketId, term: null });
+    },
+    [updateParams],
+  );
+
+  const handleSelectTerm = useCallback(
+    (term: TermWithBucket) => {
+      setRecentTerms((prev) => {
+        const filtered = prev.filter((item) => item.id !== term.id);
+        return [term, ...filtered].slice(0, 6);
+      });
+      updateParams({ term: term.id, bucket: term.bucketId });
+    },
+    [updateParams],
+  );
+
+  const handleClearTerm = useCallback(() => {
+    updateParams({ term: null });
+  }, [updateParams]);
+
+  const handleQueryChange = useCallback(
+    (value: string) => {
+      updateParams({
+        tab: "search",
+        q: value.length ? value : null,
+        term: null,
+      });
+    },
+    [updateParams],
+  );
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-28 pt-6 md:flex-row md:pb-10 lg:gap-10">
         <div className="flex-1 space-y-6">
-          <DesktopTabs activeTab={activeTab} onChange={setActiveTab} />
+          <BreadcrumbsBar
+            activeTab={activeTab}
+            selectedBucket={selectedBucket}
+            selectedTerm={selectedTerm}
+            searchQuery={searchQuery}
+            onChangeTab={handleTabChange}
+            onSelectBucket={handleSelectBucket}
+          />
+
+          <DesktopTabs activeTab={activeTab} onChange={handleTabChange} />
 
           {activeTab === "home" && (
             <HomeView
@@ -76,7 +147,7 @@ export default function HomePage() {
             <BucketView
               buckets={buckets}
               selectedBucket={selectedBucket}
-              onSelectBucket={(bucketId) => setSelectedBucketId(bucketId)}
+              onSelectBucket={handleSelectBucket}
               onSelectTerm={handleSelectTerm}
             />
           )}
@@ -86,7 +157,7 @@ export default function HomePage() {
               query={searchQuery}
               results={searchResults}
               suggestions={suggestedTerms}
-              onQueryChange={setSearchQuery}
+              onQueryChange={handleQueryChange}
               onSelectTerm={handleSelectTerm}
             />
           )}
@@ -101,13 +172,13 @@ export default function HomePage() {
         </aside>
       </div>
 
-      <BottomNav activeTab={activeTab} onChange={setActiveTab} />
+      <BottomNav activeTab={activeTab} onChange={handleTabChange} />
 
       {selectedTerm && (
         <div className="md:hidden">
           <div
             aria-hidden
-            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px]"
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-[2px]"
             onClick={handleClearTerm}
           />
           <TermDetailPanel
@@ -136,12 +207,12 @@ function HomeView({
 }: HomeViewProps) {
   return (
     <div className="space-y-8">
-      <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <section className="space-y-4 rounded-3xl border border-slate-800/60 bg-slate-900/60 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
         <header>
-          <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             Start here
           </p>
-          <h2 className="text-xl font-semibold text-slate-900 md:text-2xl">
+          <h2 className="text-xl font-semibold text-slate-100 md:text-2xl">
             What are you working on?
           </h2>
         </header>
@@ -149,13 +220,13 @@ function HomeView({
           {buckets.map((bucket) => (
             <button
               key={bucket.id}
-              className="group rounded-2xl border border-slate-100 bg-slate-50/60 p-4 text-left transition hover:border-slate-300 hover:bg-white"
+              className="group rounded-2xl border border-slate-800/60 bg-slate-900/50 p-4 text-left transition hover:border-slate-500 hover:bg-slate-900"
               onClick={() => onSelectBucket(bucket.id)}
             >
-              <p className="text-sm font-semibold text-slate-500">
+              <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
                 {bucket.title}
               </p>
-              <p className="mt-2 text-base font-medium text-slate-900">
+              <p className="mt-2 text-base font-medium text-slate-100">
                 {bucket.description}
               </p>
               <p className="mt-4 text-xs font-medium text-slate-500">
@@ -166,13 +237,13 @@ function HomeView({
         </div>
       </section>
 
-      <section className="space-y-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <header className="flex items-center justify-between">
+      <section className="space-y-4 rounded-3xl border border-slate-800/60 bg-slate-900/60 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
+        <header className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
               Recently viewed
             </p>
-            <h2 className="text-xl font-semibold text-slate-900 md:text-2xl">
+            <h2 className="text-xl font-semibold text-slate-100 md:text-2xl">
               Keep the conversation going
             </h2>
           </div>
@@ -184,7 +255,7 @@ function HomeView({
         </header>
 
         {recentTerms.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+          <p className="rounded-2xl border border-dashed border-slate-800/80 p-4 text-sm text-slate-400">
             You haven&apos;t opened any terms yet. Pick a bucket to start
             briefing your AI teammate.
           </p>
@@ -193,16 +264,16 @@ function HomeView({
             {recentTerms.map((term) => (
               <button
                 key={term.id}
-                className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 text-left transition hover:border-slate-300 hover:bg-white"
+                className="rounded-2xl border border-slate-800/60 bg-slate-900/50 p-4 text-left transition hover:border-slate-500 hover:bg-slate-900"
                 onClick={() => onSelectTerm(term)}
               >
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   {term.bucketTitle}
                 </p>
-                <p className="mt-2 text-base font-semibold text-slate-900">
+                <p className="mt-2 text-base font-semibold text-slate-100">
                   {term.title}
                 </p>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-slate-400">
                   {term.shortDescription}
                 </p>
               </button>
@@ -232,15 +303,15 @@ function BucketView({
   );
 
   return (
-    <div className="space-y-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <div className="space-y-6 rounded-3xl border border-slate-800/60 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
       <header className="space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
           Buckets
         </p>
-        <h2 className="text-2xl font-semibold text-slate-900">
+        <h2 className="text-2xl font-semibold text-slate-100">
           {selectedBucket.title}
         </h2>
-        <p className="text-sm text-slate-600">{selectedBucket.description}</p>
+        <p className="text-sm text-slate-400">{selectedBucket.description}</p>
       </header>
 
       <div className="flex flex-wrap gap-2">
@@ -248,10 +319,10 @@ function BucketView({
           <button
             key={bucket.id}
             className={cn(
-              "rounded-full border px-4 py-2 text-sm font-medium shadow-sm transition",
+              "rounded-full border px-4 py-2 text-sm font-medium transition",
               bucket.id === selectedBucket.id
-                ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 bg-white text-slate-600 hover:border-slate-900/30",
+                ? "border-emerald-400/80 bg-emerald-400/10 text-emerald-200"
+                : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-600 hover:text-slate-100",
             )}
             onClick={() => onSelectBucket(bucket.id)}
           >
@@ -289,12 +360,12 @@ function SearchView({
   const emptyState = !showSuggestions && results.length === 0;
 
   return (
-    <div className="space-y-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <div className="space-y-5 rounded-3xl border border-slate-800/60 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
       <header>
-        <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
           Search the glossary
         </p>
-        <h2 className="text-2xl font-semibold text-slate-900">
+        <h2 className="text-2xl font-semibold text-slate-100">
           Describe any design or UX fix
         </h2>
       </header>
@@ -304,17 +375,17 @@ function SearchView({
           type="search"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          placeholder="Try \u201cvisual hierarchy\u201d or \u201cemptystate copy\u201d"
-          className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pr-12 text-base shadow-inner focus:border-slate-900 focus:outline-none"
+          placeholder='Try "visual hierarchy" or "emptystate copy"'
+          className="w-full rounded-2xl border border-slate-800 bg-slate-950/80 px-4 py-3 pr-12 text-base text-slate-100 placeholder-slate-500 shadow-inner focus:border-emerald-400 focus:outline-none"
         />
-        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+        <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">
           <SearchIcon className="h-5 w-5" />
         </div>
       </div>
 
       {showSuggestions && (
         <div className="space-y-3">
-          <p className="text-sm font-medium text-slate-500">
+          <p className="text-sm font-medium text-slate-400">
             Popular searches
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -331,16 +402,14 @@ function SearchView({
 
       {!showSuggestions && (
         <div className="space-y-4">
-          <p className="text-sm font-medium text-slate-500">
-            {results.length} result{results.length === 1 ? "" : "s"} for
-            &nbsp;
-            <span className="text-slate-900">&ldquo;{trimmedQuery}&rdquo;</span>
+          <p className="text-sm font-medium text-slate-400">
+            {results.length} result{results.length === 1 ? "" : "s"} for {" "}
+            <span className="text-slate-100">“{trimmedQuery}”</span>
           </p>
           {emptyState ? (
-            <p className="rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+            <p className="rounded-2xl border border-dashed border-slate-800/80 p-4 text-sm text-slate-400">
               No terms matched that phrase. Try searching for the outcome you
-              want (for example: &ldquo;reduce clutter&rdquo; or
-              &ldquo;onboarding copy&rdquo;).
+              want (for example: “reduce clutter” or “onboarding copy”).
             </p>
           ) : (
             <div className="grid gap-3">
@@ -363,20 +432,18 @@ type TermCardProps = {
 function TermCard({ term, onSelect }: TermCardProps) {
   return (
     <button
-      className="group rounded-2xl border border-slate-100 bg-slate-50/60 p-4 text-left transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-md"
+      className="group rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-400/60 hover:bg-slate-900/80 hover:shadow-lg hover:shadow-emerald-500/10"
       onClick={() => onSelect(term)}
     >
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
         {term.bucketTitle}
       </p>
       <div className="mt-2 flex items-start justify-between gap-4">
         <div>
-          <p className="text-lg font-semibold text-slate-900">{term.title}</p>
-          <p className="mt-1 text-sm text-slate-600">
-            {term.shortDescription}
-          </p>
+          <p className="text-lg font-semibold text-slate-100">{term.title}</p>
+          <p className="mt-1 text-sm text-slate-400">{term.shortDescription}</p>
         </div>
-        <ChevronRightIcon className="mt-1 h-4 w-4 text-slate-400 transition group-hover:text-slate-900" />
+        <ChevronRightIcon className="mt-1 h-4 w-4 text-slate-500 transition group-hover:text-emerald-300" />
       </div>
     </button>
   );
@@ -390,16 +457,14 @@ type SuggestionCardProps = {
 function SuggestionCard({ term, onSelect }: SuggestionCardProps) {
   return (
     <button
-      className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 text-left transition hover:border-slate-300 hover:bg-white"
+      className="rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4 text-left transition hover:border-emerald-400/60 hover:bg-slate-900/80"
       onClick={() => onSelect(term)}
     >
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
         {term.bucketTitle}
       </p>
-      <p className="mt-2 text-base font-semibold text-slate-900">{term.title}</p>
-      <p className="mt-1 text-sm text-slate-600">
-        {term.shortDescription}
-      </p>
+      <p className="mt-2 text-base font-semibold text-slate-100">{term.title}</p>
+      <p className="mt-1 text-sm text-slate-400">{term.shortDescription}</p>
     </button>
   );
 }
@@ -420,11 +485,11 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
   }, [copiedPhrase]);
 
   const baseClasses =
-    "bg-white shadow-xl transition-all duration-300 ease-out flex h-full flex-col overflow-y-auto";
+    "bg-slate-900/95 shadow-2xl transition-all duration-300 ease-out flex h-full flex-col overflow-y-auto border border-slate-800";
   const variantClasses =
     variant === "mobile"
       ? "fixed inset-0 z-50 p-6"
-      : "sticky top-6 rounded-3xl border border-slate-200 p-6";
+      : "sticky top-6 rounded-3xl p-6";
 
   if (!term && variant === "mobile") {
     return null;
@@ -432,7 +497,13 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
 
   if (!term) {
     return (
-      <div className={cn(baseClasses, variantClasses, "items-center justify-center text-center text-sm text-slate-500")}>
+      <div
+        className={cn(
+          baseClasses,
+          variantClasses,
+          "items-center justify-center rounded-3xl text-center text-sm text-slate-400",
+        )}
+      >
         <p>Select a term to open the detail coach.</p>
       </div>
     );
@@ -452,46 +523,44 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
       className={cn(
         baseClasses,
         variantClasses,
-        variant === "mobile"
-          ? "rounded-none"
-          : "rounded-3xl",
+        variant === "mobile" ? "rounded-none" : "rounded-3xl",
       )}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300/80">
             {term.bucketTitle}
           </p>
-          <h2 className="mt-1 text-2xl font-semibold text-slate-900">
+          <h2 className="mt-1 text-2xl font-semibold text-slate-100">
             {term.title}
           </h2>
         </div>
         <button
-          className="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium uppercase tracking-wide text-slate-500 transition hover:border-slate-900 hover:text-slate-900"
+          className="rounded-full border border-slate-700 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300 transition hover:border-slate-400 hover:text-white"
           onClick={onClose}
         >
           Close
         </button>
       </div>
 
-      <div className="mt-4 space-y-4 text-sm text-slate-600">
+      <div className="mt-4 space-y-4 text-sm text-slate-300">
         <DetailBlock label="Definition">{term.definition}</DetailBlock>
         <DetailBlock label="When to use it">{term.whenToUse}</DetailBlock>
       </div>
 
       <div className="mt-6 space-y-3">
-        <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
           AI-ready phrases
         </p>
         <div className="space-y-3">
           {term.aiPhrases.map((phrase) => (
             <div
               key={phrase}
-              className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4"
+              className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4"
             >
-              <p className="text-sm text-slate-900">{phrase}</p>
+              <p className="text-sm text-slate-100">{phrase}</p>
               <button
-                className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-900"
+                className="mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-emerald-300 transition hover:text-emerald-200"
                 onClick={() => handleCopy(phrase)}
               >
                 <CopyIcon className="h-4 w-4" />
@@ -504,14 +573,14 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
 
       {term.examples && term.examples.length > 0 && (
         <div className="mt-6 space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             Examples
           </p>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-sm text-slate-300">
             {term.examples.map((example) => (
               <li
                 key={example}
-                className="rounded-2xl border border-slate-100 bg-slate-50/60 p-3"
+                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-3"
               >
                 {example}
               </li>
@@ -523,13 +592,121 @@ function TermDetailPanel({ term, variant, onClose }: TermDetailPanelProps) {
   );
 }
 
-function DetailBlock({ label, children }: { label: string; children: ReactNode }) {
+function DetailBlock({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
   return (
-    <div className="space-y-1 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <div className="space-y-1 rounded-2xl border border-slate-800 bg-slate-900/30 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
         {label}
       </p>
-      <p className="text-sm text-slate-700">{children}</p>
+      <p className="text-sm text-slate-200">{children}</p>
+    </div>
+  );
+}
+
+type BreadcrumbsBarProps = {
+  activeTab: TabId;
+  selectedBucket?: VocabularyBucket;
+  selectedTerm: TermWithBucket | null;
+  searchQuery: string;
+  onChangeTab: (tab: TabId) => void;
+  onSelectBucket: (bucketId: string) => void;
+};
+
+function BreadcrumbsBar({
+  activeTab,
+  selectedBucket,
+  selectedTerm,
+  searchQuery,
+  onChangeTab,
+  onSelectBucket,
+}: BreadcrumbsBarProps) {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timeout = setTimeout(() => setCopied(false), 1200);
+    return () => clearTimeout(timeout);
+  }, [copied]);
+
+  const items = useMemo(() => {
+    const crumbs: Array<{ label: string; onClick?: () => void }> = [
+      {
+        label: "Home",
+        onClick: activeTab === "home" ? undefined : () => onChangeTab("home"),
+      },
+    ];
+
+    if (activeTab === "search") {
+      crumbs.push({
+        label: "Search",
+        onClick: () => onChangeTab("search"),
+      });
+      if (searchQuery.trim()) {
+        crumbs.push({ label: `“${searchQuery.trim()}”` });
+      }
+    } else if (activeTab === "categories" || selectedTerm) {
+      crumbs.push({
+        label: "Categories",
+        onClick: () => onChangeTab("categories"),
+      });
+      if (selectedBucket) {
+        crumbs.push({
+          label: selectedBucket.title,
+          onClick: () => onSelectBucket(selectedBucket.id),
+        });
+      }
+    }
+
+    if (selectedTerm) {
+      crumbs.push({ label: selectedTerm.title });
+    }
+
+    return crumbs;
+  }, [activeTab, onChangeTab, onSelectBucket, searchQuery, selectedBucket, selectedTerm]);
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+    } catch (error) {
+      console.error("Unable to copy link", error);
+    }
+  };
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800/60 bg-slate-900/70 px-4 py-3 shadow-inner shadow-slate-950/40">
+      <nav className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        {items.map((item, index) => (
+          <div key={`${item.label}-${index}`} className="flex items-center gap-2">
+            {item.onClick ? (
+              <button
+                className="text-slate-400 transition hover:text-slate-100"
+                onClick={item.onClick}
+              >
+                {item.label}
+              </button>
+            ) : (
+              <span className="text-slate-100">{item.label}</span>
+            )}
+            {index < items.length - 1 && (
+              <ChevronRightIcon className="h-3.5 w-3.5 text-slate-600" />
+            )}
+          </div>
+        ))}
+      </nav>
+      <button
+        className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300 transition hover:border-emerald-400 hover:text-white"
+        onClick={handleCopyLink}
+      >
+        <CopyIcon className="h-4 w-4" />
+        {copied ? "Link copied" : "Copy link"}
+      </button>
     </div>
   );
 }
@@ -541,15 +718,15 @@ type TabNavProps = {
 
 function DesktopTabs({ activeTab, onChange }: TabNavProps) {
   return (
-    <div className="hidden rounded-3xl border border-slate-200 bg-white p-2 shadow-sm md:flex md:items-center md:gap-2">
+    <div className="hidden rounded-3xl border border-slate-800/60 bg-slate-900/70 p-2 shadow-inner shadow-slate-950/40 md:flex md:items-center md:gap-2">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           className={cn(
             "flex flex-1 items-center gap-3 rounded-2xl px-4 py-3 text-left transition",
             activeTab === tab.id
-              ? "bg-slate-900 text-white"
-              : "text-slate-500 hover:text-slate-900",
+              ? "bg-slate-800 text-white shadow-lg shadow-emerald-500/10"
+              : "text-slate-400 hover:text-slate-100",
           )}
           onClick={() => onChange(tab.id)}
         >
@@ -566,7 +743,7 @@ function DesktopTabs({ activeTab, onChange }: TabNavProps) {
 
 function BottomNav({ activeTab, onChange }: TabNavProps) {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-6 py-3 shadow-2xl shadow-black/10 backdrop-blur md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-900 bg-slate-950/95 px-6 py-3 shadow-[0_-10px_40px_rgba(0,0,0,0.6)] backdrop-blur md:hidden">
       <div className="mx-auto flex max-w-lg items-center justify-between">
         {tabs.map((tab) => (
           <button
@@ -574,8 +751,8 @@ function BottomNav({ activeTab, onChange }: TabNavProps) {
             className={cn(
               "flex flex-col items-center gap-1 text-xs font-semibold uppercase tracking-wide transition",
               activeTab === tab.id
-                ? "text-slate-900"
-                : "text-slate-400 hover:text-slate-900",
+                ? "text-emerald-300"
+                : "text-slate-500 hover:text-slate-100",
             )}
             onClick={() => onChange(tab.id)}
           >
