@@ -150,6 +150,7 @@ function VocabularyApp() {
               selectedBucket={selectedBucket}
               onSelectBucket={handleSelectBucket}
               onSelectTerm={handleSelectTerm}
+              selectedTermId={selectedTerm?.id ?? null}
             />
           )}
 
@@ -288,6 +289,7 @@ type BucketViewProps = {
   selectedBucket: VocabularyBucket;
   onSelectBucket: (bucketId: string) => void;
   onSelectTerm: (term: TermWithBucket) => void;
+  selectedTermId?: string | null;
 };
 
 function BucketView({
@@ -295,42 +297,63 @@ function BucketView({
   selectedBucket,
   onSelectBucket,
   onSelectTerm,
+  selectedTermId,
 }: BucketViewProps) {
   const terms = selectedBucket.terms.map((term) =>
     attachBucket(term, selectedBucket),
   );
+  const shouldCollapseBucketSummary = Boolean(selectedTermId);
+  const filteredTerms =
+    shouldCollapseBucketSummary && selectedTermId
+      ? terms.filter((term) => term.id === selectedTermId)
+      : terms;
+  const visibleTerms = filteredTerms.length > 0 ? filteredTerms : terms;
+  const hasCollapsedTerms =
+    shouldCollapseBucketSummary && visibleTerms.length < terms.length;
 
   return (
     <div className="space-y-6 rounded-3xl border border-slate-800/60 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/40 sm:p-6">
-      <header className="space-y-2">
-        <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-          Buckets
-        </p>
-        <h2 className="text-2xl font-semibold text-slate-100">
-          {selectedBucket.title}
-        </h2>
-        <p className="text-sm text-slate-400">{selectedBucket.description}</p>
-      </header>
+      {!shouldCollapseBucketSummary && (
+        <>
+          <header className="space-y-2">
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+              Buckets
+            </p>
+            <h2 className="text-2xl font-semibold text-slate-100">
+              {selectedBucket.title}
+            </h2>
+            <p className="text-sm text-slate-400">
+              {selectedBucket.description}
+            </p>
+          </header>
 
-      <div className="flex flex-wrap gap-2">
-        {buckets.map((bucket) => (
-          <button
-            key={bucket.id}
-            className={cn(
-              "rounded-full border px-4 py-2 text-sm font-medium transition",
-              bucket.id === selectedBucket.id
-                ? "border-emerald-400/80 bg-emerald-400/10 text-emerald-200"
-                : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-600 hover:text-slate-100",
-            )}
-            onClick={() => onSelectBucket(bucket.id)}
-          >
-            {bucket.title}
-          </button>
-        ))}
-      </div>
+          <div className="flex flex-wrap gap-2">
+            {buckets.map((bucket) => (
+              <button
+                key={bucket.id}
+                className={cn(
+                  "rounded-full border px-4 py-2 text-sm font-medium transition",
+                  bucket.id === selectedBucket.id
+                    ? "border-emerald-400/80 bg-emerald-400/10 text-emerald-200"
+                    : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-600 hover:text-slate-100",
+                )}
+                onClick={() => onSelectBucket(bucket.id)}
+              >
+                {bucket.title}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {hasCollapsedTerms && (
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          Showing selected term — clear the selection to browse all {terms.length} items.
+        </p>
+      )}
 
       <div className="grid gap-4">
-        {terms.map((term) => (
+        {visibleTerms.map((term) => (
           <TermCard key={term.id} term={term} onSelect={onSelectTerm} />
         ))}
       </div>
