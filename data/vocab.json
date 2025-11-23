@@ -2,98 +2,137 @@
   "buckets": [
     {
       "id": "landing-page",
-      "title": "Label the landing page",
-      "description": "Seven Oli Gardner-style section labels to keep a one-page, one-goal teardown honest.",
+      "title": "Landing page components",
+      "description": "Structural building blocks you rearrange to keep a single CTA honest.",
       "terms": [
         {
-          "id": "one-page-one-goal",
-          "title": "One page, one goal",
-          "shortDescription": "Force every element to ladder up to the one conversion that matters.",
-          "definition": "Give the page a single job—book the call, start the trial, download the deck—and delete or relabel anything that does not point there.",
-          "whenToUse": "When the hero carries two CTAs, stakeholders debate metrics mid-page, or nobody can answer \"what's the one action\" in a single verb.",
+          "id": "hero",
+          "title": "Hero",
+          "shortDescription": "The above-the-fold stage that introduces the offer and CTA immediately.",
+          "definition": "The hero pairs a clear headline, a proof-backed supporting line, and the primary CTA so visitors know what you do and what to do next without scrolling.",
+          "whenToUse": "Always—the hero is the first impression for any paid or organic visit.",
           "aiPhrases": [
-            "Act as Oli Gardner and strip this page to a single CTA, labeling each remaining block as either Goal or Noise before rewriting."
+            "Draft a hero layout that locks headline, supporting copy, and CTA in a tight Z-pattern."
           ],
           "examples": [
-            "Tag hero, proof bar, and footer CTA as Goal-supporting; move blog links into a parking lot doc."
+            "Headline + subhead on the left, product mock and primary CTA on the right."
           ]
         },
         {
-          "id": "clarity-beats-clever",
-          "title": "Clarity beats clever",
-          "shortDescription": "Headline answers what it is and why it should matter in one breath.",
-          "definition": "Name the outcome plainly, then earn the right to be interesting. Cleverness can sit in the subhead once the promise is unmistakable.",
-          "whenToUse": "When the hero line is metaphor heavy, includes internal brand-speak, or forces a reread before you know the offer.",
+          "id": "subhead",
+          "title": "Subhead",
+          "shortDescription": "One tight sentence that clarifies value right after the hero headline.",
+          "definition": "The subhead answers the immediate follow-up question the headline triggers—usually who it is for or what result they get next.",
+          "whenToUse": "Whenever the headline is bold or outcome-focused and needs context to feel believable.",
           "aiPhrases": [
-            "Rewrite the hero headline so the first five words answer what the product is and the next five answer why it matters."
+            "Write a subhead that names the audience and promises the outcome in under 18 words."
           ],
           "examples": [
-            "Swap \"Give your funnels wings\" for \"Ship CRO-ready landing pages in hours.\""
+            "Designed for growth teams shipping tests weekly"
           ]
         },
         {
-          "id": "visual-hierarchy-king",
-          "title": "Visual hierarchy is king",
-          "shortDescription": "Eyes flow headline → subhead → CTA with zero sideways detours.",
-          "definition": "Scale, contrast, and spacing guide the scan. Anything competing with the CTA gets demoted, muted, or moved down the page.",
-          "whenToUse": "When secondary cards, badges, or nav links shout louder than the hero CTA or proof statement.",
+          "id": "primary-cta",
+          "title": "Primary CTA",
+          "shortDescription": "The one action button styled for maximum contrast and clarity.",
+          "definition": "Your primary CTA uses an action verb, a benefit hint, and surrounding reassurance to make the click feel obvious.",
+          "whenToUse": "Always present in the hero and repeated within the flow where intent peaks.",
           "aiPhrases": [
-            "Reorder typography and spacing so the eye hits headline, support copy, then CTA in under two seconds."
+            "Give me three CTA variants that pair an active verb with the next-step benefit."
           ],
           "examples": [
-            "Reduce partner logo strip to monochrome and drop it below the fold."
+            "Start the 7-day teardown"
           ]
         },
         {
-          "id": "attention-ratio",
-          "title": "Attention ratio",
-          "shortDescription": "One primary CTA, everything else is supportive microcopy.",
-          "definition": "The attention ratio is 1:1 when there is exactly one action to take per campaign. Links that do not advance the goal either move to the footer or vanish.",
-          "whenToUse": "When pricing, docs, careers, or social links leak traffic before the main conversion.",
+          "id": "value-props",
+          "title": "Value props",
+          "shortDescription": "Three to five punchy proof-backed statements that ladder up to the promise.",
+          "definition": "Value props are scannable headlines with a short line of support that show how you deliver the main outcome.",
+          "whenToUse": "Use when visitors need to understand how the product/system works in their context.",
           "aiPhrases": [
-            "List every link on the page, keep the primary CTA, and recommend where each extra link should move or how to restyle it as supportive text."
+            "Summarize the top four outcomes as value props with proof metrics or specific details."
           ],
           "examples": [
-            "Collapse nav to a logo plus CTA for paid campaigns."
+            "Cut build time from weeks to hours with a subline about modular sections"
           ]
         },
         {
-          "id": "conversion-momentum",
-          "title": "Conversion momentum",
-          "shortDescription": "Problem → Value → Proof → Action, zero filler in between.",
-          "definition": "Each scroll depth builds belief: define the pain, show the promise, prove it, then ask for action. Anything off-sequence becomes a sidebar note.",
-          "whenToUse": "When case studies appear before the problem statement or CTAs hit before context exists.",
+          "id": "features",
+          "title": "Features",
+          "shortDescription": "Deeper dives that show the mechanics behind each value prop.",
+          "definition": "Feature blocks combine visuals, captions, and specifics so buyers trust that the promised outcome is doable.",
+          "whenToUse": "After value props to let detail-oriented readers continue their evaluation.",
           "aiPhrases": [
-            "Relabel sections as Problem, Value, Proof, or Action and rewrite until the order builds unstoppable momentum."
+            "Outline three feature cards with titles, supporting copy, and an optional screenshot cue."
           ],
           "examples": [
-            "Move testimonial carousel beneath the value stack with outcome metrics in bold."
+            "Component library, Test dashboard, Collaboration timeline"
           ]
         },
         {
-          "id": "contextual-design",
-          "title": "Contextual design",
-          "shortDescription": "Every element nudges the visitor from mindset A to B.",
-          "definition": "If a module does not advance the mental state—confused → curious, curious → convinced—it does not earn real estate.",
-          "whenToUse": "When decorative illustrations, generic stats, or culture photos interrupt the story.",
+          "id": "social-proof",
+          "title": "Social proof bar",
+          "shortDescription": "Logos, usage stats, or quick trust badges that calm hesitation.",
+          "definition": "A slim strip or cluster that shows recognizable customers, outcomes, or expert quotes without hijacking the main CTA.",
+          "whenToUse": "Drop near the hero or right before the primary CTA repeats.",
           "aiPhrases": [
-            "For each section, state the visitor's mindset before and after consuming it; delete or rewrite anything without a shift."
+            "Write a social proof bar headline plus three credibility stats tied to the landing page offer."
           ],
           "examples": [
-            "Replace culture photo grid with a comparison table that actually answers objections."
+            "Trusted by 1,200+ GTM teams • 3.8M experiments shipped"
           ]
         },
         {
-          "id": "friction-removal",
-          "title": "Friction removal",
-          "shortDescription": "Forms, microcopy, and reassurance cues calm every hesitation.",
-          "definition": "Cut fields, explain why data is needed, and sprinkle microcopy that removes fear right where it appears.",
-          "whenToUse": "When forms ask for phone numbers too early, privacy reassurance is buried, or button copy feels high-commitment.",
+          "id": "testimonials",
+          "title": "Testimonials",
+          "shortDescription": "Longer-form customer quotes paired with names, roles, and outcomes.",
+          "definition": "Testimonials translate proof into narrative—showing what changed, how fast, and what metric moved.",
+          "whenToUse": "After value props or near pricing to reinforce belief before commitment.",
           "aiPhrases": [
-            "Rewrite the form area so every field has a plain-English label, optional helper text, and a commitment-calming CTA."
+            "Turn this case study into a two-sentence testimonial with a named role and quant result."
           ],
           "examples": [
-            "Change \"Request a demo\" to \"See the playbook\" with a note about 15-minute walkthroughs."
+            "“We doubled signups in 45 days once we enforced the attention ratio rules.”"
+          ]
+        },
+        {
+          "id": "faq",
+          "title": "FAQ",
+          "shortDescription": "Answer the top objections before someone bounces to support.",
+          "definition": "The FAQ clusters 4-6 questions ordered by frequency so teams feel confident clicking the CTA.",
+          "whenToUse": "Near the bottom or beside pricing when adoption blockers surface.",
+          "aiPhrases": [
+            "List the top five questions a skeptical buyer asks before trying this landing page system."
+          ],
+          "examples": [
+            "“How long does setup take?” with a 90-minute reassurance"
+          ]
+        },
+        {
+          "id": "pricing-table",
+          "title": "Pricing table",
+          "shortDescription": "Side-by-side comparison of plans or the single offer summary.",
+          "definition": "Pricing tables outline cost, inclusions, and commitment so there’s no mystery before the CTA.",
+          "whenToUse": "Whenever the landing page is selling a specific plan, package, or service tier.",
+          "aiPhrases": [
+            "Compose a single-offer pricing module with price, inclusions, and a risk reducer."
+          ],
+          "examples": [
+            "Growth Plan – $2,400/mo • includes CRO lead, playbook, and build crew"
+          ]
+        },
+        {
+          "id": "footer-cta",
+          "title": "Footer CTA",
+          "shortDescription": "Final call-to-action for visitors who read everything.",
+          "definition": "A mirrored primary CTA paired with contact details or a low-friction alternate action for fence sitters.",
+          "whenToUse": "Always repeat the CTA at the bottom for high-intent scrollers.",
+          "aiPhrases": [
+            "Write a footer CTA block with a headline, CTA button, and trust microcopy."
+          ],
+          "examples": [
+            "Ready to ship cleaner pages? → Book the 20-minute teardown"
           ]
         }
       ]

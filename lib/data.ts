@@ -58,11 +58,20 @@ export type PersonaStyle = {
   prompt: string;
 };
 
+export type Principle = {
+  id: string;
+  title: string;
+  definition: string;
+  whyItMatters: string;
+  example: string;
+};
+
 export type PageType = {
   id: string;
   title: string;
   description: string;
   prompts: PersonaStyle[];
+  principles: Principle[];
   vocabularyBucketId: string;
 };
 
@@ -88,6 +97,20 @@ export function getPersonaById(
   if (!pageTypeId || !personaId) return undefined;
   const pageType = getPageTypeById(pageTypeId);
   return pageType?.prompts.find((prompt) => prompt.id === personaId);
+}
+
+export function getPrinciplesByPageType(pageTypeId: string | null | undefined) {
+  if (!pageTypeId) return [];
+  return getPageTypeById(pageTypeId)?.principles ?? [];
+}
+
+export function getPrincipleById(
+  pageTypeId: string | null | undefined,
+  principleId: string | null | undefined,
+) {
+  if (!pageTypeId || !principleId) return undefined;
+  const pageType = getPageTypeById(pageTypeId);
+  return pageType?.principles.find((principle) => principle.id === principleId);
 }
 
 export function getTermsByBucketId(bucketId: string | null | undefined): TermWithBucket[] {

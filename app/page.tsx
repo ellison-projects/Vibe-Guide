@@ -13,11 +13,13 @@ import {
   getBucketById,
   getPageTypeById,
   getPersonaById,
+  getPrincipleById,
   getTermInBucket,
   getTermsByBucketId,
   pageTypes,
   type PageType,
   type PersonaStyle,
+  type Principle,
   type TermWithBucket,
   type VocabularyBucket,
 } from "@/lib/data";
@@ -29,7 +31,9 @@ type ViewState =
   | { type: "promptList"; pageTypeId: string }
   | { type: "promptDetail"; pageTypeId: string; personaId: string }
   | { type: "vocabList"; pageTypeId: string }
-  | { type: "vocabDetail"; pageTypeId: string; termId: string };
+  | { type: "vocabDetail"; pageTypeId: string; termId: string }
+  | { type: "principleList"; pageTypeId: string }
+  | { type: "principleDetail"; pageTypeId: string; principleId: string };
 
 function VocabularyApp() {
   const [view, setView] = useState<ViewState>(VIEW_HOME);
@@ -64,6 +68,17 @@ function VocabularyApp() {
     setView({ type: "vocabDetail", pageTypeId, termId });
   }, []);
 
+  const handleOpenPrinciples = useCallback((pageTypeId: string) => {
+    setView({ type: "principleList", pageTypeId });
+  }, []);
+
+  const handleSelectPrinciple = useCallback(
+    (pageTypeId: string, principleId: string) => {
+      setView({ type: "principleDetail", pageTypeId, principleId });
+    },
+    [],
+  );
+
   const handleBackToHome = useCallback(() => setView(VIEW_HOME), []);
 
   const handleOpenOliModal = useCallback(() => setIsOliModalOpen(true), []);
@@ -77,6 +92,7 @@ function VocabularyApp() {
         pageTypes={pageTypes}
         onOpenPrompts={handleOpenPrompts}
         onOpenVocabulary={handleOpenVocabulary}
+        onOpenPrinciples={handleOpenPrinciples}
         onShowOliInfo={handleOpenOliModal}
       />
     );
@@ -152,6 +168,49 @@ function VocabularyApp() {
         );
         break;
       }
+      case "principleList":
+        content = (
+          <PrincipleListView
+            pageType={activePageType}
+            onBack={handleBackToHome}
+            onSelectPrinciple={(principleId) =>
+              handleSelectPrinciple(activePageType.id, principleId)
+            }
+            onShowOliInfo={handleOpenOliModal}
+          />
+        );
+        break;
+      case "principleDetail": {
+        const principle = getPrincipleById(
+          view.pageTypeId,
+          view.principleId,
+        );
+        content = principle ? (
+          <PrincipleDetailView
+            pageType={activePageType}
+            principle={principle}
+            onBack={() =>
+              setView({
+                type: "principleList",
+                pageTypeId: activePageType.id,
+              })
+            }
+            onShowOliInfo={handleOpenOliModal}
+          />
+        ) : (
+          <MissingState
+            label="Principle not found"
+            description="Pick another principle to keep the teardown moving."
+            onBack={() =>
+              setView({
+                type: "principleList",
+                pageTypeId: activePageType.id,
+              })
+            }
+          />
+        );
+        break;
+      }
       default:
         content = (
           <MissingState
@@ -193,6 +252,7 @@ type HomeScreenProps = {
   pageTypes: PageType[];
   onOpenPrompts: (pageTypeId: string) => void;
   onOpenVocabulary: (pageTypeId: string) => void;
+  onOpenPrinciples: (pageTypeId: string) => void;
   onShowOliInfo: () => void;
 };
 
@@ -200,6 +260,7 @@ function HomeScreen({
   pageTypes,
   onOpenPrompts,
   onOpenVocabulary,
+  onOpenPrinciples,
   onShowOliInfo,
 }: HomeScreenProps) {
   return (
@@ -221,7 +282,7 @@ function HomeScreen({
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="grid gap-3 sm:grid-cols-3">
             <HomeActionButton
               title="AI Prompts"
               description="Styles and people to channel"
@@ -229,8 +290,13 @@ function HomeScreen({
             />
             <HomeActionButton
               title="Vocabulary"
-              description="Key terms used when building landing pages"
+              description="Structural components used when building landing pages"
               onClick={() => onOpenVocabulary(pageType.id)}
+            />
+            <HomeActionButton
+              title="Principles"
+              description="Core rules behind effective landing pages"
+              onClick={() => onOpenPrinciples(pageType.id)}
             />
           </div>
         </article>
@@ -373,7 +439,7 @@ function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowOliIn
           Vocabulary
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          Key terms used when building landing pages
+          Structural components used when building landing pages
         </h2>
         <p className="text-sm text-slate-300">
           Everything here ladders up to {renderOliAwareText(pageType.title, onShowOliInfo)} workflows.
@@ -421,6 +487,129 @@ function VocabularyDetailView({ term, onBack, onShowOliInfo }: VocabularyDetailV
       <p className="text-base text-slate-200">
         {renderOliAwareText(term.definition, onShowOliInfo)}
       </p>
+      {term.examples && term.examples.length > 0 && (
+        <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+            Example
+          </p>
+          <p className="mt-2 text-sm text-slate-100">
+            {renderOliAwareText(term.examples[0], onShowOliInfo)}
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+type PrincipleListViewProps = {
+  pageType: PageType;
+  onBack: () => void;
+  onSelectPrinciple: (principleId: string) => void;
+  onShowOliInfo: () => void;
+};
+
+function PrincipleListView({
+  pageType,
+  onBack,
+  onSelectPrinciple,
+  onShowOliInfo,
+}: PrincipleListViewProps) {
+  const principles = pageType.principles ?? [];
+
+  return (
+    <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-inner shadow-black/40">
+      <BackButton label="Back home" onClick={onBack} />
+      <header className="space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+          Principles
+        </p>
+        <h2 className="text-2xl font-semibold text-white">
+          Core rules behind effective landing pages
+        </h2>
+        <p className="text-sm text-slate-300">
+          Use these to audit every section of {renderOliAwareText(pageType.title, onShowOliInfo)} work.
+        </p>
+      </header>
+
+      {principles.length === 0 ? (
+        <p className="rounded-2xl border border-dashed border-slate-800/70 p-4 text-sm text-slate-400">
+          No principles configured yet. Add a few to keep every section accountable.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {principles.map((principle) => (
+            <button
+              key={principle.id}
+              className="w-full rounded-2xl border border-slate-800 bg-slate-950/60 p-4 text-left transition hover:border-emerald-400/60 hover:bg-slate-900"
+              onClick={() => onSelectPrinciple(principle.id)}
+            >
+              <p className="text-base font-semibold text-white">
+                {renderOliAwareText(principle.title, onShowOliInfo)}
+              </p>
+              <p className="mt-1 text-sm text-slate-300">
+                {renderOliAwareText(principle.definition, onShowOliInfo)}
+              </p>
+            </button>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+type PrincipleDetailViewProps = {
+  pageType: PageType;
+  principle: Principle;
+  onBack: () => void;
+  onShowOliInfo: () => void;
+};
+
+function PrincipleDetailView({
+  pageType,
+  principle,
+  onBack,
+  onShowOliInfo,
+}: PrincipleDetailViewProps) {
+  return (
+    <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/85 p-6 shadow-2xl shadow-emerald-500/10">
+      <BackButton label="Back to principles" onClick={onBack} />
+      <header className="space-y-1">
+        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+          Principle
+        </p>
+        <h2 className="text-2xl font-semibold text-white">
+          {renderOliAwareText(principle.title, onShowOliInfo)}
+        </h2>
+      </header>
+      <div className="space-y-3 text-sm text-slate-200">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+            Definition
+          </p>
+          <p className="mt-1">
+            {renderOliAwareText(principle.definition, onShowOliInfo)}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+            Why it matters
+          </p>
+          <p className="mt-1">
+            {renderOliAwareText(principle.whyItMatters, onShowOliInfo)}
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
+            Example
+          </p>
+          <p className="mt-2">
+            {renderOliAwareText(principle.example, onShowOliInfo)}
+          </p>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">
+          Applies to {renderOliAwareText(pageType.title, onShowOliInfo)}
+        </p>
+      </div>
     </section>
   );
 }
