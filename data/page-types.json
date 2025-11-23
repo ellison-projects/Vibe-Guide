@@ -1,0 +1,30 @@
+{
+  "pageTypes": [
+    {
+      "id": "landing-page",
+      "title": "Landing Page",
+      "description": "Channel focused mentors and vocabulary to keep a single conversion goal honest.",
+      "prompts": [
+        {
+          "id": "oli-gardner",
+          "name": "Channel Oli Gardner",
+          "shortDescription": "Conversion-obsessed cofounder of Unbounce who coined the attention ratio mantra.",
+          "prompt": "Act as Oli Gardner and strip this landing page brief to one CTA. Label each remaining block as Goal or Noise, rewrite copy and layout notes so everything marches toward that single action."
+        },
+        {
+          "id": "joanna-wiebe",
+          "name": "Channel Joanna Wiebe",
+          "shortDescription": "Punchy conversion copy from the Copyhackers playbook - clear, specific, and momentum heavy.",
+          "prompt": "Act as Joanna Wiebe critiquing this hero. Deliver a plain-stated headline, a subhead that amplifies value, and a CTA verb that signals momentum. Keep every sentence rooted in proof."
+        },
+        {
+          "id": "minimalist-art-director",
+          "name": "Minimalist Art Director",
+          "shortDescription": "Swiss-inspired layout coach who enforces ruthless whitespace and typographic hierarchy.",
+          "prompt": "You are a minimalist art director. Outline the grid, typography scale, and whitespace rules that keep this landing page calm while spotlighting the CTA." 
+        }
+      ],
+      "vocabularyBucketId": "landing-page"
+    }
+  ]
+}

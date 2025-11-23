@@ -1,4 +1,5 @@
 import vocabData from "@/data/vocab.json";
+import pageTypesData from "@/data/page-types.json";
 
 export type VocabularyTerm = {
   id: string;
@@ -48,4 +49,56 @@ export function getBucketById(bucketId: string | null | undefined) {
 export function getTermById(termId: string | null | undefined) {
   if (!termId) return undefined;
   return allTerms.find((term) => term.id === termId);
+}
+
+export type PersonaStyle = {
+  id: string;
+  name: string;
+  shortDescription: string;
+  prompt: string;
+};
+
+export type PageType = {
+  id: string;
+  title: string;
+  description: string;
+  prompts: PersonaStyle[];
+  vocabularyBucketId: string;
+};
+
+type PageTypesData = {
+  pageTypes: PageType[];
+};
+
+const pageTypeData = pageTypesData as PageTypesData;
+
+export const pageTypes = pageTypeData.pageTypes;
+
+const pageTypeMap = new Map(pageTypes.map((pageType) => [pageType.id, pageType]));
+
+export function getPageTypeById(pageTypeId: string | null | undefined) {
+  if (!pageTypeId) return undefined;
+  return pageTypeMap.get(pageTypeId);
+}
+
+export function getPersonaById(
+  pageTypeId: string | null | undefined,
+  personaId: string | null | undefined,
+) {
+  if (!pageTypeId || !personaId) return undefined;
+  const pageType = getPageTypeById(pageTypeId);
+  return pageType?.prompts.find((prompt) => prompt.id === personaId);
+}
+
+export function getTermsByBucketId(bucketId: string | null | undefined): TermWithBucket[] {
+  if (!bucketId) return [];
+  return allTerms.filter((term) => term.bucketId === bucketId);
+}
+
+export function getTermInBucket(
+  bucketId: string | null | undefined,
+  termId: string | null | undefined,
+): TermWithBucket | undefined {
+  if (!bucketId || !termId) return undefined;
+  return getTermsByBucketId(bucketId).find((term) => term.id === termId);
 }
