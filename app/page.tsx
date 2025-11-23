@@ -204,18 +204,6 @@ function HomeScreen({
 }: HomeScreenProps) {
   return (
     <div className="space-y-6">
-      <header className="space-y-3 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-inner shadow-black/40">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">
-          One page, one goal
-        </p>
-        <h1 className="text-3xl font-semibold text-white">
-          Start every landing page by labeling the work
-        </h1>
-        <p className="text-sm text-slate-300">
-          Pick a page type, channel mentors like {renderOliAwareText("Oli Gardner", onShowOliInfo)}, and keep a shared vocabulary handy so every instruction stays sharp.
-        </p>
-      </header>
-
       {pageTypes.map((pageType) => (
         <article
           key={pageType.id}
