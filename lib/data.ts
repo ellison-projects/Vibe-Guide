@@ -39,18 +39,6 @@ export const allTerms: TermWithBucket[] = buckets.flatMap((bucket) =>
   })),
 );
 
-export const bucketMap = new Map(buckets.map((bucket) => [bucket.id, bucket]));
-
-export function getBucketById(bucketId: string | null | undefined) {
-  if (!bucketId) return undefined;
-  return bucketMap.get(bucketId);
-}
-
-export function getTermById(termId: string | null | undefined) {
-  if (!termId) return undefined;
-  return allTerms.find((term) => term.id === termId);
-}
-
 export type PersonaStyle = {
   id: string;
   name: string;
@@ -97,11 +85,6 @@ export function getPersonaById(
   if (!pageTypeId || !personaId) return undefined;
   const pageType = getPageTypeById(pageTypeId);
   return pageType?.prompts.find((prompt) => prompt.id === personaId);
-}
-
-export function getPrinciplesByPageType(pageTypeId: string | null | undefined) {
-  if (!pageTypeId) return [];
-  return getPageTypeById(pageTypeId)?.principles ?? [];
 }
 
 export function getPrincipleById(
