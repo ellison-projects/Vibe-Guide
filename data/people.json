@@ -1,0 +1,144 @@
+{
+  "people": [
+    {
+      "id": "oli-gardner",
+      "name": "Oli Gardner",
+      "label": "Conversion mentor",
+      "description": [
+        "Oli Gardner co-founded Unbounce and is famous for turning landing pages into disciplined experiments. His attention ratio mantra keeps every scroll pointed at one conversion.",
+        "Channeling his lens means we demand ruthless clarity: one offer, proof that it works, and an obvious CTA backed by sharp hierarchy."
+      ],
+      "bullets": [
+        "Audit every block for Goal vs. Noise before polishing copy.",
+        "Headlines answer what and why in plain English before trying to be clever.",
+        "Visual hierarchy, social proof, and friction reducers are non-negotiable."
+      ]
+    },
+    {
+      "id": "joanna-wiebe",
+      "name": "Joanna Wiebe",
+      "label": "Copyhackers founder",
+      "description": [
+        "Joanna Wiebe popularized conversion copywriting that reads like a conversation backed by proof. She stress-tests verbs, specificity, and momentum in every line.",
+        "Invoking her perspective keeps our landing page language punchy, plain-spoken, and anchored in evidence."
+      ],
+      "bullets": [
+        "Lead with concrete outcomes, not fluffy adjectives.",
+        "Use voice-of-customer snippets verbatim to validate claims.",
+        "Treat CTAs as promises that finish the story you just set up."
+      ]
+    },
+    {
+      "id": "peep-laja",
+      "name": "Peep Laja",
+      "label": "CXL founder",
+      "description": [
+        "Peep Laja built CXL around rigorous CRO testing and zero fluff. He frames every creative decision as a hypothesis tied to a metric.",
+        "Channeling Peep keeps our pages sharp, data-backed, and intolerant of distractions."
+      ],
+      "bullets": [
+        "State the primary KPI before brainstorming layout or copy.",
+        "Pair each bold claim with quantified proof or a benchmark.",
+        "Cut anything that cannot be A/B tested or instrumented."
+      ]
+    },
+    {
+      "id": "dieter-rams",
+      "name": "Dieter Rams",
+      "label": "Ten principles icon",
+      "description": [
+        "Dieter Rams codified the \"less but better\" philosophy through Braun and Vitsoe products. His work proves restraint can still feel premium.",
+        "Inviting Rams into a landing page critique enforces systems thinking--grids, spacing, and typography serve the user first."
+      ],
+      "bullets": [
+        "Design only what is essential to explain the product and CTA.",
+        "Lock reusable spacing and type scales to maintain calm rhythm.",
+        "Let contrast and focus states guide attention more than decoration."
+      ]
+    },
+    {
+      "id": "paula-scher",
+      "name": "Paula Scher",
+      "label": "Brand systems legend",
+      "description": [
+        "Paula Scher's identity work at Pentagram marries bold typography with strategic storytelling. She knows how to turn brand voice into navigable systems.",
+        "Channeling her lens keeps expressive design tethered to clarity, especially when balancing campaign urgency with brand equity."
+      ],
+      "bullets": [
+        "Use type scale and color to narrate hierarchy, not just decorate.",
+        "Anchor every flourish to a concrete story beat or proof point.",
+        "Ensure layouts feel as strong in grayscale as they do in full color."
+      ]
+    },
+    {
+      "id": "brad-frost",
+      "name": "Brad Frost",
+      "label": "Atomic design evangelist",
+      "description": [
+        "Brad Frost introduced Atomic Design to help teams think in tokens, components, and templates. His approach keeps interfaces consistent without losing flexibility.",
+        "Summoning Brad pushes us to inventory UI parts, define constraints, and set rules before shipping high-fidelity comps."
+      ],
+      "bullets": [
+        "Document atoms (type, color, spacing) before sketching sections.",
+        "Specify responsive behavior and interaction states for every component.",
+        "Build templates that explain intent so future iterations stay on-brand."
+      ]
+    },
+    {
+      "id": "don-norman",
+      "name": "Don Norman",
+      "label": "Design of Everyday Things author",
+      "description": [
+        "Don Norman pioneered human-centered design and formalized concepts like affordances, feedback, and mapping. His critiques expose friction instantly.",
+        "Bringing him into an AI parlor keeps flows honest about clarity, visibility of system status, and error recovery."
+      ],
+      "bullets": [
+        "Confirm every action exposes state, next steps, and timing.",
+        "Align controls, labels, and outcomes so affordances feel intuitive.",
+        "Treat errors as guidance moments with gentle recovery paths."
+      ]
+    },
+    {
+      "id": "steve-krug",
+      "name": "Steve Krug",
+      "label": "Don't Make Me Think author",
+      "description": [
+        "Steve Krug popularized zero-friction usability through quick hallway tests and plain-language navigation.",
+        "Channeling his perspective keeps every flow obvious at a glance: clear labels, logical task order, and copy that explains itself."
+      ],
+      "bullets": [
+        "Name links and buttons after the questions users are actually asking.",
+        "Run lightweight hallway tests until first-click success is a non-event.",
+        "Remove clever language; if someone has to stop and think, rewrite it."
+      ]
+    },
+    {
+      "id": "jared-spool",
+      "name": "Jared Spool",
+      "label": "UIE founder",
+      "description": [
+        "Jared Spool has decades of usability research stories that reveal how tiny friction points destroy conversions. He advocates instrumented learning loops.",
+        "Channeling him keeps us focused on continuous discovery: observe, measure, and tweak until tasks feel effortless."
+      ],
+      "bullets": [
+        "Map every task to observable behaviors you can measure.",
+        "Prototype with real content and watch users narrate their decisions.",
+        "Layer in guardrails that prevent errors without halting progress."
+      ]
+    },
+    {
+      "id": "julie-zhuo",
+      "name": "Julie Zhuo",
+      "label": "Product leadership voice",
+      "description": [
+        "Julie Zhuo led design at Facebook and writes about decision-making systems that balance craft with velocity. She obsesses over first-use clarity.",
+        "Her influence ensures our UX flows speak plainly, show progress early, and connect qualitative feedback to roadmap bets."
+      ],
+      "bullets": [
+        "Narrate the user's journey screen by screen, calling out the job to be done.",
+        "Surface early signals of success so momentum builds after the first action.",
+        "Pair qualitative insights with product metrics before locking scope."
+      ]
+    }
+  ]
+}

@@ -9,19 +9,22 @@
           "id": "oli-gardner",
           "name": "Channel Oli Gardner",
           "shortDescription": "Conversion-obsessed cofounder of Unbounce who coined the attention ratio mantra.",
-          "prompt": "Act as Oli Gardner and strip this landing page brief to one CTA. Label each remaining block as Goal or Noise, rewrite copy and layout notes so everything marches toward that single action."
+          "prompt": "Act as Oli Gardner and strip this landing page brief to one CTA. Label each remaining block as Goal or Noise, rewrite copy and layout notes so everything marches toward that single action.",
+          "personId": "oli-gardner"
         },
         {
           "id": "joanna-wiebe",
           "name": "Channel Joanna Wiebe",
           "shortDescription": "Punchy conversion copy from the Copyhackers playbook - clear, specific, and momentum heavy.",
-          "prompt": "Act as Joanna Wiebe critiquing this hero. Deliver a plain-stated headline, a subhead that amplifies value, and a CTA verb that signals momentum. Keep every sentence rooted in proof."
+          "prompt": "Act as Joanna Wiebe critiquing this hero. Deliver a plain-stated headline, a subhead that amplifies value, and a CTA verb that signals momentum. Keep every sentence rooted in proof.",
+          "personId": "joanna-wiebe"
         },
         {
-          "id": "minimalist-art-director",
-          "name": "Minimalist Art Director",
-          "shortDescription": "Swiss-inspired layout coach who enforces ruthless whitespace and typographic hierarchy.",
-          "prompt": "You are a minimalist art director. Outline the grid, typography scale, and whitespace rules that keep this landing page calm while spotlighting the CTA."
+          "id": "peep-laja",
+          "name": "Channel Peep Laja",
+          "shortDescription": "CXL founder who demands testable hypotheses and brutal focus on the primary KPI.",
+          "prompt": "Act as Peep Laja reviewing this landing page. Restate the primary KPI, eliminate elements that cannot justify their impact on it, and rewrite the offer so it reads like a hypothesis you can instrument.",
+          "personId": "peep-laja"
         }
       ],
       "principles": [
@@ -90,22 +93,25 @@
       "description": "Translate CRO strategy into layout, typography, and brand systems that still protect the CTA.",
       "prompts": [
         {
-          "id": "systems-creative-director",
-          "name": "Systems Creative Director",
-          "shortDescription": "Treats every component as part of a modular design system tied to conversion intent.",
-          "prompt": "Act as a systems-minded creative director. Audit this layout for rhythm, spacing, and focal points. Provide grid tweaks, typography pairings, and art direction notes that keep the CTA dominant without killing brand."
+          "id": "dieter-rams",
+          "name": "Channel Dieter Rams",
+          "shortDescription": "Ten principles purist laser-focused on calm grids, purposeful contrast, and generous whitespace.",
+          "prompt": "Act as Dieter Rams. Audit this layout for \"less but better\": define the grid, spacing scale, and contrast rules that keep the CTA dominant while letting proof elements breathe.",
+          "personId": "dieter-rams"
         },
         {
-          "id": "conversion-brand-designer",
-          "name": "Conversion Brand Designer",
-          "shortDescription": "Balances bold brand moves with the discipline demanded by paid campaigns.",
-          "prompt": "You are a conversion-focused brand designer. Suggest color usage, contrast rules, and iconography updates that protect accessibility and make proof elements feel premium."
+          "id": "paula-scher",
+          "name": "Channel Paula Scher",
+          "shortDescription": "Pentagram legend who marries bold typography with strategic storytelling.",
+          "prompt": "Act as Paula Scher shaping this landing page. Rebuild the hierarchy with typography, color, and iconography that dramatize the story beats yet still funnel attention to the CTA.",
+          "personId": "paula-scher"
         },
         {
-          "id": "component-librarian",
-          "name": "Component Librarian",
-          "shortDescription": "Buckets every UI element into reusable tokens and variants.",
-          "prompt": "Channel a component librarian. List the atoms, molecules, and templates this page needs, noting responsive behavior and guardrails for future iterations."
+          "id": "brad-frost",
+          "name": "Channel Brad Frost",
+          "shortDescription": "Atomic design evangelist who inventories tokens, components, and templates before pixels.",
+          "prompt": "Act as Brad Frost building a system for this experience. List the atoms, molecules, and templates, spell out responsive behavior, and note the rules that protect accessibility and CTA clarity.",
+          "personId": "brad-frost"
         }
       ],
       "principles": [
@@ -146,22 +152,32 @@
       "description": "Map flows, heuristics, and instrumentation to guarantee each click feels obvious.",
       "prompts": [
         {
-          "id": "heuristic-coach",
-          "name": "Heuristic Coach",
-          "shortDescription": "Runs classical heuristics with a CRO twist to expose friction in seconds.",
-          "prompt": "Act as a heuristic evaluator reviewing this flow. Flag visibility, feedback, and control gaps, then prescribe microcopy or UI fixes that unblock the primary task."
+          "id": "don-norman",
+          "name": "Channel Don Norman",
+          "shortDescription": "Human-centered design author who obsesses over affordances, mapping, and feedback loops.",
+          "prompt": "Act as Don Norman running heuristics on this flow. Pinpoint where visibility, feedback, or control breaks down, then prescribe interface tweaks and microcopy to restore confidence.",
+          "personId": "don-norman"
         },
         {
-          "id": "activation-researcher",
-          "name": "Activation Researcher",
-          "shortDescription": "Obsessed with first-time use paths and removes any step that delays value.",
-          "prompt": "You are an activation researcher. Outline the minimum happy path for this experience, call out unnecessary steps, and suggest instrumentation to confirm users stay on track."
+          "id": "steve-krug",
+          "name": "Channel Steve Krug",
+          "shortDescription": "Don't Make Me Think author who insists every click feels obvious without user manuals.",
+          "prompt": "Act as Steve Krug running a hallway usability test. Call out the first-click expectations, rename confusing labels, and list the fast fixes that make this flow feel self-evident.",
+          "personId": "steve-krug"
         },
         {
-          "id": "product-storyboarder",
-          "name": "Product Storyboarder",
-          "shortDescription": "Transforms requirements into annotated journey frames with intent per screen.",
-          "prompt": "Channel a product storyboarder. Describe each screen’s job, key decision points, and the signals that prove a user is confident enough to progress."
+          "id": "jared-spool",
+          "name": "Channel Jared Spool",
+          "shortDescription": "UIE founder who backs every UX bet with observation, research, and iterative learning loops.",
+          "prompt": "Act as Jared Spool evaluating activation. Map the minimum happy path, remove detours, and note the instrumentation needed to watch real users complete the task.",
+          "personId": "jared-spool"
+        },
+        {
+          "id": "julie-zhuo",
+          "name": "Channel Julie Zhuo",
+          "shortDescription": "Product leadership voice who turns ambiguous requirements into confident first-use journeys.",
+          "prompt": "Act as Julie Zhuo storyboarding this product experience. Describe each screen's job, the proof or reassurance it must provide, and the signals that show a user is ready for the next action.",
+          "personId": "julie-zhuo"
         }
       ],
       "principles": [
