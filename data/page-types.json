@@ -83,6 +83,118 @@
         }
       ],
       "vocabularyBucketId": "landing-page"
+    },
+    {
+      "id": "design",
+      "title": "Design",
+      "description": "Translate CRO strategy into layout, typography, and brand systems that still protect the CTA.",
+      "prompts": [
+        {
+          "id": "systems-creative-director",
+          "name": "Systems Creative Director",
+          "shortDescription": "Treats every component as part of a modular design system tied to conversion intent.",
+          "prompt": "Act as a systems-minded creative director. Audit this layout for rhythm, spacing, and focal points. Provide grid tweaks, typography pairings, and art direction notes that keep the CTA dominant without killing brand."
+        },
+        {
+          "id": "conversion-brand-designer",
+          "name": "Conversion Brand Designer",
+          "shortDescription": "Balances bold brand moves with the discipline demanded by paid campaigns.",
+          "prompt": "You are a conversion-focused brand designer. Suggest color usage, contrast rules, and iconography updates that protect accessibility and make proof elements feel premium."
+        },
+        {
+          "id": "component-librarian",
+          "name": "Component Librarian",
+          "shortDescription": "Buckets every UI element into reusable tokens and variants.",
+          "prompt": "Channel a component librarian. List the atoms, molecules, and templates this page needs, noting responsive behavior and guardrails for future iterations."
+        }
+      ],
+      "principles": [
+        {
+          "id": "hierarchy-system",
+          "title": "Hierarchy is a system",
+          "definition": "Spacing, type scale, and contrast ladder up to a predictable rhythm so the eye lands exactly where we want.",
+          "whyItMatters": "Inconsistent hierarchy forces readers to hunt for the CTA and derails the story arc.",
+          "example": "Lock a 4pt spacing scale and limit heading styles to three sizes tied to hero, section, and body copy."
+        },
+        {
+          "id": "brand-without-bloat",
+          "title": "Brand without bloat",
+          "definition": "Use brand flourishes only when they support comprehension or trust, never as decoration.",
+          "whyItMatters": "Decorative flourishes compete with proof or CTAs and sap load speed.",
+          "example": "Swap heavy background illustrations for a subtle gradient that still points toward the form."
+        },
+        {
+          "id": "accessible-contrast",
+          "title": "Accessibility-grade contrast",
+          "definition": "All interactive elements meet WCAG AA contrast and have obvious hover or focus states.",
+          "whyItMatters": "Low contrast CTAs and form labels tank conversions for mobile and low-vision visitors.",
+          "example": "Primary CTA uses #16DB65 on #04121F with a 2px focus outline."
+        },
+        {
+          "id": "motion-with-intent",
+          "title": "Motion with intent",
+          "definition": "Animations communicate state changes or guide attention, never exist as ornamental loops.",
+          "whyItMatters": "Frivolous motion distracts from copy and can even trigger nausea for sensitive visitors.",
+          "example": "Use a subtle opacity fade on testimonial cards instead of autoplaying carousels."
+        }
+      ],
+      "vocabularyBucketId": "design-system"
+    },
+    {
+      "id": "ux",
+      "title": "UX",
+      "description": "Map flows, heuristics, and instrumentation to guarantee each click feels obvious.",
+      "prompts": [
+        {
+          "id": "heuristic-coach",
+          "name": "Heuristic Coach",
+          "shortDescription": "Runs classical heuristics with a CRO twist to expose friction in seconds.",
+          "prompt": "Act as a heuristic evaluator reviewing this flow. Flag visibility, feedback, and control gaps, then prescribe microcopy or UI fixes that unblock the primary task."
+        },
+        {
+          "id": "activation-researcher",
+          "name": "Activation Researcher",
+          "shortDescription": "Obsessed with first-time use paths and removes any step that delays value.",
+          "prompt": "You are an activation researcher. Outline the minimum happy path for this experience, call out unnecessary steps, and suggest instrumentation to confirm users stay on track."
+        },
+        {
+          "id": "product-storyboarder",
+          "name": "Product Storyboarder",
+          "shortDescription": "Transforms requirements into annotated journey frames with intent per screen.",
+          "prompt": "Channel a product storyboarder. Describe each screen’s job, key decision points, and the signals that prove a user is confident enough to progress."
+        }
+      ],
+      "principles": [
+        {
+          "id": "state-transparency",
+          "title": "State transparency",
+          "definition": "Every interaction confirms what just happened, what is next, and how long it takes.",
+          "whyItMatters": "Ambiguous states spike support tickets and make users abandon flows before converting.",
+          "example": "Add inline validation and progress summaries to multistep forms."
+        },
+        {
+          "id": "momentum-loops",
+          "title": "Momentum loops",
+          "definition": "Each step tees up the next action with context, proof, or a preview of the reward.",
+          "whyItMatters": "Dead-end screens stall motivation and make users question why they started.",
+          "example": "After selecting a template, immediately preview the filled hero so the CTA feels within reach."
+        },
+        {
+          "id": "guardrails-not-roadblocks",
+          "title": "Guardrails, not roadblocks",
+          "definition": "Prevent mistakes early with guidance while always offering a way to recover.",
+          "whyItMatters": "Hard errors force users to restart flows and inflate bounce rates.",
+          "example": "Inline hints highlight acceptable file types before upload instead of showing an error afterward."
+        },
+        {
+          "id": "device-parity",
+          "title": "Device parity",
+          "definition": "Critical actions stay equally clear on mobile, tablet, and desktop.",
+          "whyItMatters": "Paid traffic skews mobile; if the CTA or nav is buried, sessions die instantly.",
+          "example": "Surface sticky CTA bars on mobile once the hero scrolls out of view."
+        }
+      ],
+      "vocabularyBucketId": "ux-playbook"
     }
   ]
 }

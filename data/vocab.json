@@ -136,6 +136,176 @@
           ]
         }
       ]
+    },
+    {
+      "id": "design-system",
+      "title": "Design system elements",
+      "description": "Tokens, grids, and art direction cues that keep visual polish tied to performance.",
+      "terms": [
+        {
+          "id": "layout-grid",
+          "title": "Layout grid",
+          "shortDescription": "Defines columns, gutters, and breakpoints so content breathes predictably.",
+          "definition": "A documented grid with column counts, gutter widths, and margin behavior that designers and engineers share.",
+          "whenToUse": "Before final comps or responsive builds so every section aligns across devices.",
+          "aiPhrases": [
+            "Outline a 12-column grid with desktop and mobile spacing rules for this landing page."
+          ],
+          "examples": [
+            "Desktop: 12 columns, 80px margins, 24px gutters. Mobile: 4 columns, 16px margins."
+          ]
+        },
+        {
+          "id": "type-scale",
+          "title": "Type scale",
+          "shortDescription": "A reusable set of heading, body, and accent sizes tied to tokens.",
+          "definition": "Type scales list font sizes, line heights, and usage notes so hierarchy stays intentional.",
+          "whenToUse": "When refining hero copy, section intros, or responsive adjustments.",
+          "aiPhrases": [
+            "Propose a type scale that pairs a display headline with supporting paragraph and label styles."
+          ],
+          "examples": [
+            "Display 56/64, Heading 32/40, Body 18/28, Caption 14/20."
+          ]
+        },
+        {
+          "id": "color-tokens",
+          "title": "Color tokens",
+          "shortDescription": "Primary, neutral, and accent values mapped to semantic usage.",
+          "definition": "Each token includes hex values, contrast ratios, and situations where it can appear.",
+          "whenToUse": "Whenever you introduce new components or want to ensure brand colors stay accessible.",
+          "aiPhrases": [
+            "List primary, neutral, and status color tokens with contrast guidance for dark UI."
+          ],
+          "examples": [
+            "Primary/Emerald 500 for CTAs, Slate 900 backgrounds, Amber 400 for highlights."
+          ]
+        },
+        {
+          "id": "imagery-brief",
+          "title": "Imagery brief",
+          "shortDescription": "Rules for photography, illustration, and mockup treatment.",
+          "definition": "Outlines framing, lighting, and compositional cues so visuals feel consistent and purposeful.",
+          "whenToUse": "Before commissioning photos or building hero mocks.",
+          "aiPhrases": [
+            "Write an imagery brief describing product mock angles, texture, and lighting for this campaign."
+          ],
+          "examples": [
+            "Three-quarter dashboard mock with soft shadows and muted backgrounds to keep CTA dominant."
+          ]
+        },
+        {
+          "id": "component-variants",
+          "title": "Component variants",
+          "shortDescription": "Documented states for buttons, cards, inputs, and alerts.",
+          "definition": "Shows base, hover, active, and disabled treatments with spacing annotations.",
+          "whenToUse": "During dev handoff or when QA spots inconsistencies between screens.",
+          "aiPhrases": [
+            "List button and card variants with padding, radius, and motion guidance."
+          ],
+          "examples": [
+            "Primary button 14px/32px, 999ms easing, 2px border; Secondary ghost variant with 1px outline."
+          ]
+        },
+        {
+          "id": "state-specs",
+          "title": "State specs",
+          "shortDescription": "Micro-interactions, focus rings, and transitions captured in one place.",
+          "definition": "Details how elements respond to hover, focus, success, warning, and error events.",
+          "whenToUse": "When aligning design with engineering on accessibility and motion.",
+          "aiPhrases": [
+            "Describe hover, focus, and loading states for CTAs and form inputs on this page."
+          ],
+          "examples": [
+            "CTA hover raises 2px with glow, focus shows 2px dashed outline, loading swaps label with spinner."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ux-playbook",
+      "title": "UX flow playbook",
+      "description": "Experience artifacts that keep every interaction confident and conversion-focused.",
+      "terms": [
+        {
+          "id": "journey-map",
+          "title": "Journey map",
+          "shortDescription": "Chronological view of user intent, emotions, and touchpoints.",
+          "definition": "Maps each stage from awareness to conversion, capturing needs, questions, and supporting assets.",
+          "whenToUse": "Ahead of redesigns or when stitching marketing pages to in-product onboarding.",
+          "aiPhrases": [
+            "Draft a journey map table that lists stage, goal, mentality, and supporting content."
+          ],
+          "examples": [
+            "Stage: Consider → Goal: prove credibility → Asset: testimonial strip."
+          ]
+        },
+        {
+          "id": "micro-flow",
+          "title": "Micro flow",
+          "shortDescription": "Step-by-step outline for a single key task.",
+          "definition": "Breaks a task like booking a teardown into discrete screens, decisions, and expected feedback.",
+          "whenToUse": "When engineering needs clarity on edge cases or copy teams script tooltips.",
+          "aiPhrases": [
+            "Detail the micro flow for submitting the hero brief, including alternate paths."
+          ],
+          "examples": [
+            "Step 2: Upload assets → Validation: size + format → Confirmation toast."
+          ]
+        },
+        {
+          "id": "friction-log",
+          "title": "Friction log",
+          "shortDescription": "Running list of every hesitation, confusion, or stall users report.",
+          "definition": "Captures issue, location, severity, and hypothesis for why it happens.",
+          "whenToUse": "During usability tests or post-launch monitoring.",
+          "aiPhrases": [
+            "Turn research notes into a friction log with impact scores and recommended fixes."
+          ],
+          "examples": [
+            "Issue: CTA hidden on mobile hero → Severity: High → Fix: sticky bar."
+          ]
+        },
+        {
+          "id": "progressive-disclosure",
+          "title": "Progressive disclosure model",
+          "shortDescription": "Plan for revealing detail only when the user signals intent.",
+          "definition": "Specifies default, hover, and expanded states so complex info never overwhelms.",
+          "whenToUse": "Pricing tables, feature breakdowns, or FAQs that risk cognitive overload.",
+          "aiPhrases": [
+            "Design a progressive disclosure plan for the integration section with hover reveals."
+          ],
+          "examples": [
+            "Show top three integrations, reveal setup steps after click."
+          ]
+        },
+        {
+          "id": "empty-state",
+          "title": "Empty state",
+          "shortDescription": "Guided screen that appears before data exists.",
+          "definition": "Combines an illustration, short benefit reminder, and CTA or sample data.",
+          "whenToUse": "Dashboards, saved prompts, or teardown queues with new users.",
+          "aiPhrases": [
+            "Write an empty state for the teardown queue that nudges users to add their first page."
+          ],
+          "examples": [
+            "“No teardowns yet” + button to upload briefs + reminder of 24h turnaround."
+          ]
+        },
+        {
+          "id": "error-recovery",
+          "title": "Error recovery pattern",
+          "shortDescription": "Explains what failed, why, and how to bounce back without restarting.",
+          "definition": "Pairs descriptive errors with inline fixes, secondary actions, or live chat links.",
+          "whenToUse": "Forms, uploads, auth, or payment experiences.",
+          "aiPhrases": [
+            "Create tiered error messages (gentle, blocking) for the asset uploader with next steps."
+          ],
+          "examples": [
+            "Upload failed: file exceeds 25MB → Offer compression tips + link to async submission."
+          ]
+        }
+      ]
     }
   ]
 }
