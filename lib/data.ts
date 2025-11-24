@@ -1,5 +1,6 @@
 import vocabData from "@/data/vocab.json";
 import pageTypesData from "@/data/page-types.json";
+import peopleData from "@/data/people.json";
 
 export type VocabularyTerm = {
   id: string;
@@ -39,11 +40,31 @@ export const allTerms: TermWithBucket[] = buckets.flatMap((bucket) =>
   })),
 );
 
+export type Person = {
+  id: string;
+  name: string;
+  label: string;
+  description: string[];
+  bullets?: string[];
+};
+
+type PeopleData = {
+  people: Person[];
+};
+
+const peopleSource = peopleData as PeopleData;
+
+export const people = peopleSource.people;
+
+const personMap = new Map(people.map((person) => [person.id, person]));
+const personNameMap = new Map(people.map((person) => [person.name, person.id]));
+
 export type PersonaStyle = {
   id: string;
   name: string;
   shortDescription: string;
   prompt: string;
+  personId?: string;
 };
 
 export type Principle = {
@@ -85,6 +106,16 @@ export function getPersonaById(
   if (!pageTypeId || !personaId) return undefined;
   const pageType = getPageTypeById(pageTypeId);
   return pageType?.prompts.find((prompt) => prompt.id === personaId);
+}
+
+export function getPersonById(personId: string | null | undefined) {
+  if (!personId) return undefined;
+  return personMap.get(personId);
+}
+
+export function getPersonIdByName(name: string | null | undefined) {
+  if (!name) return undefined;
+  return personNameMap.get(name);
 }
 
 export function getPrincipleById(

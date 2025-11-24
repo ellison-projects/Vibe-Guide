@@ -20,12 +20,15 @@ import {
 import {
   getPageTypeById,
   getPersonaById,
+  getPersonById,
   getPrincipleById,
   getTermInBucket,
   getTermsByBucketId,
   pageTypes,
+  people,
   type PageType,
   type PersonaStyle,
+  type Person,
   type Principle,
   type TermWithBucket,
 } from "@/lib/data";
@@ -48,12 +51,18 @@ type BreadcrumbItem = {
   isCurrent?: boolean;
 };
 
+const PERSON_NAME_TO_ID = new Map(people.map((person) => [person.name, person.id]));
+const PERSON_NAME_REGEX_SOURCE = Array.from(PERSON_NAME_TO_ID.keys())
+  .sort((a, b) => b.length - a.length)
+  .map((name) => escapeRegExp(name))
+  .join("|");
+
 function VocabularyApp() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const view = useMemo(() => deriveViewFromSearchParams(searchParams), [searchParams]);
-  const [isOliModalOpen, setIsOliModalOpen] = useState(false);
+  const [activePersonId, setActivePersonId] = useState<string | null>(null);
 
   const navigateToView = useCallback(
     (nextView: ViewState) => {
@@ -86,6 +95,8 @@ function VocabularyApp() {
     view.type === "principleDetail"
       ? getPrincipleById(view.pageTypeId, view.principleId)
       : undefined;
+
+  const activePerson = activePersonId ? getPersonById(activePersonId) : undefined;
 
   const handleOpenPrompts = useCallback(
     (pageTypeId: string) => {
@@ -131,8 +142,11 @@ function VocabularyApp() {
 
   const handleBackToHome = useCallback(() => navigateToView(VIEW_HOME), [navigateToView]);
 
-  const handleOpenOliModal = useCallback(() => setIsOliModalOpen(true), []);
-  const handleCloseOliModal = useCallback(() => setIsOliModalOpen(false), []);
+  const handleShowPersonInfo = useCallback((personId: string) => {
+    if (!personId) return;
+    setActivePersonId(personId);
+  }, []);
+  const handleClosePersonModal = useCallback(() => setActivePersonId(null), []);
 
   let content: ReactNode = null;
 
@@ -143,7 +157,7 @@ function VocabularyApp() {
         onOpenPrompts={handleOpenPrompts}
         onOpenVocabulary={handleOpenVocabulary}
         onOpenPrinciples={handleOpenPrinciples}
-        onShowOliInfo={handleOpenOliModal}
+        onShowPersonInfo={handleShowPersonInfo}
       />
     );
   } else if (!activePageType) {
@@ -164,7 +178,7 @@ function VocabularyApp() {
             onSelectPersona={(personaId) =>
               handleSelectPersona(activePageType.id, personaId)
             }
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         );
         break;
@@ -174,7 +188,7 @@ function VocabularyApp() {
             pageType={activePageType}
             persona={activePersona}
             onBack={() => handleOpenPrompts(activePageType.id)}
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         ) : (
           <MissingState
@@ -193,7 +207,7 @@ function VocabularyApp() {
             onSelectTerm={(termId) =>
               handleSelectTerm(activePageType.id, termId)
             }
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         );
         break;
@@ -202,7 +216,7 @@ function VocabularyApp() {
           <VocabularyDetailView
             term={activeTerm}
             onBack={() => handleOpenVocabulary(activePageType.id)}
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         ) : (
           <MissingState
@@ -220,7 +234,7 @@ function VocabularyApp() {
             onSelectPrinciple={(principleId) =>
               handleSelectPrinciple(activePageType.id, principleId)
             }
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         );
         break;
@@ -230,7 +244,7 @@ function VocabularyApp() {
             pageType={activePageType}
             principle={activePrinciple}
             onBack={() => handleOpenPrinciples(activePageType.id)}
-            onShowOliInfo={handleOpenOliModal}
+            onShowPersonInfo={handleShowPersonInfo}
           />
         ) : (
           <MissingState
@@ -265,7 +279,7 @@ function VocabularyApp() {
     if (activePageType) {
       items.push({
         id: `page-type-${activePageType.id}`,
-        label: renderOliAwareText(activePageType.title, handleOpenOliModal),
+        label: renderPeopleAwareText(activePageType.title, handleShowPersonInfo),
       });
     }
 
@@ -292,7 +306,7 @@ function VocabularyApp() {
         addSectionCrumb(
           `persona-${view.personaId}`,
           activePersona
-            ? renderOliAwareText(activePersona.name, handleOpenOliModal)
+            ? renderPeopleAwareText(activePersona.name, handleShowPersonInfo)
             : "Prompt detail",
           { isCurrent: true },
         );
@@ -307,7 +321,7 @@ function VocabularyApp() {
         addSectionCrumb(
           `term-${view.termId}`,
           activeTerm
-            ? renderOliAwareText(activeTerm.title, handleOpenOliModal)
+            ? renderPeopleAwareText(activeTerm.title, handleShowPersonInfo)
             : "Term detail",
           { isCurrent: true },
         );
@@ -322,7 +336,7 @@ function VocabularyApp() {
         addSectionCrumb(
           `principle-${view.principleId}`,
           activePrinciple
-            ? renderOliAwareText(activePrinciple.title, handleOpenOliModal)
+            ? renderPeopleAwareText(activePrinciple.title, handleShowPersonInfo)
             : "Principle detail",
           { isCurrent: true },
         );
@@ -342,7 +356,7 @@ function VocabularyApp() {
     handleOpenPrompts,
     handleOpenVocabulary,
     handleOpenPrinciples,
-    handleOpenOliModal,
+    handleShowPersonInfo,
   ]);
 
   return (
@@ -351,7 +365,7 @@ function VocabularyApp() {
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         {content}
       </div>
-      <OliInfoModal open={isOliModalOpen} onClose={handleCloseOliModal} />
+      <PersonInfoModal person={activePerson} onClose={handleClosePersonModal} />
     </div>
   );
 }
@@ -377,7 +391,7 @@ type HomeScreenProps = {
   onOpenPrompts: (pageTypeId: string) => void;
   onOpenVocabulary: (pageTypeId: string) => void;
   onOpenPrinciples: (pageTypeId: string) => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
 function HomeScreen({
@@ -385,7 +399,7 @@ function HomeScreen({
   onOpenPrompts,
   onOpenVocabulary,
   onOpenPrinciples,
-  onShowOliInfo,
+  onShowPersonInfo,
 }: HomeScreenProps) {
   return (
     <div className="space-y-6">
@@ -399,10 +413,10 @@ function HomeScreen({
               Page type
             </p>
             <h2 className="text-2xl font-semibold text-white">
-              {renderOliAwareText(pageType.title, onShowOliInfo)}
+              {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
             </h2>
             <p className="text-sm text-slate-300">
-              {renderOliAwareText(pageType.description, onShowOliInfo)}
+              {renderPeopleAwareText(pageType.description, onShowPersonInfo)}
             </p>
           </div>
 
@@ -453,10 +467,10 @@ type PromptListViewProps = {
   pageType: PageType;
   onBack: () => void;
   onSelectPersona: (personaId: string) => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
-function PromptListView({ pageType, onBack, onSelectPersona, onShowOliInfo }: PromptListViewProps) {
+function PromptListView({ pageType, onBack, onSelectPersona, onShowPersonInfo }: PromptListViewProps) {
   return (
     <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-inner shadow-black/40">
       <BackButton label="Back home" onClick={onBack} />
@@ -465,7 +479,7 @@ function PromptListView({ pageType, onBack, onSelectPersona, onShowOliInfo }: Pr
           AI Prompts
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          Styles and people to channel for {renderOliAwareText(pageType.title, onShowOliInfo)}
+          Styles and people to channel for {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
         </h2>
       </header>
 
@@ -477,10 +491,10 @@ function PromptListView({ pageType, onBack, onSelectPersona, onShowOliInfo }: Pr
             onClick={() => onSelectPersona(persona.id)}
           >
             <p className="text-base font-semibold text-white">
-              {renderOliAwareText(persona.name, onShowOliInfo)}
+              {renderPeopleAwareText(persona.name, onShowPersonInfo)}
             </p>
             <p className="mt-1 text-sm text-slate-300">
-              {renderOliAwareText(persona.shortDescription, onShowOliInfo)}
+              {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
             </p>
           </button>
         ))}
@@ -493,10 +507,10 @@ type PromptDetailViewProps = {
   pageType: PageType;
   persona: PersonaStyle;
   onBack: () => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
-function PromptDetailView({ pageType, persona, onBack, onShowOliInfo }: PromptDetailViewProps) {
+function PromptDetailView({ pageType, persona, onBack, onShowPersonInfo }: PromptDetailViewProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -522,18 +536,18 @@ function PromptDetailView({ pageType, persona, onBack, onShowOliInfo }: PromptDe
           Prompt detail
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          {renderOliAwareText(persona.name, onShowOliInfo)}
+          {renderPeopleAwareText(persona.name, onShowPersonInfo)}
         </h2>
         <p className="text-sm text-slate-300">
-          {renderOliAwareText(persona.shortDescription, onShowOliInfo)}
+          {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
         </p>
         <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-300">
-          {renderOliAwareText(pageType.title, onShowOliInfo)}
+          {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
         </p>
       </header>
 
       <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 text-sm text-slate-100">
-        {renderOliAwareText(persona.prompt, onShowOliInfo)}
+        {renderPeopleAwareText(persona.prompt, onShowPersonInfo)}
       </div>
 
       <button
@@ -551,10 +565,10 @@ type VocabularyListViewProps = {
   terms: TermWithBucket[];
   onBack: () => void;
   onSelectTerm: (termId: string) => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
-function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowOliInfo }: VocabularyListViewProps) {
+function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowPersonInfo }: VocabularyListViewProps) {
   return (
     <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-inner shadow-black/40">
       <BackButton label="Back home" onClick={onBack} />
@@ -566,7 +580,7 @@ function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowOliIn
           Structural components used when building landing pages
         </h2>
         <p className="text-sm text-slate-300">
-          Everything here ladders up to {renderOliAwareText(pageType.title, onShowOliInfo)} workflows.
+          Everything here ladders up to {renderPeopleAwareText(pageType.title, onShowPersonInfo)} workflows.
         </p>
       </header>
 
@@ -578,10 +592,10 @@ function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowOliIn
             onClick={() => onSelectTerm(term.id)}
           >
             <p className="text-base font-semibold text-white">
-              {renderOliAwareText(term.title, onShowOliInfo)}
+              {renderPeopleAwareText(term.title, onShowPersonInfo)}
             </p>
             <p className="mt-1 text-sm text-slate-300">
-              {renderOliAwareText(term.shortDescription, onShowOliInfo)}
+              {renderPeopleAwareText(term.shortDescription, onShowPersonInfo)}
             </p>
           </button>
         ))}
@@ -593,10 +607,10 @@ function VocabularyListView({ pageType, terms, onBack, onSelectTerm, onShowOliIn
 type VocabularyDetailViewProps = {
   term: TermWithBucket;
   onBack: () => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
-function VocabularyDetailView({ term, onBack, onShowOliInfo }: VocabularyDetailViewProps) {
+function VocabularyDetailView({ term, onBack, onShowPersonInfo }: VocabularyDetailViewProps) {
   return (
     <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/85 p-6 shadow-2xl shadow-emerald-500/10">
       <BackButton label="Back to vocabulary" onClick={onBack} />
@@ -605,11 +619,11 @@ function VocabularyDetailView({ term, onBack, onShowOliInfo }: VocabularyDetailV
           Term definition
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          {renderOliAwareText(term.title, onShowOliInfo)}
+          {renderPeopleAwareText(term.title, onShowPersonInfo)}
         </h2>
       </header>
       <p className="text-base text-slate-200">
-        {renderOliAwareText(term.definition, onShowOliInfo)}
+        {renderPeopleAwareText(term.definition, onShowPersonInfo)}
       </p>
       {term.examples && term.examples.length > 0 && (
         <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
@@ -617,7 +631,7 @@ function VocabularyDetailView({ term, onBack, onShowOliInfo }: VocabularyDetailV
             Example
           </p>
           <p className="mt-2 text-sm text-slate-100">
-            {renderOliAwareText(term.examples[0], onShowOliInfo)}
+            {renderPeopleAwareText(term.examples[0], onShowPersonInfo)}
           </p>
         </div>
       )}
@@ -629,14 +643,14 @@ type PrincipleListViewProps = {
   pageType: PageType;
   onBack: () => void;
   onSelectPrinciple: (principleId: string) => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
 function PrincipleListView({
   pageType,
   onBack,
   onSelectPrinciple,
-  onShowOliInfo,
+  onShowPersonInfo,
 }: PrincipleListViewProps) {
   const principles = pageType.principles ?? [];
 
@@ -651,7 +665,7 @@ function PrincipleListView({
           Core rules behind effective landing pages
         </h2>
         <p className="text-sm text-slate-300">
-          Use these to audit every section of {renderOliAwareText(pageType.title, onShowOliInfo)} work.
+          Use these to audit every section of {renderPeopleAwareText(pageType.title, onShowPersonInfo)} work.
         </p>
       </header>
 
@@ -668,10 +682,10 @@ function PrincipleListView({
               onClick={() => onSelectPrinciple(principle.id)}
             >
               <p className="text-base font-semibold text-white">
-                {renderOliAwareText(principle.title, onShowOliInfo)}
+              {renderPeopleAwareText(principle.title, onShowPersonInfo)}
               </p>
               <p className="mt-1 text-sm text-slate-300">
-                {renderOliAwareText(principle.definition, onShowOliInfo)}
+              {renderPeopleAwareText(principle.definition, onShowPersonInfo)}
               </p>
             </button>
           ))}
@@ -685,14 +699,14 @@ type PrincipleDetailViewProps = {
   pageType: PageType;
   principle: Principle;
   onBack: () => void;
-  onShowOliInfo: () => void;
+  onShowPersonInfo: (personId: string) => void;
 };
 
 function PrincipleDetailView({
   pageType,
   principle,
   onBack,
-  onShowOliInfo,
+  onShowPersonInfo,
 }: PrincipleDetailViewProps) {
   return (
     <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/85 p-6 shadow-2xl shadow-emerald-500/10">
@@ -702,7 +716,7 @@ function PrincipleDetailView({
           Principle
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          {renderOliAwareText(principle.title, onShowOliInfo)}
+          {renderPeopleAwareText(principle.title, onShowPersonInfo)}
         </h2>
       </header>
       <div className="space-y-3 text-sm text-slate-200">
@@ -711,7 +725,7 @@ function PrincipleDetailView({
             Definition
           </p>
           <p className="mt-1">
-            {renderOliAwareText(principle.definition, onShowOliInfo)}
+            {renderPeopleAwareText(principle.definition, onShowPersonInfo)}
           </p>
         </div>
         <div>
@@ -719,7 +733,7 @@ function PrincipleDetailView({
             Why it matters
           </p>
           <p className="mt-1">
-            {renderOliAwareText(principle.whyItMatters, onShowOliInfo)}
+            {renderPeopleAwareText(principle.whyItMatters, onShowPersonInfo)}
           </p>
         </div>
         <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-4">
@@ -727,11 +741,11 @@ function PrincipleDetailView({
             Example
           </p>
           <p className="mt-2">
-            {renderOliAwareText(principle.example, onShowOliInfo)}
+            {renderPeopleAwareText(principle.example, onShowPersonInfo)}
           </p>
         </div>
         <p className="text-xs font-semibold uppercase tracking-[0.4em] text-emerald-300">
-          Applies to {renderOliAwareText(pageType.title, onShowOliInfo)}
+          Applies to {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
         </p>
       </div>
     </section>
@@ -817,40 +831,69 @@ function MissingState({ label, description, onBack }: MissingStateProps) {
   );
 }
 
-const OLI_GARDNER_NAME = "Oli Gardner";
-
-function renderOliAwareText(text: string, onShowOliInfo: () => void): ReactNode {
-  if (!text.includes(OLI_GARDNER_NAME)) {
+function renderPeopleAwareText(
+  text: string,
+  onShowPersonInfo: (personId: string) => void,
+): ReactNode {
+  if (!text || !PERSON_NAME_REGEX_SOURCE) {
     return text;
   }
 
-  const parts = text.split(OLI_GARDNER_NAME);
-  return (
-    <span>
-      {parts.map((part, index) => (
-        <Fragment key={`oli-fragment-${index}`}>
-          {part}
-          {index < parts.length - 1 && (
-            <button
-              type="button"
-              className="inline font-semibold text-emerald-300 underline decoration-dotted underline-offset-4 transition hover:text-emerald-200"
-              onClick={onShowOliInfo}
-            >
-              {OLI_GARDNER_NAME}
-            </button>
-          )}
-        </Fragment>
-      ))}
-    </span>
-  );
+  const regex = new RegExp(PERSON_NAME_REGEX_SOURCE, "g");
+  if (!regex.test(text)) {
+    return text;
+  }
+  regex.lastIndex = 0;
+
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let key = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    const matchIndex = match.index ?? 0;
+    if (matchIndex > lastIndex) {
+      nodes.push(
+        <Fragment key={`text-${key++}`}>{text.slice(lastIndex, matchIndex)}</Fragment>,
+      );
+    }
+
+    const matchedName = match[0];
+    const personId = PERSON_NAME_TO_ID.get(matchedName);
+
+    nodes.push(
+      personId ? (
+        <button
+          type="button"
+          key={`person-${personId}-${key++}`}
+          className="inline font-semibold text-emerald-300 underline decoration-dotted underline-offset-4 transition hover:text-emerald-200"
+          onClick={() => onShowPersonInfo(personId)}
+        >
+          {matchedName}
+        </button>
+      ) : (
+        <Fragment key={`text-${key++}`}>{matchedName}</Fragment>
+      ),
+    );
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(<Fragment key={`text-${key++}`}>{text.slice(lastIndex)}</Fragment>);
+  }
+
+  return <span>{nodes}</span>;
 }
 
-type OliInfoModalProps = {
-  open: boolean;
+type PersonInfoModalProps = {
+  person?: Person;
   onClose: () => void;
 };
 
-function OliInfoModal({ open, onClose }: OliInfoModalProps) {
+function PersonInfoModal({ person, onClose }: PersonInfoModalProps) {
+  const open = Boolean(person);
+
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -862,14 +905,14 @@ function OliInfoModal({ open, onClose }: OliInfoModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!person) return null;
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 px-4 py-6"
       role="dialog"
       aria-modal="true"
-      aria-label="Who is Oli Gardner"
+      aria-label={`Who is ${person.name}?`}
       onClick={onClose}
     >
       <div
@@ -879,11 +922,9 @@ function OliInfoModal({ open, onClose }: OliInfoModalProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300/80">
-              Conversion mentor
+              {person.label}
             </p>
-            <h2 className="mt-1 text-2xl font-semibold text-white">
-              Who is {OLI_GARDNER_NAME}?
-            </h2>
+            <h2 className="mt-1 text-2xl font-semibold text-white">Who is {person.name}?</h2>
           </div>
           <button
             className="rounded-full border border-slate-700 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300 transition hover:border-slate-400 hover:text-white"
@@ -894,21 +935,24 @@ function OliInfoModal({ open, onClose }: OliInfoModalProps) {
         </div>
 
         <div className="mt-5 space-y-3 text-sm text-slate-300">
-          <p>
-            {OLI_GARDNER_NAME} co-founded Unbounce and is famous for obsessive landing page experiments, attention ratio discipline, and high-converting copy frameworks.
-          </p>
-          <p>
-            We channel his lens to keep this vocabulary focused on ruthless clarity: one page, one goal; clarity over clever; visual hierarchy or bust.
-          </p>
-          <ul className="list-disc space-y-1 pl-5 text-slate-200/90">
-            <li>Every element must push toward a single CTA.</li>
-            <li>Headlines answer what and why before they get witty.</li>
-            <li>Visual order, proof, and friction removal build conversion momentum.</li>
-          </ul>
+          {person.description.map((paragraph, index) => (
+            <p key={`person-description-${person.id}-${index}`}>{paragraph}</p>
+          ))}
+          {person.bullets && person.bullets.length > 0 && (
+            <ul className="list-disc space-y-1 pl-5 text-slate-200/90">
+              {person.bullets.map((bullet, index) => (
+                <li key={`person-bullet-${person.id}-${index}`}>{bullet}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
   );
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function deriveViewFromSearchParams(searchParams: ReadonlyURLSearchParams): ViewState {
