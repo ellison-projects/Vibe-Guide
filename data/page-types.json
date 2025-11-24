@@ -1,0 +1,88 @@
+{
+  "pageTypes": [
+    {
+      "id": "landing-page",
+      "title": "Landing Page",
+      "description": "Channel focused mentors and vocabulary to keep a single conversion goal honest.",
+      "prompts": [
+        {
+          "id": "oli-gardner",
+          "name": "Channel Oli Gardner",
+          "shortDescription": "Conversion-obsessed cofounder of Unbounce who coined the attention ratio mantra.",
+          "prompt": "Act as Oli Gardner and strip this landing page brief to one CTA. Label each remaining block as Goal or Noise, rewrite copy and layout notes so everything marches toward that single action."
+        },
+        {
+          "id": "joanna-wiebe",
+          "name": "Channel Joanna Wiebe",
+          "shortDescription": "Punchy conversion copy from the Copyhackers playbook - clear, specific, and momentum heavy.",
+          "prompt": "Act as Joanna Wiebe critiquing this hero. Deliver a plain-stated headline, a subhead that amplifies value, and a CTA verb that signals momentum. Keep every sentence rooted in proof."
+        },
+        {
+          "id": "minimalist-art-director",
+          "name": "Minimalist Art Director",
+          "shortDescription": "Swiss-inspired layout coach who enforces ruthless whitespace and typographic hierarchy.",
+          "prompt": "You are a minimalist art director. Outline the grid, typography scale, and whitespace rules that keep this landing page calm while spotlighting the CTA."
+        }
+      ],
+      "principles": [
+        {
+          "id": "one-page-one-goal",
+          "title": "One page, one goal",
+          "definition": "Every campaign page exists to drive a single conversion. Anything that does not support that action gets demoted or removed.",
+          "whyItMatters": "A 1:1 attention ratio keeps visitors from leaking to low-intent pages and lifts conversion rates across channels.",
+          "example": "Hide the global nav and keep only “Book teardown” as the actionable link."
+        },
+        {
+          "id": "clarity-beats-clever",
+          "title": "Clarity beats clever",
+          "definition": "Headlines answer what the product is and why it matters before trying to be witty.",
+          "whyItMatters": "Visitors bounce within seconds if they have to decode metaphors.",
+          "example": "Swap “Give your funnels wings” for “Build CRO-ready landing pages in hours.”"
+        },
+        {
+          "id": "attention-ratio",
+          "title": "Attention ratio",
+          "definition": "For each campaign, there should be one primary CTA for every traffic source. No side quests.",
+          "whyItMatters": "Additional links dilute focus and reduce conversions from paid acquisition.",
+          "example": "Move Docs, Careers, and Blog links to a post-conversion email instead of the hero."
+        },
+        {
+          "id": "visual-hierarchy",
+          "title": "Visual hierarchy",
+          "definition": "Typography, spacing, and contrast guide the eye from headline to subhead to CTA without distractions.",
+          "whyItMatters": "When everything looks equal, nothing gets read.",
+          "example": "Use a bold 48px headline, a muted 18px subhead, and a high-contrast CTA button."
+        },
+        {
+          "id": "message-match",
+          "title": "Message match",
+          "definition": "The landing page headline and imagery should echo the ad or email that drove the click.",
+          "whyItMatters": "Consistency prevents pogo-sticking back to search results and keeps Quality Scores high.",
+          "example": "If the ad touts “3-hour teardown,” the hero headline repeats it verbatim."
+        },
+        {
+          "id": "friction-reducers",
+          "title": "Friction reducers",
+          "definition": "Microcopy, trust badges, and slim forms reduce perceived effort at the decision point.",
+          "whyItMatters": "Even motivated visitors hesitate if they fear spam, long calls, or complex onboarding.",
+          "example": "Add “No deck needed” plus SOC2 badge beside the CTA form."
+        },
+        {
+          "id": "above-fold-logic",
+          "title": "Above the fold logic",
+          "definition": "The first screen answers what it is, who it is for, proof it works, and the way to start.",
+          "whyItMatters": "Paid clicks often bounce before scrolling, so the fold has to earn the next swipe.",
+          "example": "Hero headline + subhead, logo strip, and CTA all visible without scroll on desktop."
+        },
+        {
+          "id": "section-flow",
+          "title": "Section flow",
+          "definition": "Order sections Problem → Value → Proof → Action so belief builds with each scroll.",
+          "whyItMatters": "Randomized content forces context switching and erodes momentum.",
+          "example": "Place testimonials after value props and before pricing to answer “will this work for me?”"
+        }
+      ],
+      "vocabularyBucketId": "landing-page"
+    }
+  ]
+}
