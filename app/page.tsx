@@ -530,92 +530,48 @@ function PromptDetailView({ pageType, persona, onBack, onShowPersonInfo }: Promp
 
   return (
     <section className="rounded-3xl border border-slate-800 bg-slate-950/85 p-6 shadow-2xl shadow-emerald-500/10">
-      <div className="flex flex-col gap-6">
-        <div className="space-y-4 border-b border-slate-800 pb-6">
+      <div className="space-y-6">
+        <div className="space-y-4">
           <BackButton label="Back to AI prompts" onClick={onBack} />
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <header className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                Channel prompt
-              </p>
-              <h2 className="text-3xl font-semibold text-white">
-                {renderPeopleAwareText(persona.name, onShowPersonInfo)}
-              </h2>
-              <p className="text-sm text-slate-300">
-                {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
-              </p>
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-300">
-                {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
-              </p>
-            </header>
-
-            <div className="w-full max-w-sm rounded-2xl border border-emerald-400/40 bg-slate-950/70 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-                Primary action
-              </p>
-              <button
-                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-400/90 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300"
-                onClick={handleCopy}
-                aria-live="polite"
-              >
-                {copied ? "Copied" : "Copy prompt"}
-              </button>
-              <p className="mt-2 text-xs text-slate-300">
-                Copies the full refactor brief so you can apply it in your editor.
-              </p>
-            </div>
-          </div>
+          <header className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+              Channel prompt
+            </p>
+            <h2 className="text-3xl font-semibold text-white">
+              {renderPeopleAwareText(persona.name, onShowPersonInfo)}
+            </h2>
+            <p className="text-sm text-slate-300">
+              {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
+            </p>
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-300">
+              {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
+            </p>
+          </header>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                Prompt ready to paste
-              </p>
-              <div className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-100">
-                {renderPeopleAwareText(persona.prompt, onShowPersonInfo)}
-              </div>
-            </div>
-          </div>
+        <div className="rounded-2xl border border-emerald-400/40 bg-slate-950/70 p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+            Primary action
+          </p>
+          <button
+            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-400/90 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300"
+            onClick={handleCopy}
+            aria-live="polite"
+          >
+            {copied ? "Copied" : "Copy prompt"}
+          </button>
+          <p className="mt-2 text-xs text-slate-300">
+            Copies the full refactor brief so you can drop it into your editor.
+          </p>
+        </div>
 
-          <aside className="space-y-3">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                Where you are
-              </p>
-              <p className="mt-2 text-sm font-semibold text-white">
-                {renderPeopleAwareText(pageType.title, onShowPersonInfo)} ·{" "}
-                {renderPeopleAwareText(persona.name, onShowPersonInfo)}
-              </p>
-              <p className="mt-1 text-sm text-slate-300">
-                Stay in the UX prompts channel focused on Steve Krug's heuristics.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                What you can do
-              </p>
-              <p className="mt-2 text-sm text-slate-200">
-                Review the checklist, keep the layout obvious, and apply the guidance before you
-                ship updates.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
-                Move forward or back
-              </p>
-              <p className="mt-2 text-sm text-slate-200">
-                Need a different mentor or want to reopen the full prompt list?
-              </p>
-              <button
-                className="mt-3 inline-flex w-full items-center justify-center rounded-xl border border-slate-700 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-100 transition hover:border-emerald-400 hover:text-emerald-200"
-                onClick={onBack}
-              >
-                Back to prompts
-              </button>
-            </div>
-          </aside>
+        <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+            Prompt ready to paste
+          </p>
+          <div className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-100">
+            {renderPeopleAwareText(persona.prompt, onShowPersonInfo)}
+          </div>
         </div>
       </div>
     </section>
