@@ -9,6 +9,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
+
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+  type ReadonlyURLSearchParams,
+} from "next/navigation";
+
 import {
   getBucketById,
   getPageTypeById,
@@ -35,9 +43,28 @@ type ViewState =
   | { type: "principleList"; pageTypeId: string }
   | { type: "principleDetail"; pageTypeId: string; principleId: string };
 
+type BreadcrumbItem = {
+  id: string;
+  label: ReactNode;
+  onClick?: () => void;
+  isCurrent?: boolean;
+};
+
 function VocabularyApp() {
-  const [view, setView] = useState<ViewState>(VIEW_HOME);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const view = useMemo(() => deriveViewFromSearchParams(searchParams), [searchParams]);
   const [isOliModalOpen, setIsOliModalOpen] = useState(false);
+
+  const navigateToView = useCallback(
+    (nextView: ViewState) => {
+      const searchString = getSearchStringForView(nextView);
+      const target = searchString ? `${pathname}?${searchString}` : pathname;
+      router.push(target, { scroll: false });
+    },
+    [pathname, router],
+  );
 
   const activePageType =
     view.type === "home" ? undefined : getPageTypeById(view.pageTypeId);
@@ -52,34 +79,64 @@ function VocabularyApp() {
     return getTermsByBucketId(activePageType.vocabularyBucketId);
   }, [activePageType]);
 
-  const handleOpenPrompts = useCallback((pageTypeId: string) => {
-    setView({ type: "promptList", pageTypeId });
-  }, []);
+  const activePersona =
+    view.type === "promptDetail"
+      ? getPersonaById(view.pageTypeId, view.personaId)
+      : undefined;
 
-  const handleOpenVocabulary = useCallback((pageTypeId: string) => {
-    setView({ type: "vocabList", pageTypeId });
-  }, []);
+  const activeTerm =
+    view.type === "vocabDetail" && activePageType
+      ? getTermInBucket(activePageType.vocabularyBucketId, view.termId)
+      : undefined;
 
-  const handleSelectPersona = useCallback((pageTypeId: string, personaId: string) => {
-    setView({ type: "promptDetail", pageTypeId, personaId });
-  }, []);
+  const activePrinciple =
+    view.type === "principleDetail"
+      ? getPrincipleById(view.pageTypeId, view.principleId)
+      : undefined;
 
-  const handleSelectTerm = useCallback((pageTypeId: string, termId: string) => {
-    setView({ type: "vocabDetail", pageTypeId, termId });
-  }, []);
+  const handleOpenPrompts = useCallback(
+    (pageTypeId: string) => {
+      navigateToView({ type: "promptList", pageTypeId });
+    },
+    [navigateToView],
+  );
 
-  const handleOpenPrinciples = useCallback((pageTypeId: string) => {
-    setView({ type: "principleList", pageTypeId });
-  }, []);
+  const handleOpenVocabulary = useCallback(
+    (pageTypeId: string) => {
+      navigateToView({ type: "vocabList", pageTypeId });
+    },
+    [navigateToView],
+  );
+
+  const handleSelectPersona = useCallback(
+    (pageTypeId: string, personaId: string) => {
+      navigateToView({ type: "promptDetail", pageTypeId, personaId });
+    },
+    [navigateToView],
+  );
+
+  const handleSelectTerm = useCallback(
+    (pageTypeId: string, termId: string) => {
+      navigateToView({ type: "vocabDetail", pageTypeId, termId });
+    },
+    [navigateToView],
+  );
+
+  const handleOpenPrinciples = useCallback(
+    (pageTypeId: string) => {
+      navigateToView({ type: "principleList", pageTypeId });
+    },
+    [navigateToView],
+  );
 
   const handleSelectPrinciple = useCallback(
     (pageTypeId: string, principleId: string) => {
-      setView({ type: "principleDetail", pageTypeId, principleId });
+      navigateToView({ type: "principleDetail", pageTypeId, principleId });
     },
-    [],
+    [navigateToView],
   );
 
-  const handleBackToHome = useCallback(() => setView(VIEW_HOME), []);
+  const handleBackToHome = useCallback(() => navigateToView(VIEW_HOME), [navigateToView]);
 
   const handleOpenOliModal = useCallback(() => setIsOliModalOpen(true), []);
   const handleCloseOliModal = useCallback(() => setIsOliModalOpen(false), []);
@@ -118,24 +175,22 @@ function VocabularyApp() {
           />
         );
         break;
-      case "promptDetail": {
-        const persona = getPersonaById(view.pageTypeId, view.personaId);
-        content = persona ? (
+      case "promptDetail":
+        content = activePersona ? (
           <PromptDetailView
             pageType={activePageType}
-            persona={persona}
-            onBack={() => setView({ type: "promptList", pageTypeId: activePageType.id })}
+            persona={activePersona}
+            onBack={() => handleOpenPrompts(activePageType.id)}
             onShowOliInfo={handleOpenOliModal}
           />
         ) : (
           <MissingState
             label="Prompt not found"
             description="Pick another style or head back home."
-            onBack={() => setView({ type: "promptList", pageTypeId: activePageType.id })}
+            onBack={() => handleOpenPrompts(activePageType.id)}
           />
         );
         break;
-      }
       case "vocabList":
         content = (
           <VocabularyListView
@@ -149,25 +204,21 @@ function VocabularyApp() {
           />
         );
         break;
-      case "vocabDetail": {
-        const term = getTermInBucket(activePageType.vocabularyBucketId, view.termId);
-        content = term ? (
+      case "vocabDetail":
+        content = activeTerm ? (
           <VocabularyDetailView
-            term={term}
-            onBack={() =>
-              setView({ type: "vocabList", pageTypeId: activePageType.id })
-            }
+            term={activeTerm}
+            onBack={() => handleOpenVocabulary(activePageType.id)}
             onShowOliInfo={handleOpenOliModal}
           />
         ) : (
           <MissingState
             label="Term not found"
             description="Select another term to keep learning."
-            onBack={() => setView({ type: "vocabList", pageTypeId: activePageType.id })}
+            onBack={() => handleOpenVocabulary(activePageType.id)}
           />
         );
         break;
-      }
       case "principleList":
         content = (
           <PrincipleListView
@@ -180,37 +231,22 @@ function VocabularyApp() {
           />
         );
         break;
-      case "principleDetail": {
-        const principle = getPrincipleById(
-          view.pageTypeId,
-          view.principleId,
-        );
-        content = principle ? (
+      case "principleDetail":
+        content = activePrinciple ? (
           <PrincipleDetailView
             pageType={activePageType}
-            principle={principle}
-            onBack={() =>
-              setView({
-                type: "principleList",
-                pageTypeId: activePageType.id,
-              })
-            }
+            principle={activePrinciple}
+            onBack={() => handleOpenPrinciples(activePageType.id)}
             onShowOliInfo={handleOpenOliModal}
           />
         ) : (
           <MissingState
             label="Principle not found"
             description="Pick another principle to keep the teardown moving."
-            onBack={() =>
-              setView({
-                type: "principleList",
-                pageTypeId: activePageType.id,
-              })
-            }
+            onBack={() => handleOpenPrinciples(activePageType.id)}
           />
         );
         break;
-      }
       default:
         content = (
           <MissingState
@@ -222,9 +258,104 @@ function VocabularyApp() {
     }
   }
 
+  const breadcrumbs = useMemo(() => {
+    if (view.type === "home") return undefined;
+
+    const items: BreadcrumbItem[] = [
+      {
+        id: "home",
+        label: "Home",
+        onClick: handleBackToHome,
+      },
+    ];
+
+    if (activePageType) {
+      items.push({
+        id: `page-type-${activePageType.id}`,
+        label: renderOliAwareText(activePageType.title, handleOpenOliModal),
+      });
+    }
+
+    const addSectionCrumb = (
+      id: string,
+      label: ReactNode,
+      options: { onClick?: () => void; isCurrent?: boolean } = {},
+    ) => {
+      items.push({
+        id,
+        label,
+        ...options,
+      });
+    };
+
+    switch (view.type) {
+      case "promptList":
+        addSectionCrumb("section-prompts", "AI Prompts", { isCurrent: true });
+        break;
+      case "promptDetail":
+        addSectionCrumb("section-prompts", "AI Prompts", {
+          onClick: () => handleOpenPrompts(view.pageTypeId),
+        });
+        addSectionCrumb(
+          `persona-${view.personaId}`,
+          activePersona
+            ? renderOliAwareText(activePersona.name, handleOpenOliModal)
+            : "Prompt detail",
+          { isCurrent: true },
+        );
+        break;
+      case "vocabList":
+        addSectionCrumb("section-vocab", "Vocabulary", { isCurrent: true });
+        break;
+      case "vocabDetail":
+        addSectionCrumb("section-vocab", "Vocabulary", {
+          onClick: () => handleOpenVocabulary(view.pageTypeId),
+        });
+        addSectionCrumb(
+          `term-${view.termId}`,
+          activeTerm
+            ? renderOliAwareText(activeTerm.title, handleOpenOliModal)
+            : "Term detail",
+          { isCurrent: true },
+        );
+        break;
+      case "principleList":
+        addSectionCrumb("section-principles", "Principles", { isCurrent: true });
+        break;
+      case "principleDetail":
+        addSectionCrumb("section-principles", "Principles", {
+          onClick: () => handleOpenPrinciples(view.pageTypeId),
+        });
+        addSectionCrumb(
+          `principle-${view.principleId}`,
+          activePrinciple
+            ? renderOliAwareText(activePrinciple.title, handleOpenOliModal)
+            : "Principle detail",
+          { isCurrent: true },
+        );
+        break;
+      default:
+        break;
+    }
+
+    return items;
+  }, [
+    view,
+    activePageType,
+    activePersona,
+    activeTerm,
+    activePrinciple,
+    handleBackToHome,
+    handleOpenPrompts,
+    handleOpenVocabulary,
+    handleOpenPrinciples,
+    handleOpenOliModal,
+  ]);
+
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100">
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-6">
+        {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         {content}
       </div>
       <OliInfoModal open={isOliModalOpen} onClose={handleCloseOliModal} />
@@ -631,6 +762,45 @@ function BackButton({ label, onClick }: BackButtonProps) {
   );
 }
 
+type BreadcrumbsProps = {
+  items: BreadcrumbItem[];
+};
+
+function Breadcrumbs({ items }: BreadcrumbsProps) {
+  if (!items.length) return null;
+
+  return (
+    <nav
+      aria-label="Breadcrumb"
+      className="rounded-3xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-slate-500"
+    >
+      <ol className="flex flex-wrap items-center gap-2">
+        {items.map((item, index) => {
+          const isInteractive = Boolean(item.onClick) && !item.isCurrent;
+          const baseClasses = item.isCurrent ? "text-white" : "text-slate-400";
+
+          return (
+            <li key={item.id} className="flex items-center gap-2">
+              {isInteractive ? (
+                <button
+                  type="button"
+                  onClick={item.onClick}
+                  className={`text-[0.65rem] font-semibold uppercase tracking-[0.35em] transition hover:text-white ${baseClasses}`}
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <span className={baseClasses}>{item.label}</span>
+              )}
+              {index < items.length - 1 && <span className="text-slate-700">/</span>}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
 type MissingStateProps = {
   label: string;
   description: string;
@@ -746,4 +916,70 @@ function OliInfoModal({ open, onClose }: OliInfoModalProps) {
       </div>
     </div>
   );
+}
+
+function deriveViewFromSearchParams(searchParams: ReadonlyURLSearchParams): ViewState {
+  const viewParam = searchParams.get("view");
+
+  if (!viewParam) {
+    return VIEW_HOME;
+  }
+
+  const pageTypeId = searchParams.get("pageTypeId");
+
+  switch (viewParam) {
+    case "promptList":
+      if (!pageTypeId) return VIEW_HOME;
+      return { type: "promptList", pageTypeId };
+    case "promptDetail": {
+      const personaId = searchParams.get("personaId");
+      if (!pageTypeId || !personaId) return VIEW_HOME;
+      return { type: "promptDetail", pageTypeId, personaId };
+    }
+    case "vocabList":
+      if (!pageTypeId) return VIEW_HOME;
+      return { type: "vocabList", pageTypeId };
+    case "vocabDetail": {
+      const termId = searchParams.get("termId");
+      if (!pageTypeId || !termId) return VIEW_HOME;
+      return { type: "vocabDetail", pageTypeId, termId };
+    }
+    case "principleList":
+      if (!pageTypeId) return VIEW_HOME;
+      return { type: "principleList", pageTypeId };
+    case "principleDetail": {
+      const principleId = searchParams.get("principleId");
+      if (!pageTypeId || !principleId) return VIEW_HOME;
+      return { type: "principleDetail", pageTypeId, principleId };
+    }
+    default:
+      return VIEW_HOME;
+  }
+}
+
+function getSearchStringForView(view: ViewState) {
+  if (view.type === "home") {
+    return "";
+  }
+
+  const params = new URLSearchParams();
+  params.set("view", view.type);
+
+  if ("pageTypeId" in view) {
+    params.set("pageTypeId", view.pageTypeId);
+  }
+
+  if ("personaId" in view) {
+    params.set("personaId", view.personaId);
+  }
+
+  if ("termId" in view) {
+    params.set("termId", view.termId);
+  }
+
+  if ("principleId" in view) {
+    params.set("principleId", view.principleId);
+  }
+
+  return params.toString();
 }
