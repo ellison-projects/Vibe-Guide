@@ -529,33 +529,51 @@ function PromptDetailView({ pageType, persona, onBack, onShowPersonInfo }: Promp
   };
 
   return (
-    <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/85 p-6 shadow-2xl shadow-emerald-500/10">
-      <BackButton label="Back to AI prompts" onClick={onBack} />
-      <header className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
-          Prompt detail
-        </p>
-        <h2 className="text-2xl font-semibold text-white">
-          {renderPeopleAwareText(persona.name, onShowPersonInfo)}
-        </h2>
-        <p className="text-sm text-slate-300">
-          {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
-        </p>
-        <p className="text-xs font-medium uppercase tracking-[0.4em] text-emerald-300">
-          {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
-        </p>
-      </header>
+    <section className="rounded-3xl border border-slate-800 bg-slate-950/85 p-6 shadow-2xl shadow-emerald-500/10">
+      <div className="space-y-6">
+        <div className="space-y-4">
+          <BackButton label="Back to AI prompts" onClick={onBack} />
+          <header className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+              Channel prompt
+            </p>
+            <h2 className="text-3xl font-semibold text-white">
+              {renderPeopleAwareText(persona.name, onShowPersonInfo)}
+            </h2>
+            <p className="text-sm text-slate-300">
+              {renderPeopleAwareText(persona.shortDescription, onShowPersonInfo)}
+            </p>
+            <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-300">
+              {renderPeopleAwareText(pageType.title, onShowPersonInfo)}
+            </p>
+          </header>
+        </div>
 
-      <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 text-sm text-slate-100">
-        {renderPeopleAwareText(persona.prompt, onShowPersonInfo)}
+        <div className="rounded-2xl border border-emerald-400/40 bg-slate-950/70 p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
+            Primary action
+          </p>
+          <button
+            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-400/90 px-4 py-3 text-sm font-semibold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300"
+            onClick={handleCopy}
+            aria-live="polite"
+          >
+            {copied ? "Copied" : "Copy prompt"}
+          </button>
+          <p className="mt-2 text-xs text-slate-300">
+            Copies the full refactor brief so you can drop it into your editor.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">
+            Prompt ready to paste
+          </p>
+          <div className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-100">
+            {renderPeopleAwareText(persona.prompt, onShowPersonInfo)}
+          </div>
+        </div>
       </div>
-
-      <button
-        className="inline-flex items-center gap-2 rounded-full border border-emerald-400/70 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-emerald-200 transition hover:bg-emerald-400/10"
-        onClick={handleCopy}
-      >
-        {copied ? "Copied" : "Copy prompt"}
-      </button>
     </section>
   );
 }
