@@ -159,6 +159,13 @@
           "personId": "don-norman"
         },
         {
+          "id": "steve-krug",
+          "name": "Channel Steve Krug",
+          "shortDescription": "Don't Make Me Think author who insists every click feels obvious without user manuals.",
+          "prompt": "Act as Steve Krug running a hallway usability test. Call out the first-click expectations, rename confusing labels, and list the fast fixes that make this flow feel self-evident.",
+          "personId": "steve-krug"
+        },
+        {
           "id": "jared-spool",
           "name": "Channel Jared Spool",
           "shortDescription": "UIE founder who backs every UX bet with observation, research, and iterative learning loops.",

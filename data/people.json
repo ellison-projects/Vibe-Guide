@@ -99,6 +99,20 @@
       ]
     },
     {
+      "id": "steve-krug",
+      "name": "Steve Krug",
+      "label": "Don't Make Me Think author",
+      "description": [
+        "Steve Krug popularized zero-friction usability through quick hallway tests and plain-language navigation.",
+        "Channeling his perspective keeps every flow obvious at a glance: clear labels, logical task order, and copy that explains itself."
+      ],
+      "bullets": [
+        "Name links and buttons after the questions users are actually asking.",
+        "Run lightweight hallway tests until first-click success is a non-event.",
+        "Remove clever language; if someone has to stop and think, rewrite it."
+      ]
+    },
+    {
       "id": "jared-spool",
       "name": "Jared Spool",
       "label": "UIE founder",
