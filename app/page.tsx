@@ -867,7 +867,11 @@ function renderPeopleAwareText(
           type="button"
           key={`person-${personId}-${key++}`}
           className="inline font-semibold text-emerald-300 underline decoration-dotted underline-offset-4 transition hover:text-emerald-200"
-          onClick={() => onShowPersonInfo(personId)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onShowPersonInfo(personId);
+          }}
         >
           {matchedName}
         </button>
