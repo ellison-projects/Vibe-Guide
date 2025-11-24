@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { PersonProvider } from "@/components/person/PersonProvider";
+
 export const metadata: Metadata = {
   title: "Design Vocabulary Coach",
   description:
@@ -14,8 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-slate-950 font-sans text-slate-100 antialiased">
-        {children}
+      <body className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased">
+        <PersonProvider>{children}</PersonProvider>
       </body>
     </html>
   );
