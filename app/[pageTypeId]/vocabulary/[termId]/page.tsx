@@ -13,7 +13,7 @@ import {
 import { homePath, vocabularyListPath } from "@/lib/paths";
 
 type VocabularyDetailPageProps = {
-  params: { pageTypeId: string; termId: string };
+  params: Promise<{ pageTypeId: string; termId: string }>;
 };
 
 export const dynamicParams = false;
@@ -28,11 +28,12 @@ export function generateStaticParams() {
   );
 }
 
-export default function VocabularyDetailPage({ params }: VocabularyDetailPageProps) {
-  const pageType = getPageTypeById(params.pageTypeId);
+export default async function VocabularyDetailPage({ params }: VocabularyDetailPageProps) {
+  const { pageTypeId, termId } = await params;
+  const pageType = getPageTypeById(pageTypeId);
   if (!pageType) notFound();
 
-  const term = getTermInBucket(pageType.vocabularyBucketId, params.termId);
+  const term = getTermInBucket(pageType.vocabularyBucketId, termId);
   if (!term) notFound();
 
   const breadcrumbs: BreadcrumbItem[] = [

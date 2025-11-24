@@ -8,7 +8,7 @@ import { getPageTypeById, getPersonaById, pageTypes } from "@/lib/data";
 import { homePath, promptListPath } from "@/lib/paths";
 
 type PromptDetailPageProps = {
-  params: { pageTypeId: string; personaId: string };
+  params: Promise<{ pageTypeId: string; personaId: string }>;
 };
 
 export const dynamicParams = false;
@@ -23,11 +23,12 @@ export function generateStaticParams() {
   );
 }
 
-export default function PromptDetailPage({ params }: PromptDetailPageProps) {
-  const pageType = getPageTypeById(params.pageTypeId);
+export default async function PromptDetailPage({ params }: PromptDetailPageProps) {
+  const { pageTypeId, personaId } = await params;
+  const pageType = getPageTypeById(pageTypeId);
   if (!pageType) notFound();
 
-  const persona = getPersonaById(pageType.id, params.personaId);
+  const persona = getPersonaById(pageType.id, personaId);
   if (!persona) notFound();
 
   const breadcrumbs: BreadcrumbItem[] = [

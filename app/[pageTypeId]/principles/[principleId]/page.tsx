@@ -8,7 +8,7 @@ import { getPageTypeById, getPrincipleById, pageTypes } from "@/lib/data";
 import { homePath, principleListPath } from "@/lib/paths";
 
 type PrincipleDetailPageProps = {
-  params: { pageTypeId: string; principleId: string };
+  params: Promise<{ pageTypeId: string; principleId: string }>;
 };
 
 export const dynamicParams = false;
@@ -23,11 +23,12 @@ export function generateStaticParams() {
   );
 }
 
-export default function PrincipleDetailPage({ params }: PrincipleDetailPageProps) {
-  const pageType = getPageTypeById(params.pageTypeId);
+export default async function PrincipleDetailPage({ params }: PrincipleDetailPageProps) {
+  const { pageTypeId, principleId } = await params;
+  const pageType = getPageTypeById(pageTypeId);
   if (!pageType) notFound();
 
-  const principle = getPrincipleById(pageType.id, params.principleId);
+  const principle = getPrincipleById(pageType.id, principleId);
   if (!principle) notFound();
 
   const breadcrumbs: BreadcrumbItem[] = [
