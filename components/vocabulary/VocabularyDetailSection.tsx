@@ -1,6 +1,6 @@
 import BackLink from "@/components/common/BackLink";
 import PeopleAwareText from "@/components/person/PeopleAwareText";
-import { vocabListPath } from "@/lib/paths";
+import { vocabularyListPath } from "@/lib/paths";
 import type { TermWithBucket } from "@/lib/data";
 
 type VocabularyDetailSectionProps = {
@@ -14,7 +14,7 @@ export default function VocabularyDetailSection({
 }: VocabularyDetailSectionProps) {
   return (
     <section className="space-y-4 rounded-3xl border border-slate-800 bg-slate-900/85 p-6 shadow-2xl shadow-emerald-500/10">
-      <BackLink href={vocabListPath(pageTypeId)} label="Back to vocabulary" />
+      <BackLink href={vocabularyListPath(pageTypeId)} label="Back to vocabulary" />
       <header className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">
           Term definition
