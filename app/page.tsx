@@ -18,7 +18,6 @@ import {
 } from "next/navigation";
 
 import {
-  getBucketById,
   getPageTypeById,
   getPersonaById,
   getPrincipleById,
@@ -29,7 +28,6 @@ import {
   type PersonaStyle,
   type Principle,
   type TermWithBucket,
-  type VocabularyBucket,
 } from "@/lib/data";
 
 const VIEW_HOME = { type: "home" } as const;
@@ -68,11 +66,6 @@ function VocabularyApp() {
 
   const activePageType =
     view.type === "home" ? undefined : getPageTypeById(view.pageTypeId);
-
-  const activeBucket: VocabularyBucket | undefined = useMemo(() => {
-    if (!activePageType) return undefined;
-    return getBucketById(activePageType.vocabularyBucketId);
-  }, [activePageType]);
 
   const bucketTerms: TermWithBucket[] = useMemo(() => {
     if (!activePageType) return [];
