@@ -162,7 +162,7 @@
           "id": "steve-krug",
           "name": "Channel Steve Krug",
           "shortDescription": "Don't Make Me Think author who insists every click feels obvious without user manuals.",
-          "prompt": "Act as Steve Krug running a hallway usability test. Call out the first-click expectations, rename confusing labels, and list the fast fixes that make this flow feel self-evident.",
+          "prompt": "**Channel Steve Krug from Dont Make Me Think**\nRefactor this page using his core UX principles.\n\nYou are refactoring the provided page. Apply these rules while keeping the existing logic and behavior:\n\n1. Make everything obvious. Remove anything that forces the user to think.\n2. Reduce cognitive load. Improve hierarchy, spacing, grouping, and clarity.\n3. Make the first click feel correct. Surface the primary action.\n4. Use common conventions. Avoid reinventing patterns.\n5. Ensure the page instantly answers three questions:\n   Where am I\n   What can I do here\n   How do I move forward or back\n6. Remove unnecessary words and simplify copy.\n7. Keep navigation predictable and clearly marked.\n8. Make interactive elements obviously clickable.\n9. Limit choices to what the user needs right now.\n10. Structure the layout for scanning with headings and visual grouping.\n11. Suggest small usability improvements if something feels confusing or inconsistent.\n\nYour task: Rewrite the JSX, layout, components, class structure, headings, labels, and overall UX so the page follows these principles without changing any core functionality.",
           "personId": "steve-krug"
         },
         {
