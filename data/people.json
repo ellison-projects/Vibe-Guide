@@ -139,6 +139,48 @@
         "Surface early signals of success so momentum builds after the first action.",
         "Pair qualitative insights with product metrics before locking scope."
       ]
+    },
+    {
+      "id": "andrej-karpathy",
+      "name": "Andrej Karpathy",
+      "label": "Vibe coding originator",
+      "description": [
+        "Andrej Karpathy is a founding voice in modern AI tooling who popularized the term \"vibe coding\" for building software by collaborating fluidly with AI.",
+        "Channeling him keeps the creative flow alive while nudging you to stay aware of what the generated code actually does."
+      ],
+      "bullets": [
+        "Keep building in the flow, but pause to understand each change.",
+        "Treat the AI as a fast collaborator, not an infallible oracle.",
+        "Sanity-check the result before stacking the next change on top."
+      ]
+    },
+    {
+      "id": "julia-evans",
+      "name": "Julia Evans",
+      "label": "Friendly explainer",
+      "description": [
+        "Julia Evans is known for zines and posts that turn dense computing topics into approachable, illustrated explanations.",
+        "Inviting her perspective means jargon gets defined on the spot and error messages become calm, solvable puzzles."
+      ],
+      "bullets": [
+        "Define every technical term the moment it shows up.",
+        "Translate scary errors into plain, step-by-step diagnoses.",
+        "Build accurate mental models instead of memorized fixes."
+      ]
+    },
+    {
+      "id": "simon-willison",
+      "name": "Simon Willison",
+      "label": "Pragmatic AI builder",
+      "description": [
+        "Simon Willison writes prolifically about practical AI-assisted development and the discipline it takes to do it well.",
+        "Channeling him keeps changes small, tested, and verified—so you trust your shipped work even when an AI wrote part of it."
+      ],
+      "bullets": [
+        "Make the smallest change that solves the problem.",
+        "Always know how to test a change yourself.",
+        "Verify AI output before relying on it."
+      ]
     }
   ]
 }

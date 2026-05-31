@@ -254,6 +254,169 @@
           ]
         }
       ]
+    },
+    {
+      "id": "vibe-coding",
+      "title": "Vibe coding vocabulary",
+      "description": "Plain-English dev words that help non-engineers prompt clearly and ship with AI.",
+      "terms": [
+        {
+          "id": "repository",
+          "title": "Repository (repo)",
+          "shortDescription": "The home folder for all your project's code and its full history.",
+          "definition": "A repository stores every file in your project plus a timeline of changes, so you can see what changed, when, and roll back if needed.",
+          "whenToUse": "Whenever you start a project or tell an AI assistant where the code lives.",
+          "aiPhrases": [
+            "Set up a new Git repository for this project and explain what each generated file does."
+          ],
+          "examples": [
+            "A GitHub repo named vibe-guide holding your app code and README."
+          ]
+        },
+        {
+          "id": "commit",
+          "title": "Commit",
+          "shortDescription": "A saved snapshot of your changes with a short note describing them.",
+          "definition": "A commit records the current state of your files plus a message, creating a restore point you can return to later.",
+          "whenToUse": "Each time you finish a small change that works and you want to keep it.",
+          "aiPhrases": [
+            "Write a clear commit message summarizing the change I just made."
+          ],
+          "examples": [
+            "\"Add contact form validation\" as a commit message."
+          ]
+        },
+        {
+          "id": "branch",
+          "title": "Branch",
+          "shortDescription": "A parallel copy of the project where you can try ideas safely.",
+          "definition": "A branch lets you experiment without touching the main version; you merge it back only once it works.",
+          "whenToUse": "Before attempting a risky change or starting a new feature.",
+          "aiPhrases": [
+            "Create a new branch for this experiment so the main version stays safe."
+          ],
+          "examples": [
+            "Working on \"add-dark-mode\" while \"main\" stays stable."
+          ]
+        },
+        {
+          "id": "pull-request",
+          "title": "Pull request (PR)",
+          "shortDescription": "A proposal to merge your branch's changes, open for review first.",
+          "definition": "A pull request bundles your changes so you or others can review, comment, and approve before they join the main project.",
+          "whenToUse": "When a branch is ready and you want a checkpoint or review before merging.",
+          "aiPhrases": [
+            "Summarize the changes on this branch into a pull request description."
+          ],
+          "examples": [
+            "Opening a PR titled \"Add dark mode toggle\" for review."
+          ]
+        },
+        {
+          "id": "environment-variable",
+          "title": "Environment variable",
+          "shortDescription": "A setting or secret stored outside your code, like an API key.",
+          "definition": "Environment variables hold values that change per environment or must stay private, so secrets never live inside your code.",
+          "whenToUse": "Whenever you handle passwords, API keys, or settings that differ between local and live.",
+          "aiPhrases": [
+            "Move this API key into an environment variable and show me how to reference it."
+          ],
+          "examples": [
+            "Storing OPENAI_API_KEY in a .env file instead of in the code."
+          ]
+        },
+        {
+          "id": "api",
+          "title": "API",
+          "shortDescription": "A doorway one app uses to request data or actions from another.",
+          "definition": "An API (application programming interface) defines how programs talk to each other—what you can ask for and what you get back.",
+          "whenToUse": "Any time you connect your project to an outside service.",
+          "aiPhrases": [
+            "Explain what this API expects and write the call to fetch the data I need."
+          ],
+          "examples": [
+            "Calling a weather API to show today's forecast."
+          ]
+        },
+        {
+          "id": "dependency",
+          "title": "Dependency",
+          "shortDescription": "An outside package your project relies on to work.",
+          "definition": "A dependency is third-party code you install and build on top of; updating or removing it can change how your app behaves.",
+          "whenToUse": "When adding a library, or when something breaks right after an update.",
+          "aiPhrases": [
+            "List this project's dependencies and explain what each one does in plain terms."
+          ],
+          "examples": [
+            "Next.js and React are dependencies of this app."
+          ]
+        },
+        {
+          "id": "deploy",
+          "title": "Deploy (ship)",
+          "shortDescription": "Push your project live so other people can actually use it.",
+          "definition": "Deploying takes the version on your machine and makes it available on the internet at a real URL.",
+          "whenToUse": "When a change is ready to go from \"works for me\" to publicly live.",
+          "aiPhrases": [
+            "Walk me through deploying this project and what to check before going live."
+          ],
+          "examples": [
+            "Deploying to Vercel so the site is reachable at a public URL."
+          ]
+        },
+        {
+          "id": "frontend-backend",
+          "title": "Frontend & backend",
+          "shortDescription": "The part users see versus the part that runs behind the scenes.",
+          "definition": "The frontend is the visible interface in the browser; the backend handles data, logic, and storage the user never sees directly.",
+          "whenToUse": "When pointing an AI assistant at the right layer of a problem.",
+          "aiPhrases": [
+            "Is this a frontend or backend problem, and which file should I change?"
+          ],
+          "examples": [
+            "A button's look is frontend; saving the form to a database is backend."
+          ]
+        },
+        {
+          "id": "state",
+          "title": "State",
+          "shortDescription": "The current data an app is holding in memory right now.",
+          "definition": "State is what the app currently \"remembers\"—like which tab is open or what a user typed—and changing it updates what's shown.",
+          "whenToUse": "When something \"forgets\" what you did or doesn't update on screen.",
+          "aiPhrases": [
+            "Why isn't this updating on screen—walk me through the state involved."
+          ],
+          "examples": [
+            "A checkbox staying checked is stored in state."
+          ]
+        },
+        {
+          "id": "refactor",
+          "title": "Refactor",
+          "shortDescription": "Rewrite code to be cleaner without changing what it does.",
+          "definition": "Refactoring improves the structure or readability of code while keeping its behavior identical.",
+          "whenToUse": "When code works but is messy, or before building on top of it.",
+          "aiPhrases": [
+            "Refactor this for readability and keep the behavior exactly the same."
+          ],
+          "examples": [
+            "Splitting one giant function into smaller, clearly named ones."
+          ]
+        },
+        {
+          "id": "edge-case",
+          "title": "Edge case",
+          "shortDescription": "An unusual input or situation that breaks normal assumptions.",
+          "definition": "An edge case is a rare or extreme scenario—empty input, huge numbers, no internet—that code often forgets to handle.",
+          "whenToUse": "When reviewing a feature for what could go wrong.",
+          "aiPhrases": [
+            "What edge cases am I missing in this feature, and how should I handle them?"
+          ],
+          "examples": [
+            "A form that breaks when the name field is left blank."
+          ]
+        }
+      ]
     }
   ]
 }
