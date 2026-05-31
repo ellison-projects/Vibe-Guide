@@ -181,6 +181,20 @@
         "Always know how to test a change yourself.",
         "Verify AI output before relying on it."
       ]
+    },
+    {
+      "id": "kelsey-hightower",
+      "name": "Kelsey Hightower",
+      "label": "Pragmatic shipping mentor",
+      "description": [
+        "Kelsey Hightower is known for making deployment and infrastructure approachable, and for insisting the simplest solution that works is usually the right one.",
+        "Channeling him keeps shipping calm and repeatable—no heroics, no leaked secrets, just a steady path to live."
+      ],
+      "bullets": [
+        "Favor the simplest path that gets you to production.",
+        "Protect secrets and assume production differs from local.",
+        "Run a short pre-flight checklist before every deploy."
+      ]
     }
   ]
 }

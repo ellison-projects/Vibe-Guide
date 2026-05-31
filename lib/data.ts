@@ -27,6 +27,13 @@ const data = vocabData as VocabularyData;
 
 export const buckets = data.buckets;
 
+const bucketMap = new Map(buckets.map((bucket) => [bucket.id, bucket]));
+
+export function getBucketById(bucketId: string | null | undefined) {
+  if (!bucketId) return undefined;
+  return bucketMap.get(bucketId);
+}
+
 export type TermWithBucket = VocabularyTerm & {
   bucketId: string;
   bucketTitle: string;

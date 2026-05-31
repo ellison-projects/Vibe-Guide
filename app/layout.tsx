@@ -4,9 +4,9 @@ import "./globals.css";
 import { PersonProvider } from "@/components/person/PersonProvider";
 
 export const metadata: Metadata = {
-  title: "Design Vocabulary Coach",
+  title: "Vibe Guide",
   description:
-    "Mobile-first vocabulary coach for describing design, UX, structure, and content work to AI collaborators.",
+    "A plain-English guide for founders and makers building real products with AI—no engineering background required.",
 };
 
 export default function RootLayout({

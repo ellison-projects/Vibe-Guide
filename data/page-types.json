@@ -1,216 +1,242 @@
 {
   "pageTypes": [
     {
-      "id": "landing-page",
-      "title": "Landing Page",
-      "description": "Channel focused mentors and vocabulary to keep a single conversion goal honest.",
+      "id": "speak-the-language",
+      "title": "Speak the Language",
+      "description": "Decode the dev words so you can prompt clearly and talk to engineers and AI with confidence.",
+      "prompts": [
+        {
+          "id": "julia-evans",
+          "name": "Channel Julia Evans",
+          "shortDescription": "Makes intimidating dev concepts friendly and concrete, one small explanation at a time.",
+          "prompt": "Act as Julia Evans explaining this to someone who isn't a developer. Define every piece of jargon the moment you use it, draw the mental model in plain words, and turn any scary error into a calm, step-by-step diagnosis.",
+          "personId": "julia-evans"
+        },
+        {
+          "id": "translate-the-dev-speak",
+          "name": "Translate the dev-speak",
+          "shortDescription": "Turn an engineer's or AI's reply into plain English you can act on.",
+          "prompt": "I'll paste something technical a developer or AI told me. Rewrite it in plain English for a non-engineer: what it means, why it matters to my product, and what (if anything) I need to do next. Define any term you have to keep."
+        }
+      ],
+      "principles": [
+        {
+          "id": "learn-the-word-then-use-it",
+          "title": "Learn the word, then use it",
+          "definition": "When a new term shows up, get a one-line plain definition before moving on.",
+          "whyItMatters": "A handful of known words removes most of the fear and miscommunication in building with AI.",
+          "example": "See \"environment variable\"? Ask what it is before pasting the next prompt."
+        },
+        {
+          "id": "aim-for-the-mental-model",
+          "title": "Aim for the mental model, not the memorized fix",
+          "definition": "Understand why something works, not just the magic command that fixed it.",
+          "whyItMatters": "Mental models transfer to new problems; memorized fixes don't.",
+          "example": "Learn what a branch is for, not just the command to make one."
+        },
+        {
+          "id": "ask-for-the-why",
+          "title": "Always ask for the why",
+          "definition": "When AI or a developer hands you an answer, ask for the reasoning in plain terms.",
+          "whyItMatters": "Understanding the why lets you make the next call yourself.",
+          "example": "\"Why this approach over the simpler one?\" before you accept a change."
+        }
+      ],
+      "vocabularyBucketId": "vibe-coding"
+    },
+    {
+      "id": "build-with-ai",
+      "title": "Build with AI",
+      "description": "Get more out of AI coding tools—drive them well, and trust the output you ship.",
+      "prompts": [
+        {
+          "id": "andrej-karpathy",
+          "name": "Channel Andrej Karpathy",
+          "shortDescription": "Coined \"vibe coding\"—lean into the flow with AI, but stay curious about what the code does.",
+          "prompt": "Act as Andrej Karpathy pairing with a non-engineer. Keep the momentum of vibe coding, but after each change explain in one plain sentence what it does and one thing I should sanity-check before moving on.",
+          "personId": "andrej-karpathy"
+        },
+        {
+          "id": "simon-willison",
+          "name": "Channel Simon Willison",
+          "shortDescription": "Pragmatic AI-assisted coding—ship small, verify everything the model gives you.",
+          "prompt": "Act as Simon Willison reviewing my AI-assisted change. Push me to make the smallest change that works, tell me exactly how to test it myself, and flag anything the AI produced that I shouldn't trust without checking.",
+          "personId": "simon-willison"
+        }
+      ],
+      "principles": [
+        {
+          "id": "smallest-change-that-works",
+          "title": "Smallest change that works",
+          "definition": "Ask AI for the least amount of change that solves the problem.",
+          "whyItMatters": "Small changes are easy to understand, test, and undo.",
+          "example": "\"Fix just this bug—don't refactor the rest of the file.\""
+        },
+        {
+          "id": "verify-ai-output",
+          "title": "Verify what AI gives you",
+          "definition": "Treat AI code as a confident draft to test, not a guaranteed answer.",
+          "whyItMatters": "Code that sounds right can still be wrong; a quick test protects your product.",
+          "example": "Run the feature and click through it before committing the change."
+        },
+        {
+          "id": "one-change-at-a-time",
+          "title": "One change at a time",
+          "definition": "Make and check one change before starting the next.",
+          "whyItMatters": "When something breaks, you know exactly which change caused it.",
+          "example": "Add the form, confirm it works, then wire up the email."
+        }
+      ],
+      "vocabularyBucketId": "ai-collaboration"
+    },
+    {
+      "id": "when-it-breaks",
+      "title": "When It Breaks",
+      "description": "Errors aren't emergencies. Read them, reproduce them, and fix them calmly.",
+      "prompts": [
+        {
+          "id": "julia-evans-debug",
+          "name": "Channel Julia Evans",
+          "shortDescription": "Turns a red error message into a calm, step-by-step diagnosis.",
+          "prompt": "Act as Julia Evans helping me debug. Read the error I paste, explain in plain English what it's actually saying, name the single most likely cause, and give me the first thing to check.",
+          "personId": "julia-evans"
+        },
+        {
+          "id": "simon-willison-debug",
+          "name": "Channel Simon Willison",
+          "shortDescription": "Reproduce it, isolate it, then fix the smallest thing.",
+          "prompt": "Act as Simon Willison debugging with me. First help me reliably reproduce the bug, then narrow down where it comes from, then propose the smallest fix and exactly how to confirm it worked.",
+          "personId": "simon-willison"
+        }
+      ],
+      "principles": [
+        {
+          "id": "read-the-error-first",
+          "title": "Read the error first",
+          "definition": "Before guessing or asking, read the actual error—it usually names the file and line.",
+          "whyItMatters": "Most errors tell you what and where; that text is the fastest path to a fix.",
+          "example": "Paste the full red error into the AI instead of saying \"it's broken.\""
+        },
+        {
+          "id": "reproduce-before-you-fix",
+          "title": "Reproduce before you fix",
+          "definition": "Find the exact steps that trigger the bug before changing anything.",
+          "whyItMatters": "You can't confirm a fix for something you can't make happen on purpose.",
+          "example": "\"It breaks every time I submit with an empty email\"—now you can fix it."
+        },
+        {
+          "id": "isolate-then-narrow",
+          "title": "Isolate, then narrow",
+          "definition": "Cut the problem down to the smallest piece that still breaks.",
+          "whyItMatters": "A small failing example makes the cause obvious—to you and to the AI.",
+          "example": "Comment out half the page to see which half breaks."
+        }
+      ],
+      "vocabularyBucketId": "debugging"
+    },
+    {
+      "id": "ship-it-live",
+      "title": "Ship It Live",
+      "description": "Go from \"works on my screen\" to live on the internet—safely.",
+      "prompts": [
+        {
+          "id": "kelsey-hightower",
+          "name": "Channel Kelsey Hightower",
+          "shortDescription": "Keep deployment simple and boring—the goal is calm, repeatable shipping.",
+          "prompt": "Act as Kelsey Hightower helping me ship. Favor the simplest path to live, call out anything that could leak a secret or break in production, and give me a short pre-flight checklist to run before every deploy.",
+          "personId": "kelsey-hightower"
+        },
+        {
+          "id": "simon-willison-ship",
+          "name": "Channel Simon Willison",
+          "shortDescription": "Test before you ship, and always keep a way back.",
+          "prompt": "Act as Simon Willison preparing this for production. Tell me exactly what to test before I deploy, what could differ between local and live, and how I'd roll back fast if it goes wrong.",
+          "personId": "simon-willison"
+        }
+      ],
+      "principles": [
+        {
+          "id": "keep-a-working-version",
+          "title": "Keep a working version",
+          "definition": "Always have a known-good version to fall back to—commit or branch before big changes.",
+          "whyItMatters": "If an experiment goes sideways, you can return to something that works in seconds.",
+          "example": "Branch before letting AI refactor a whole page."
+        },
+        {
+          "id": "secrets-stay-secret",
+          "title": "Secrets stay secret",
+          "definition": "Keep API keys and passwords in environment variables, never in your code.",
+          "whyItMatters": "A secret committed to a repo can be stolen the moment it's pushed.",
+          "example": "Move the API key to a .env value and confirm it's not in the code."
+        },
+        {
+          "id": "test-before-you-ship",
+          "title": "Test before you ship",
+          "definition": "Click through the real feature—and run the build—before deploying.",
+          "whyItMatters": "Catching a break locally is free; catching it in production costs users.",
+          "example": "Run `npm run build` and use the feature before you push live."
+        }
+      ],
+      "vocabularyBucketId": "shipping"
+    },
+    {
+      "id": "pages-that-convert",
+      "title": "Make a Page That Converts",
+      "description": "When you do build a landing page, these are the plain-English fundamentals that earn the click.",
       "prompts": [
         {
           "id": "oli-gardner",
           "name": "Channel Oli Gardner",
-          "shortDescription": "Conversion-obsessed cofounder of Unbounce who coined the attention ratio mantra.",
-          "prompt": "Act as Oli Gardner and strip this landing page brief to one CTA. Label each remaining block as Goal or Noise, rewrite copy and layout notes so everything marches toward that single action.",
+          "shortDescription": "Conversion-obsessed—every page should drive one clear action.",
+          "prompt": "Act as Oli Gardner reviewing my landing page. Identify the single action this page should drive, label everything else as Goal or Noise, and rewrite the page so it all points to that one action—in plain language.",
           "personId": "oli-gardner"
         },
         {
           "id": "joanna-wiebe",
           "name": "Channel Joanna Wiebe",
-          "shortDescription": "Punchy conversion copy from the Copyhackers playbook - clear, specific, and momentum heavy.",
-          "prompt": "Act as Joanna Wiebe critiquing this hero. Deliver a plain-stated headline, a subhead that amplifies value, and a CTA verb that signals momentum. Keep every sentence rooted in proof.",
+          "shortDescription": "Clear, specific conversion copy that reads like a person and is backed by proof.",
+          "prompt": "Act as Joanna Wiebe rewriting my hero. Give me a plain, specific headline, a subhead that adds the value, and a button label that signals momentum—every line backed by proof, no fluff.",
           "personId": "joanna-wiebe"
         },
         {
-          "id": "peep-laja",
-          "name": "Channel Peep Laja",
-          "shortDescription": "CXL founder who demands testable hypotheses and brutal focus on the primary KPI.",
-          "prompt": "Act as Peep Laja reviewing this landing page. Restate the primary KPI, eliminate elements that cannot justify their impact on it, and rewrite the offer so it reads like a hypothesis you can instrument.",
-          "personId": "peep-laja"
+          "id": "steve-krug",
+          "name": "Channel Steve Krug",
+          "shortDescription": "\"Don't make me think\"—make every next step obvious.",
+          "prompt": "Act as Steve Krug reviewing this page for clarity. Make the main action obvious, cut anything that makes a visitor stop and think, and ensure the page instantly answers: where am I, what can I do, and how do I start.",
+          "personId": "steve-krug"
         }
       ],
       "principles": [
         {
           "id": "one-page-one-goal",
           "title": "One page, one goal",
-          "definition": "Every campaign page exists to drive a single conversion. Anything that does not support that action gets demoted or removed.",
-          "whyItMatters": "A 1:1 attention ratio keeps visitors from leaking to low-intent pages and lifts conversion rates across channels.",
-          "example": "Hide the global nav and keep only “Book teardown” as the actionable link."
+          "definition": "Every landing page exists to drive a single action; everything else is secondary.",
+          "whyItMatters": "One clear goal keeps visitors from wandering and lifts conversions.",
+          "example": "Hide the nav and keep only \"Start free\" as the action."
         },
         {
           "id": "clarity-beats-clever",
           "title": "Clarity beats clever",
-          "definition": "Headlines answer what the product is and why it matters before trying to be witty.",
-          "whyItMatters": "Visitors bounce within seconds if they have to decode metaphors.",
-          "example": "Swap “Give your funnels wings” for “Build CRO-ready landing pages in hours.”"
+          "definition": "Say what it is and why it matters before trying to be witty.",
+          "whyItMatters": "Visitors leave in seconds if they have to decode you.",
+          "example": "\"Build landing pages in hours\" beats a clever metaphor."
         },
         {
-          "id": "attention-ratio",
-          "title": "Attention ratio",
-          "definition": "For each campaign, there should be one primary CTA for every traffic source. No side quests.",
-          "whyItMatters": "Additional links dilute focus and reduce conversions from paid acquisition.",
-          "example": "Move Docs, Careers, and Blog links to a post-conversion email instead of the hero."
+          "id": "show-proof",
+          "title": "Show proof",
+          "definition": "Back every claim with evidence—numbers, testimonials, or logos.",
+          "whyItMatters": "Proof turns \"sounds nice\" into \"I believe you.\"",
+          "example": "\"Cut build time 80%\" with a customer quote beside it."
         },
         {
-          "id": "visual-hierarchy",
-          "title": "Visual hierarchy",
-          "definition": "Typography, spacing, and contrast guide the eye from headline to subhead to CTA without distractions.",
-          "whyItMatters": "When everything looks equal, nothing gets read.",
-          "example": "Use a bold 48px headline, a muted 18px subhead, and a high-contrast CTA button."
-        },
-        {
-          "id": "message-match",
-          "title": "Message match",
-          "definition": "The landing page headline and imagery should echo the ad or email that drove the click.",
-          "whyItMatters": "Consistency prevents pogo-sticking back to search results and keeps Quality Scores high.",
-          "example": "If the ad touts “3-hour teardown,” the hero headline repeats it verbatim."
-        },
-        {
-          "id": "friction-reducers",
-          "title": "Friction reducers",
-          "definition": "Microcopy, trust badges, and slim forms reduce perceived effort at the decision point.",
-          "whyItMatters": "Even motivated visitors hesitate if they fear spam, long calls, or complex onboarding.",
-          "example": "Add “No deck needed” plus SOC2 badge beside the CTA form."
-        },
-        {
-          "id": "above-fold-logic",
-          "title": "Above the fold logic",
-          "definition": "The first screen answers what it is, who it is for, proof it works, and the way to start.",
-          "whyItMatters": "Paid clicks often bounce before scrolling, so the fold has to earn the next swipe.",
-          "example": "Hero headline + subhead, logo strip, and CTA all visible without scroll on desktop."
-        },
-        {
-          "id": "section-flow",
-          "title": "Section flow",
-          "definition": "Order sections Problem → Value → Proof → Action so belief builds with each scroll.",
-          "whyItMatters": "Randomized content forces context switching and erodes momentum.",
-          "example": "Place testimonials after value props and before pricing to answer “will this work for me?”"
+          "id": "match-the-click",
+          "title": "Match the click",
+          "definition": "The page should echo the ad, email, or link that brought the visitor.",
+          "whyItMatters": "Consistency reassures visitors they're in the right place.",
+          "example": "If the ad says \"free teardown,\" the headline says it too."
         }
       ],
-      "vocabularyBucketId": "landing-page"
-    },
-    {
-      "id": "design",
-      "title": "Design",
-      "description": "Translate CRO strategy into layout, typography, and brand systems that still protect the CTA.",
-      "prompts": [
-        {
-          "id": "dieter-rams",
-          "name": "Channel Dieter Rams",
-          "shortDescription": "Ten principles purist laser-focused on calm grids, purposeful contrast, and generous whitespace.",
-          "prompt": "Act as Dieter Rams. Audit this layout for \"less but better\": define the grid, spacing scale, and contrast rules that keep the CTA dominant while letting proof elements breathe.",
-          "personId": "dieter-rams"
-        },
-        {
-          "id": "paula-scher",
-          "name": "Channel Paula Scher",
-          "shortDescription": "Pentagram legend who marries bold typography with strategic storytelling.",
-          "prompt": "Act as Paula Scher shaping this landing page. Rebuild the hierarchy with typography, color, and iconography that dramatize the story beats yet still funnel attention to the CTA.",
-          "personId": "paula-scher"
-        },
-        {
-          "id": "brad-frost",
-          "name": "Channel Brad Frost",
-          "shortDescription": "Atomic design evangelist who inventories tokens, components, and templates before pixels.",
-          "prompt": "Act as Brad Frost building a system for this experience. List the atoms, molecules, and templates, spell out responsive behavior, and note the rules that protect accessibility and CTA clarity.",
-          "personId": "brad-frost"
-        }
-      ],
-      "principles": [
-        {
-          "id": "hierarchy-system",
-          "title": "Hierarchy is a system",
-          "definition": "Spacing, type scale, and contrast ladder up to a predictable rhythm so the eye lands exactly where we want.",
-          "whyItMatters": "Inconsistent hierarchy forces readers to hunt for the CTA and derails the story arc.",
-          "example": "Lock a 4pt spacing scale and limit heading styles to three sizes tied to hero, section, and body copy."
-        },
-        {
-          "id": "brand-without-bloat",
-          "title": "Brand without bloat",
-          "definition": "Use brand flourishes only when they support comprehension or trust, never as decoration.",
-          "whyItMatters": "Decorative flourishes compete with proof or CTAs and sap load speed.",
-          "example": "Swap heavy background illustrations for a subtle gradient that still points toward the form."
-        },
-        {
-          "id": "accessible-contrast",
-          "title": "Accessibility-grade contrast",
-          "definition": "All interactive elements meet WCAG AA contrast and have obvious hover or focus states.",
-          "whyItMatters": "Low contrast CTAs and form labels tank conversions for mobile and low-vision visitors.",
-          "example": "Primary CTA uses #16DB65 on #04121F with a 2px focus outline."
-        },
-        {
-          "id": "motion-with-intent",
-          "title": "Motion with intent",
-          "definition": "Animations communicate state changes or guide attention, never exist as ornamental loops.",
-          "whyItMatters": "Frivolous motion distracts from copy and can even trigger nausea for sensitive visitors.",
-          "example": "Use a subtle opacity fade on testimonial cards instead of autoplaying carousels."
-        }
-      ],
-      "vocabularyBucketId": "design-system"
-    },
-    {
-      "id": "ux",
-      "title": "UX",
-      "description": "Map flows, heuristics, and instrumentation to guarantee each click feels obvious.",
-      "prompts": [
-        {
-          "id": "don-norman",
-          "name": "Channel Don Norman",
-          "shortDescription": "Human-centered design author who obsesses over affordances, mapping, and feedback loops.",
-          "prompt": "Act as Don Norman running heuristics on this flow. Pinpoint where visibility, feedback, or control breaks down, then prescribe interface tweaks and microcopy to restore confidence.",
-          "personId": "don-norman"
-        },
-        {
-          "id": "steve-krug",
-          "name": "Channel Steve Krug",
-          "shortDescription": "Don't Make Me Think author who insists every click feels obvious without user manuals.",
-          "prompt": "**Channel Steve Krug from Dont Make Me Think**\nRefactor this page using his core UX principles.\n\nYou are refactoring the provided page. Apply these rules while keeping the existing logic and behavior:\n\n1. Make everything obvious. Remove anything that forces the user to think.\n2. Reduce cognitive load. Improve hierarchy, spacing, grouping, and clarity.\n3. Make the first click feel correct. Surface the primary action.\n4. Use common conventions. Avoid reinventing patterns.\n5. Ensure the page instantly answers three questions:\n   Where am I\n   What can I do here\n   How do I move forward or back\n6. Remove unnecessary words and simplify copy.\n7. Keep navigation predictable and clearly marked.\n8. Make interactive elements obviously clickable.\n9. Limit choices to what the user needs right now.\n10. Structure the layout for scanning with headings and visual grouping.\n11. Suggest small usability improvements if something feels confusing or inconsistent.\n\nYour task: Rewrite the JSX, layout, components, class structure, headings, labels, and overall UX so the page follows these principles without changing any core functionality.",
-          "personId": "steve-krug"
-        },
-        {
-          "id": "jared-spool",
-          "name": "Channel Jared Spool",
-          "shortDescription": "UIE founder who backs every UX bet with observation, research, and iterative learning loops.",
-          "prompt": "Act as Jared Spool evaluating activation. Map the minimum happy path, remove detours, and note the instrumentation needed to watch real users complete the task.",
-          "personId": "jared-spool"
-        },
-        {
-          "id": "julie-zhuo",
-          "name": "Channel Julie Zhuo",
-          "shortDescription": "Product leadership voice who turns ambiguous requirements into confident first-use journeys.",
-          "prompt": "Act as Julie Zhuo storyboarding this product experience. Describe each screen's job, the proof or reassurance it must provide, and the signals that show a user is ready for the next action.",
-          "personId": "julie-zhuo"
-        }
-      ],
-      "principles": [
-        {
-          "id": "state-transparency",
-          "title": "State transparency",
-          "definition": "Every interaction confirms what just happened, what is next, and how long it takes.",
-          "whyItMatters": "Ambiguous states spike support tickets and make users abandon flows before converting.",
-          "example": "Add inline validation and progress summaries to multistep forms."
-        },
-        {
-          "id": "momentum-loops",
-          "title": "Momentum loops",
-          "definition": "Each step tees up the next action with context, proof, or a preview of the reward.",
-          "whyItMatters": "Dead-end screens stall motivation and make users question why they started.",
-          "example": "After selecting a template, immediately preview the filled hero so the CTA feels within reach."
-        },
-        {
-          "id": "guardrails-not-roadblocks",
-          "title": "Guardrails, not roadblocks",
-          "definition": "Prevent mistakes early with guidance while always offering a way to recover.",
-          "whyItMatters": "Hard errors force users to restart flows and inflate bounce rates.",
-          "example": "Inline hints highlight acceptable file types before upload instead of showing an error afterward."
-        },
-        {
-          "id": "device-parity",
-          "title": "Device parity",
-          "definition": "Critical actions stay equally clear on mobile, tablet, and desktop.",
-          "whyItMatters": "Paid traffic skews mobile; if the CTA or nav is buried, sessions die instantly.",
-          "example": "Surface sticky CTA bars on mobile once the hero scrolls out of view."
-        }
-      ],
-      "vocabularyBucketId": "ux-playbook"
+      "vocabularyBucketId": "pages-that-convert"
     }
   ]
 }

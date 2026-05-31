@@ -4,7 +4,7 @@ import PageScaffold from "@/components/layout/PageScaffold";
 import { type BreadcrumbItem } from "@/components/navigation/Breadcrumbs";
 import PeopleAwareText from "@/components/person/PeopleAwareText";
 import VocabularyListSection from "@/components/vocabulary/VocabularyListSection";
-import { getPageTypeById, getTermsByBucketId, pageTypes } from "@/lib/data";
+import { getBucketById, getPageTypeById, getTermsByBucketId, pageTypes } from "@/lib/data";
 import { homePath } from "@/lib/paths";
 
 type VocabularyListPageProps = {
@@ -24,6 +24,7 @@ export default async function VocabularyListPage({ params }: VocabularyListPageP
   if (!pageType) notFound();
 
   const terms = getTermsByBucketId(pageType.vocabularyBucketId);
+  const bucket = getBucketById(pageType.vocabularyBucketId);
 
   const breadcrumbs: BreadcrumbItem[] = [
     { id: "home", label: "Home", href: homePath },
@@ -33,7 +34,7 @@ export default async function VocabularyListPage({ params }: VocabularyListPageP
 
   return (
     <PageScaffold breadcrumbs={breadcrumbs}>
-      <VocabularyListSection pageType={pageType} terms={terms} />
+      <VocabularyListSection pageType={pageType} bucket={bucket} terms={terms} />
     </PageScaffold>
   );
 }
