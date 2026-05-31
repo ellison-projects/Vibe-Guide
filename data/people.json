@@ -1,143 +1,101 @@
 {
   "people": [
     {
-      "id": "oli-gardner",
-      "name": "Oli Gardner",
-      "label": "Conversion mentor",
+      "id": "julia-evans",
+      "name": "Julia Evans",
+      "label": "Maker of friendly programming zines",
       "description": [
-        "Oli Gardner co-founded Unbounce and is famous for turning landing pages into disciplined experiments. His attention ratio mantra keeps every scroll pointed at one conversion.",
-        "Channeling his lens means we demand ruthless clarity: one offer, proof that it works, and an obvious CTA backed by sharp hierarchy."
+        "Julia Evans is known for her wizardzines, which explain gnarly technical topics in approachable, friendly terms.",
+        "Channeling her means making intimidating dev concepts feel simple and non-threatening."
       ],
       "bullets": [
-        "Audit every block for Goal vs. Noise before polishing copy.",
-        "Headlines answer what and why in plain English before trying to be clever.",
-        "Visual hierarchy, social proof, and friction reducers are non-negotiable."
+        "Explain concepts in plain, friendly language.",
+        "Break scary topics into small pieces.",
+        "Make the reader feel capable, not dumb."
+      ]
+    },
+    {
+      "id": "andrej-karpathy",
+      "name": "Andrej Karpathy",
+      "label": "AI researcher who coined \"vibe coding\"",
+      "description": [
+        "Andrej Karpathy is a founding member of OpenAI and former head of AI at Tesla who popularized the term \"vibe coding.\"",
+        "Channeling him means embracing fast, AI-assisted building while staying curious about what the code actually does."
+      ],
+      "bullets": [
+        "Let AI handle the heavy lifting, you steer.",
+        "Keep moving, but sanity-check the output.",
+        "Stay curious about what the code does."
+      ]
+    },
+    {
+      "id": "simon-willison",
+      "name": "Simon Willison",
+      "label": "Pragmatic AI-assisted developer",
+      "description": [
+        "Simon Willison is the co-creator of Django and writes prolifically about using AI to write code responsibly.",
+        "Channeling him means shipping small, verifying everything, and treating AI as a fast but fallible assistant."
+      ],
+      "bullets": [
+        "Make the smallest change that solves the problem.",
+        "Always know how to test a change yourself.",
+        "Verify AI output before relying on it."
+      ]
+    },
+    {
+      "id": "kelsey-hightower",
+      "name": "Kelsey Hightower",
+      "label": "Pragmatic shipping mentor",
+      "description": [
+        "Kelsey Hightower is known for making deployment and infrastructure approachable, and for insisting the simplest solution that works is usually the right one.",
+        "Channeling him keeps shipping calm and repeatable—no heroics, no leaked secrets, just a steady path to live."
+      ],
+      "bullets": [
+        "Favor the simplest path that gets you to production.",
+        "Protect secrets and assume production differs from local.",
+        "Run a short pre-flight checklist before every deploy."
+      ]
+    },
+    {
+      "id": "oli-gardner",
+      "name": "Oli Gardner",
+      "label": "Conversion-focused landing page expert",
+      "description": [
+        "Oli Gardner co-founded Unbounce and has seen more landing pages than almost anyone, which makes him a great voice for spotting what pulls attention and what wastes it.",
+        "Channeling him means being ruthless about one goal per page and cutting anything that distracts from it."
+      ],
+      "bullets": [
+        "Anchor every page to a single, specific action.",
+        "Cut links and copy that don't serve that action.",
+        "Make the next step impossible to miss."
       ]
     },
     {
       "id": "joanna-wiebe",
       "name": "Joanna Wiebe",
-      "label": "Copyhackers founder",
+      "label": "Conversion copywriter",
       "description": [
-        "Joanna Wiebe popularized conversion copywriting that reads like a conversation backed by proof. She stress-tests verbs, specificity, and momentum in every line.",
-        "Invoking her perspective keeps our landing page language punchy, plain-spoken, and anchored in evidence."
+        "Joanna Wiebe pioneered conversion copywriting and is great at turning vague claims into specific, persuasive language.",
+        "Channeling her means writing copy that mirrors how customers actually talk."
       ],
       "bullets": [
-        "Lead with concrete outcomes, not fluffy adjectives.",
-        "Use voice-of-customer snippets verbatim to validate claims.",
-        "Treat CTAs as promises that finish the story you just set up."
-      ]
-    },
-    {
-      "id": "peep-laja",
-      "name": "Peep Laja",
-      "label": "CXL founder",
-      "description": [
-        "Peep Laja built CXL around rigorous CRO testing and zero fluff. He frames every creative decision as a hypothesis tied to a metric.",
-        "Channeling Peep keeps our pages sharp, data-backed, and intolerant of distractions."
-      ],
-      "bullets": [
-        "State the primary KPI before brainstorming layout or copy.",
-        "Pair each bold claim with quantified proof or a benchmark.",
-        "Cut anything that cannot be A/B tested or instrumented."
-      ]
-    },
-    {
-      "id": "dieter-rams",
-      "name": "Dieter Rams",
-      "label": "Ten principles icon",
-      "description": [
-        "Dieter Rams codified the \"less but better\" philosophy through Braun and Vitsoe products. His work proves restraint can still feel premium.",
-        "Inviting Rams into a landing page critique enforces systems thinking--grids, spacing, and typography serve the user first."
-      ],
-      "bullets": [
-        "Design only what is essential to explain the product and CTA.",
-        "Lock reusable spacing and type scales to maintain calm rhythm.",
-        "Let contrast and focus states guide attention more than decoration."
-      ]
-    },
-    {
-      "id": "paula-scher",
-      "name": "Paula Scher",
-      "label": "Brand systems legend",
-      "description": [
-        "Paula Scher's identity work at Pentagram marries bold typography with strategic storytelling. She knows how to turn brand voice into navigable systems.",
-        "Channeling her lens keeps expressive design tethered to clarity, especially when balancing campaign urgency with brand equity."
-      ],
-      "bullets": [
-        "Use type scale and color to narrate hierarchy, not just decorate.",
-        "Anchor every flourish to a concrete story beat or proof point.",
-        "Ensure layouts feel as strong in grayscale as they do in full color."
-      ]
-    },
-    {
-      "id": "brad-frost",
-      "name": "Brad Frost",
-      "label": "Atomic design evangelist",
-      "description": [
-        "Brad Frost introduced Atomic Design to help teams think in tokens, components, and templates. His approach keeps interfaces consistent without losing flexibility.",
-        "Summoning Brad pushes us to inventory UI parts, define constraints, and set rules before shipping high-fidelity comps."
-      ],
-      "bullets": [
-        "Document atoms (type, color, spacing) before sketching sections.",
-        "Specify responsive behavior and interaction states for every component.",
-        "Build templates that explain intent so future iterations stay on-brand."
-      ]
-    },
-    {
-      "id": "don-norman",
-      "name": "Don Norman",
-      "label": "Design of Everyday Things author",
-      "description": [
-        "Don Norman pioneered human-centered design and formalized concepts like affordances, feedback, and mapping. His critiques expose friction instantly.",
-        "Bringing him into an AI parlor keeps flows honest about clarity, visibility of system status, and error recovery."
-      ],
-      "bullets": [
-        "Confirm every action exposes state, next steps, and timing.",
-        "Align controls, labels, and outcomes so affordances feel intuitive.",
-        "Treat errors as guidance moments with gentle recovery paths."
+        "Lead with a clear, specific promise.",
+        "Use the customer's own words.",
+        "Back every claim with proof."
       ]
     },
     {
       "id": "steve-krug",
       "name": "Steve Krug",
-      "label": "Don't Make Me Think author",
+      "label": "Usability expert",
       "description": [
-        "Steve Krug popularized zero-friction usability through quick hallway tests and plain-language navigation.",
-        "Channeling his perspective keeps every flow obvious at a glance: clear labels, logical task order, and copy that explains itself."
+        "Steve Krug wrote Don't Make Me Think, a classic on keeping interfaces obvious.",
+        "Channeling him means removing friction and cognitive load wherever possible."
       ],
       "bullets": [
-        "Name links and buttons after the questions users are actually asking.",
-        "Run lightweight hallway tests until first-click success is a non-event.",
-        "Remove clever language; if someone has to stop and think, rewrite it."
-      ]
-    },
-    {
-      "id": "jared-spool",
-      "name": "Jared Spool",
-      "label": "UIE founder",
-      "description": [
-        "Jared Spool has decades of usability research stories that reveal how tiny friction points destroy conversions. He advocates instrumented learning loops.",
-        "Channeling him keeps us focused on continuous discovery: observe, measure, and tweak until tasks feel effortless."
-      ],
-      "bullets": [
-        "Map every task to observable behaviors you can measure.",
-        "Prototype with real content and watch users narrate their decisions.",
-        "Layer in guardrails that prevent errors without halting progress."
-      ]
-    },
-    {
-      "id": "julie-zhuo",
-      "name": "Julie Zhuo",
-      "label": "Product leadership voice",
-      "description": [
-        "Julie Zhuo led design at Facebook and writes about decision-making systems that balance craft with velocity. She obsesses over first-use clarity.",
-        "Her influence ensures our UX flows speak plainly, show progress early, and connect qualitative feedback to roadmap bets."
-      ],
-      "bullets": [
-        "Narrate the user's journey screen by screen, calling out the job to be done.",
-        "Surface early signals of success so momentum builds after the first action.",
-        "Pair qualitative insights with product metrics before locking scope."
+        "Make every action self-evident.",
+        "Remove unnecessary steps and choices.",
+        "Test with real users, often."
       ]
     }
   ]

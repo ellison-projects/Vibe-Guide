@@ -1,256 +1,530 @@
 {
   "buckets": [
     {
-      "id": "landing-page",
-      "title": "Landing page components",
-      "description": "Structural building blocks you rearrange to keep a single CTA honest.",
+      "id": "vibe-coding",
+      "title": "Vibe coding vocabulary",
+      "description": "Plain-English dev words that help non-engineers prompt clearly and ship with AI.",
+      "terms": [
+        {
+          "id": "repository",
+          "title": "Repository (repo)",
+          "shortDescription": "The home folder for all your project's code and its full history.",
+          "definition": "A repository stores every file in your project plus a timeline of changes, so you can see what changed, when, and roll back if needed.",
+          "whenToUse": "Whenever you start a project or tell an AI assistant where the code lives.",
+          "aiPhrases": [
+            "Set up a new Git repository for this project and explain what each generated file does."
+          ],
+          "examples": [
+            "A GitHub repo named vibe-guide holding your app code and README."
+          ]
+        },
+        {
+          "id": "commit",
+          "title": "Commit",
+          "shortDescription": "A saved snapshot of your changes with a short note describing them.",
+          "definition": "A commit records the current state of your files plus a message, creating a restore point you can return to later.",
+          "whenToUse": "Each time you finish a small change that works and you want to keep it.",
+          "aiPhrases": [
+            "Write a clear commit message summarizing the change I just made."
+          ],
+          "examples": [
+            "\"Add contact form validation\" as a commit message."
+          ]
+        },
+        {
+          "id": "branch",
+          "title": "Branch",
+          "shortDescription": "A parallel copy of the project where you can try ideas safely.",
+          "definition": "A branch lets you experiment without touching the main version; you merge it back only once it works.",
+          "whenToUse": "Before attempting a risky change or starting a new feature.",
+          "aiPhrases": [
+            "Create a new branch for this experiment so the main version stays safe."
+          ],
+          "examples": [
+            "Working on \"add-dark-mode\" while \"main\" stays stable."
+          ]
+        },
+        {
+          "id": "pull-request",
+          "title": "Pull request (PR)",
+          "shortDescription": "A proposal to merge your branch's changes, open for review first.",
+          "definition": "A pull request bundles your changes so you or others can review, comment, and approve before they join the main project.",
+          "whenToUse": "When a branch is ready and you want a checkpoint or review before merging.",
+          "aiPhrases": [
+            "Summarize the changes on this branch into a pull request description."
+          ],
+          "examples": [
+            "Opening a PR titled \"Add dark mode toggle\" for review."
+          ]
+        },
+        {
+          "id": "environment-variable",
+          "title": "Environment variable",
+          "shortDescription": "A setting or secret stored outside your code, like an API key.",
+          "definition": "Environment variables hold values that change per environment or must stay private, so secrets never live inside your code.",
+          "whenToUse": "Whenever you handle passwords, API keys, or settings that differ between local and live.",
+          "aiPhrases": [
+            "Move this API key into an environment variable and show me how to reference it."
+          ],
+          "examples": [
+            "Storing OPENAI_API_KEY in a .env file instead of in the code."
+          ]
+        },
+        {
+          "id": "api",
+          "title": "API",
+          "shortDescription": "A doorway one app uses to request data or actions from another.",
+          "definition": "An API (application programming interface) defines how programs talk to each other—what you can ask for and what you get back.",
+          "whenToUse": "Any time you connect your project to an outside service.",
+          "aiPhrases": [
+            "Explain what this API expects and write the call to fetch the data I need."
+          ],
+          "examples": [
+            "Calling a weather API to show today's forecast."
+          ]
+        },
+        {
+          "id": "dependency",
+          "title": "Dependency",
+          "shortDescription": "An outside package your project relies on to work.",
+          "definition": "A dependency is third-party code you install and build on top of; updating or removing it can change how your app behaves.",
+          "whenToUse": "When adding a library, or when something breaks right after an update.",
+          "aiPhrases": [
+            "List this project's dependencies and explain what each one does in plain terms."
+          ],
+          "examples": [
+            "Next.js and React are dependencies of this app."
+          ]
+        },
+        {
+          "id": "deploy",
+          "title": "Deploy (ship)",
+          "shortDescription": "Push your project live so other people can actually use it.",
+          "definition": "Deploying takes the version on your machine and makes it available on the internet at a real URL.",
+          "whenToUse": "When a change is ready to go from \"works for me\" to publicly live.",
+          "aiPhrases": [
+            "Walk me through deploying this project and what to check before going live."
+          ],
+          "examples": [
+            "Deploying to Vercel so the site is reachable at a public URL."
+          ]
+        },
+        {
+          "id": "frontend-backend",
+          "title": "Frontend & backend",
+          "shortDescription": "The part users see versus the part that runs behind the scenes.",
+          "definition": "The frontend is the visible interface in the browser; the backend handles data, logic, and storage the user never sees directly.",
+          "whenToUse": "When pointing an AI assistant at the right layer of a problem.",
+          "aiPhrases": [
+            "Is this a frontend or backend problem, and which file should I change?"
+          ],
+          "examples": [
+            "A button's look is frontend; saving the form to a database is backend."
+          ]
+        },
+        {
+          "id": "state",
+          "title": "State",
+          "shortDescription": "The current data an app is holding in memory right now.",
+          "definition": "State is what the app currently \"remembers\"—like which tab is open or what a user typed—and changing it updates what's shown.",
+          "whenToUse": "When something \"forgets\" what you did or doesn't update on screen.",
+          "aiPhrases": [
+            "Why isn't this updating on screen—walk me through the state involved."
+          ],
+          "examples": [
+            "A checkbox staying checked is stored in state."
+          ]
+        },
+        {
+          "id": "refactor",
+          "title": "Refactor",
+          "shortDescription": "Rewrite code to be cleaner without changing what it does.",
+          "definition": "Refactoring improves the structure or readability of code while keeping its behavior identical.",
+          "whenToUse": "When code works but is messy, or before building on top of it.",
+          "aiPhrases": [
+            "Refactor this for readability and keep the behavior exactly the same."
+          ],
+          "examples": [
+            "Splitting one giant function into smaller, clearly named ones."
+          ]
+        },
+        {
+          "id": "edge-case",
+          "title": "Edge case",
+          "shortDescription": "An unusual input or situation that breaks normal assumptions.",
+          "definition": "An edge case is a rare or extreme scenario—empty input, huge numbers, no internet—that code often forgets to handle.",
+          "whenToUse": "When reviewing a feature for what could go wrong.",
+          "aiPhrases": [
+            "What edge cases am I missing in this feature, and how should I handle them?"
+          ],
+          "examples": [
+            "A form that breaks when the name field is left blank."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-collaboration",
+      "title": "Working-with-AI words",
+      "description": "The words that make you fluent at directing AI coding tools.",
+      "terms": [
+        {
+          "id": "prompt",
+          "title": "Prompt",
+          "shortDescription": "The instructions you give an AI to get what you want.",
+          "definition": "A prompt is the request you write for an AI assistant; clearer, more specific prompts produce better results.",
+          "whenToUse": "Every time you ask an AI to write, change, or explain something.",
+          "aiPhrases": [
+            "Rewrite my request as a clearer prompt that spells out the goal, constraints, and format."
+          ],
+          "examples": [
+            "\"Add validation to this form, keep the styling, and explain what you changed.\""
+          ]
+        },
+        {
+          "id": "token",
+          "title": "Token",
+          "shortDescription": "The small chunk of text an AI reads and writes in.",
+          "definition": "AI models process text in tokens (roughly word-pieces) and bill and limit work by token count, not by character.",
+          "whenToUse": "When you hit length limits or want to understand cost.",
+          "aiPhrases": [
+            "Is this prompt too long? Trim it to use fewer tokens without losing the key details."
+          ],
+          "examples": [
+            "A long word like \"hamburger\" can be two or three tokens."
+          ]
+        },
+        {
+          "id": "context-window",
+          "title": "Context window",
+          "shortDescription": "How much the AI can \"hold in its head\" at once.",
+          "definition": "The context window is the total text (your prompt plus its reply) a model can consider at one time; beyond it, earlier details get dropped.",
+          "whenToUse": "When the AI seems to \"forget\" something you said earlier.",
+          "aiPhrases": [
+            "Remind me what's in your context now, and what you may have lost from earlier."
+          ],
+          "examples": [
+            "Pasting a huge file can crowd out your actual question."
+          ]
+        },
+        {
+          "id": "model",
+          "title": "Model",
+          "shortDescription": "The specific AI brain you're using—a tool with a name and version.",
+          "definition": "A model is a trained AI system; different models and versions vary in capability, speed, and cost.",
+          "whenToUse": "When choosing which AI to use, or understanding why results differ.",
+          "aiPhrases": [
+            "Which model is best for this task, and what are the tradeoffs in speed and quality?"
+          ],
+          "examples": [
+            "A faster model for quick edits, a stronger one for hard problems."
+          ]
+        },
+        {
+          "id": "hallucination",
+          "title": "Hallucination",
+          "shortDescription": "When an AI states something false with full confidence.",
+          "definition": "A hallucination is AI output that sounds right but isn't—made-up facts, functions, or APIs that don't exist.",
+          "whenToUse": "Whenever you rely on AI output you can't yet verify.",
+          "aiPhrases": [
+            "Flag anything in this answer you're unsure about so I can verify it."
+          ],
+          "examples": [
+            "The AI \"cites\" a library function that was never real."
+          ]
+        },
+        {
+          "id": "agent",
+          "title": "Agent",
+          "shortDescription": "An AI that can take steps and use tools on its own, not just chat.",
+          "definition": "An agent is an AI set up to act—run commands, edit files, call tools—pursuing a goal across multiple steps with less hand-holding.",
+          "whenToUse": "When you want AI to carry out a task, not just answer a question.",
+          "aiPhrases": [
+            "Act as an agent: plan the steps to build this feature, then do them one at a time."
+          ],
+          "examples": [
+            "An AI that edits files, runs the build, and fixes errors in a loop."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "debugging",
+      "title": "Debugging words",
+      "description": "The vocabulary that turns a scary error into a solvable puzzle.",
+      "terms": [
+        {
+          "id": "error-message",
+          "title": "Error message",
+          "shortDescription": "The app telling you what went wrong, in its own words.",
+          "definition": "An error message is the text a program shows when something fails; it usually names the problem and where it happened.",
+          "whenToUse": "The first thing to read—before guessing—when something breaks.",
+          "aiPhrases": [
+            "Here's the full error message. Explain in plain English what it means and the likely cause."
+          ],
+          "examples": [
+            "\"TypeError: cannot read property 'name' of undefined.\""
+          ]
+        },
+        {
+          "id": "stack-trace",
+          "title": "Stack trace",
+          "shortDescription": "The trail showing exactly where an error happened in the code.",
+          "definition": "A stack trace lists the chain of calls leading to an error, with file names and line numbers—read it top-down for the source.",
+          "whenToUse": "When the error message alone isn't enough to locate the problem.",
+          "aiPhrases": [
+            "Read this stack trace and tell me which file and line I should look at first."
+          ],
+          "examples": [
+            "A list of files and lines ending at the one that actually failed."
+          ]
+        },
+        {
+          "id": "log",
+          "title": "Log",
+          "shortDescription": "A running diary the app writes about what it's doing.",
+          "definition": "Logs are messages a program records as it runs, useful for seeing what happened right before something broke.",
+          "whenToUse": "When a bug doesn't crash but behaves wrong, or to confirm what ran.",
+          "aiPhrases": [
+            "Add log messages around this code so I can see what values it's actually using."
+          ],
+          "examples": [
+            "A server log showing each request and any warnings."
+          ]
+        },
+        {
+          "id": "null-undefined",
+          "title": "Null / undefined",
+          "shortDescription": "A box that's empty when the code expected something inside.",
+          "definition": "Null and undefined both mean \"no value here\"; many bugs happen when code uses something that turned out to be empty.",
+          "whenToUse": "When errors mention \"undefined\" or \"null.\"",
+          "aiPhrases": [
+            "This is undefined when I expected a value—trace back where it should have been set."
+          ],
+          "examples": [
+            "Reading user.name before the user has loaded."
+          ]
+        },
+        {
+          "id": "status-code",
+          "title": "Status code",
+          "shortDescription": "A 3-digit number a server returns to say how a request went.",
+          "definition": "HTTP status codes report outcomes: 200 is success, 404 not found, 500 server error—the first digit signals the category.",
+          "whenToUse": "When a page or API call fails and you see a number.",
+          "aiPhrases": [
+            "I'm getting a 500 on this request—what does that point to and how do I narrow it down?"
+          ],
+          "examples": [
+            "404 means the address wasn't found; 500 means the server errored."
+          ]
+        },
+        {
+          "id": "reproduce",
+          "title": "Reproduce",
+          "shortDescription": "Making the bug happen again on purpose, reliably.",
+          "definition": "Reproducing a bug means finding the exact steps that trigger it—the first move toward fixing it.",
+          "whenToUse": "Before attempting any fix; you can't confirm a fix you can't trigger.",
+          "aiPhrases": [
+            "Help me find the smallest set of steps that reliably reproduces this bug."
+          ],
+          "examples": [
+            "\"It breaks every time I submit the form with an empty email.\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shipping",
+      "title": "Shipping words",
+      "description": "What you need to know to put your work live without fear.",
+      "terms": [
+        {
+          "id": "production-vs-local",
+          "title": "Production vs. local",
+          "shortDescription": "The live version everyone uses vs. the private one on your machine.",
+          "definition": "\"Local\" is the app running just for you while you build; \"production\" is the live deployment real users hit—and the two can behave differently.",
+          "whenToUse": "When something works for you but not live, or the reverse.",
+          "aiPhrases": [
+            "This works locally but breaks in production—what differences usually cause that?"
+          ],
+          "examples": [
+            "A missing env var that exists locally but not on the live server."
+          ]
+        },
+        {
+          "id": "environment",
+          "title": "Environment",
+          "shortDescription": "A named setup where your app runs (local, staging, production).",
+          "definition": "An environment is a configured place your app runs, each with its own settings and data, so you can test safely before going live.",
+          "whenToUse": "When separating safe testing from the real, live app.",
+          "aiPhrases": [
+            "Set up a staging environment so I can test changes before they hit real users."
+          ],
+          "examples": [
+            "Staging mirrors production but with test data."
+          ]
+        },
+        {
+          "id": "secret",
+          "title": "Secret",
+          "shortDescription": "A private key or password your app needs but must never expose.",
+          "definition": "A secret is a sensitive credential—API key, token, password—that must stay out of your code and out of public view.",
+          "whenToUse": "Any time you handle credentials or private keys.",
+          "aiPhrases": [
+            "Make sure no secrets are hardcoded here—move them to environment variables."
+          ],
+          "examples": [
+            "An API key stored as an env var, never committed to the repo."
+          ]
+        },
+        {
+          "id": "domain",
+          "title": "Domain",
+          "shortDescription": "The human-friendly web address people type to reach your app.",
+          "definition": "A domain is the name (like myapp.com) that points to your deployed app, so users don't need a raw server address.",
+          "whenToUse": "When giving your live app a real, memorable address.",
+          "aiPhrases": [
+            "Walk me through pointing my custom domain at this deployment."
+          ],
+          "examples": [
+            "Connecting myapp.com to your Vercel project."
+          ]
+        },
+        {
+          "id": "rollback",
+          "title": "Rollback",
+          "shortDescription": "Instantly returning the live app to a previous working version.",
+          "definition": "A rollback reverts a deployment to an earlier known-good version, undoing a bad release fast.",
+          "whenToUse": "When a fresh deploy breaks production.",
+          "aiPhrases": [
+            "This deploy broke the site—how do I roll back to the last working version right now?"
+          ],
+          "examples": [
+            "Reverting to yesterday's deploy after a bad release."
+          ]
+        },
+        {
+          "id": "build",
+          "title": "Build",
+          "shortDescription": "Packaging your code into the optimized version that runs live.",
+          "definition": "A build converts your source code into the bundled, optimized files that actually get served; a failed build blocks deployment.",
+          "whenToUse": "When a deploy fails \"at build\" or you run it locally to check.",
+          "aiPhrases": [
+            "My build is failing—read the build output and tell me the exact cause."
+          ],
+          "examples": [
+            "Running `npm run build` before pushing to catch errors."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pages-that-convert",
+      "title": "Landing page words",
+      "description": "The plain-English fundamentals of a landing page that earns the click.",
       "terms": [
         {
           "id": "hero",
           "title": "Hero",
-          "shortDescription": "The above-the-fold stage that introduces the offer and CTA immediately.",
-          "definition": "The hero pairs a clear headline, a proof-backed supporting line, and the primary CTA so visitors know what you do and what to do next without scrolling.",
-          "whenToUse": "Always—the hero is the first impression for any paid or organic visit.",
+          "shortDescription": "The first thing visitors see: headline, one line of support, and the main button.",
+          "definition": "The hero is the top section of the page; it should say what you offer and what to do next without scrolling.",
+          "whenToUse": "Always—it's your first impression.",
           "aiPhrases": [
-            "Draft a hero layout that locks headline, supporting copy, and CTA in a tight Z-pattern."
+            "Write a hero with a clear headline, one supporting line, and a single obvious button."
           ],
           "examples": [
-            "Headline + subhead on the left, product mock and primary CTA on the right."
-          ]
-        },
-        {
-          "id": "subhead",
-          "title": "Subhead",
-          "shortDescription": "One tight sentence that clarifies value right after the hero headline.",
-          "definition": "The subhead answers the immediate follow-up question the headline triggers—usually who it is for or what result they get next.",
-          "whenToUse": "Whenever the headline is bold or outcome-focused and needs context to feel believable.",
-          "aiPhrases": [
-            "Write a subhead that names the audience and promises the outcome in under 18 words."
-          ],
-          "examples": [
-            "Designed for growth teams shipping tests weekly"
+            "\"Build landing pages in hours\" + subline + a \"Start free\" button."
           ]
         },
         {
           "id": "primary-cta",
-          "title": "Primary CTA",
-          "shortDescription": "The one action button styled for maximum contrast and clarity.",
-          "definition": "Your primary CTA uses an action verb, a benefit hint, and surrounding reassurance to make the click feel obvious.",
-          "whenToUse": "Always present in the hero and repeated within the flow where intent peaks.",
+          "title": "Primary button (CTA)",
+          "shortDescription": "The one main action you want visitors to take.",
+          "definition": "The primary call-to-action is the single most important button—make it stand out and use an action word.",
+          "whenToUse": "On every page; repeat it where interest peaks.",
           "aiPhrases": [
-            "Give me three CTA variants that pair an active verb with the next-step benefit."
+            "Give me three button labels that pair an action verb with the benefit."
           ],
           "examples": [
-            "Start the 7-day teardown"
+            "\"Start the free trial\" instead of \"Submit.\""
           ]
         },
         {
           "id": "value-props",
           "title": "Value props",
-          "shortDescription": "Three to five punchy proof-backed statements that ladder up to the promise.",
-          "definition": "Value props are scannable headlines with a short line of support that show how you deliver the main outcome.",
-          "whenToUse": "Use when visitors need to understand how the product/system works in their context.",
+          "shortDescription": "A few punchy reasons your thing is worth it.",
+          "definition": "Value propositions are short, benefit-led statements that show how you deliver on the main promise.",
+          "whenToUse": "Right after the hero, to build the case.",
           "aiPhrases": [
-            "Summarize the top four outcomes as value props with proof metrics or specific details."
+            "Turn these features into three benefit-led value props, each with proof."
           ],
           "examples": [
-            "Cut build time from weeks to hours with a subline about modular sections"
-          ]
-        },
-        {
-          "id": "features",
-          "title": "Features",
-          "shortDescription": "Deeper dives that show the mechanics behind each value prop.",
-          "definition": "Feature blocks combine visuals, captions, and specifics so buyers trust that the promised outcome is doable.",
-          "whenToUse": "After value props to let detail-oriented readers continue their evaluation.",
-          "aiPhrases": [
-            "Outline three feature cards with titles, supporting copy, and an optional screenshot cue."
-          ],
-          "examples": [
-            "Component library, Test dashboard, Collaboration timeline"
+            "\"Cut build time from weeks to hours.\""
           ]
         },
         {
           "id": "social-proof",
-          "title": "Social proof bar",
-          "shortDescription": "Logos, usage stats, or quick trust badges that calm hesitation.",
-          "definition": "A slim strip or cluster that shows recognizable customers, outcomes, or expert quotes without hijacking the main CTA.",
-          "whenToUse": "Drop near the hero or right before the primary CTA repeats.",
+          "title": "Social proof",
+          "shortDescription": "Evidence that other people trust you—logos, reviews, numbers.",
+          "definition": "Social proof reassures visitors by showing real customers, testimonials, or usage stats.",
+          "whenToUse": "Near the hero or just before the main button.",
           "aiPhrases": [
-            "Write a social proof bar headline plus three credibility stats tied to the landing page offer."
+            "Suggest social proof I could add and where to place it for the most reassurance."
           ],
           "examples": [
-            "Trusted by 1,200+ GTM teams • 3.8M experiments shipped"
+            "\"Trusted by 4,000 founders\" with a logo strip."
           ]
         },
         {
-          "id": "testimonials",
-          "title": "Testimonials",
-          "shortDescription": "Longer-form customer quotes paired with names, roles, and outcomes.",
-          "definition": "Testimonials translate proof into narrative—showing what changed, how fast, and what metric moved.",
-          "whenToUse": "After value props or near pricing to reinforce belief before commitment.",
+          "id": "visual-hierarchy",
+          "title": "Visual hierarchy",
+          "shortDescription": "Using size and contrast so the eye knows what to read first.",
+          "definition": "Visual hierarchy guides attention with type, spacing, and contrast—from headline to support to button.",
+          "whenToUse": "When a page feels flat or \"everything shouts.\"",
           "aiPhrases": [
-            "Turn this case study into a two-sentence testimonial with a named role and quant result."
+            "Improve the visual hierarchy so the headline and main button clearly stand out."
           ],
           "examples": [
-            "“We doubled signups in 45 days once we enforced the attention ratio rules.”"
+            "A big bold headline, quieter subtext, and a high-contrast button."
           ]
         },
         {
-          "id": "faq",
-          "title": "FAQ",
-          "shortDescription": "Answer the top objections before someone bounces to support.",
-          "definition": "The FAQ clusters 4-6 questions ordered by frequency so teams feel confident clicking the CTA.",
-          "whenToUse": "Near the bottom or beside pricing when adoption blockers surface.",
+          "id": "message-match",
+          "title": "Message match",
+          "shortDescription": "The page echoes the ad or link that brought the visitor.",
+          "definition": "Message match means the headline and look mirror what the visitor clicked, so they feel they're in the right place.",
+          "whenToUse": "When running ads or campaigns to a specific page.",
           "aiPhrases": [
-            "List the top five questions a skeptical buyer asks before trying this landing page system."
+            "Rewrite this headline to match the ad copy that sends traffic here."
           ],
           "examples": [
-            "“How long does setup take?” with a 90-minute reassurance"
+            "The ad says \"3-hour teardown\"; the page headline repeats it."
           ]
         },
         {
-          "id": "pricing-table",
-          "title": "Pricing table",
-          "shortDescription": "Side-by-side comparison of plans or the single offer summary.",
-          "definition": "Pricing tables outline cost, inclusions, and commitment so there’s no mystery before the CTA.",
-          "whenToUse": "Whenever the landing page is selling a specific plan, package, or service tier.",
+          "id": "friction-reducers",
+          "title": "Friction reducers",
+          "shortDescription": "Small reassurances that make saying yes feel easy.",
+          "definition": "Friction reducers are microcopy, trust badges, and short forms that lower the perceived effort or risk of acting.",
+          "whenToUse": "Right at the decision point, near the button or form.",
           "aiPhrases": [
-            "Compose a single-offer pricing module with price, inclusions, and a risk reducer."
+            "Add friction reducers near this form so signing up feels low-risk."
           ],
           "examples": [
-            "Growth Plan – $2,400/mo • includes CRO lead, playbook, and build crew"
+            "\"No credit card needed\" beside the signup button."
           ]
         },
         {
-          "id": "footer-cta",
-          "title": "Footer CTA",
-          "shortDescription": "Final call-to-action for visitors who read everything.",
-          "definition": "A mirrored primary CTA paired with contact details or a low-friction alternate action for fence sitters.",
-          "whenToUse": "Always repeat the CTA at the bottom for high-intent scrollers.",
+          "id": "above-the-fold",
+          "title": "Above the fold",
+          "shortDescription": "What shows before anyone scrolls.",
+          "definition": "Above the fold is the first screenful; it should answer what it is, who it's for, and how to start.",
+          "whenToUse": "When prioritizing what must be seen immediately.",
           "aiPhrases": [
-            "Write a footer CTA block with a headline, CTA button, and trust microcopy."
+            "What belongs above the fold here so a first-time visitor instantly gets it?"
           ],
           "examples": [
-            "Ready to ship cleaner pages? → Book the 20-minute teardown"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "design-system",
-      "title": "Design system elements",
-      "description": "Tokens, grids, and art direction cues that keep visual polish tied to performance.",
-      "terms": [
-        {
-          "id": "hierarchy-grid",
-          "title": "Hierarchy grid",
-          "shortDescription": "One grid spec that junior designers can stretch without breaking focus.",
-          "definition": "A north-star set of columns, gutters, and safe zones that keeps every section flowing hero → proof → CTA.",
-          "whenToUse": "Before juniors start comping so spacing arguments are settled and feedback centers on story.",
-          "aiPhrases": [
-            "Lay out a hierarchy grid that shows desktop and mobile columns plus safe zones for hero, proof, CTA."
-          ],
-          "examples": [
-            "Desktop 10-col grid with 64px margins; mobile 4-col grid guarding a 16px CTA gutter."
-          ]
-        },
-        {
-          "id": "type-ladder",
-          "title": "Type ladder",
-          "shortDescription": "Three headline rungs and one body style that enforce clarity.",
-          "definition": "A trimmed type scale with usage notes so every new section instantly signals what to read first.",
-          "whenToUse": "Whenever a page adds sections or revisions so typography decisions stay plug-and-play.",
-          "aiPhrases": [
-            "Draft a type ladder with Display, Section, Support, and Label styles plus when juniors should use each."
-          ],
-          "examples": [
-            "Display 56/64 for hero, Section 32/40 for modules, Support 20/30, Label 13/18 all in the same family."
-          ]
-        },
-        {
-          "id": "signal-palette",
-          "title": "Signal palette",
-          "shortDescription": "Color tokens named by job (primary, proof, background) not by hex.",
-          "definition": "A minimal palette that tells juniors which color sells the CTA, which sells proof, and which fades away.",
-          "whenToUse": "As soon as comps leave grayscale so color never overpowers the CTA or proof badges.",
-          "aiPhrases": [
-            "List signal palette tokens for CTA, proof, depth, and alerts with contrast reminders."
-          ],
-          "examples": [
-            "CTA/Emerald 500 on Slate 950, Proof/Amber 400 for badges, Depth/Slate 900 panels."
-          ]
-        },
-        {
-          "id": "proof-canvas",
-          "title": "Proof canvas",
-          "shortDescription": "Reusable framing rules for screenshots, testimonials, and social proof.",
-          "definition": "Guidelines for shadows, crop, and copy stacking so evidence feels premium and still points back to the CTA.",
-          "whenToUse": "Before dropping screenshots or quotes into the deck; prevents noisy mockups from hijacking focus.",
-          "aiPhrases": [
-            "Write a proof canvas brief showing how to crop dashboards, stack quotes, and tie them back to the CTA."
-          ],
-          "examples": [
-            "Use 12px radius cards, muted gradients, and angled device chrome that leans toward the CTA column."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ux-playbook",
-      "title": "UX flow playbook",
-      "description": "Experience artifacts that keep every interaction confident and conversion-focused.",
-      "terms": [
-        {
-          "id": "confidence-loop",
-          "title": "Confidence loop",
-          "shortDescription": "Sequence that answers what, why, proof, and next in one scroll.",
-          "definition": "A senior-level checklist to ensure each screen closes the belief gap before asking for the click.",
-          "whenToUse": "During kickoff or tear-down so juniors know what the page must earn before adding flair.",
-          "aiPhrases": [
-            "Map a confidence loop for this page showing the four beats juniors must hit before the CTA."
-          ],
-          "examples": [
-            "Hook → Outcome → Proof → Action with copy and UI cues called out."
-          ]
-        },
-        {
-          "id": "decision-guardrails",
-          "title": "Decision guardrails",
-          "shortDescription": "Tiny cues that keep users from wandering off the happy path.",
-          "definition": "Guidelines for default states, helper text, and progressive disclosure that prevent overwhelm while keeping momentum.",
-          "whenToUse": "When reviewing wireframes so the team aligns on how much info we reveal at each step.",
-          "aiPhrases": [
-            "Create decision guardrails for the pricing selector so juniors know what shows by default vs on click."
-          ],
-          "examples": [
-            "Show one recommended tier by default, tuck comparison rows behind “See plan details.”"
-          ]
-        },
-        {
-          "id": "state-telemetry",
-          "title": "State telemetry",
-          "shortDescription": "Feedback pattern that tells users what just happened and what’s next.",
-          "definition": "Covers validation, loading, and success copy so there is never a dead moment in the flow.",
-          "whenToUse": "As designs hand off to dev so empty, loading, and success states feel intentional.",
-          "aiPhrases": [
-            "List the telemetry copy and visuals for idle, loading, success, and error around the CTA."
-          ],
-          "examples": [
-            "Uploading… progress string, success toast that restates the value, inline fix for errors."
-          ]
-        },
-        {
-          "id": "recovery-lane",
-          "title": "Recovery lane",
-          "shortDescription": "Pre-planned escape hatches that keep users from restarting a flow.",
-          "definition": "Specifies secondary actions, live chat hooks, or async fallbacks for each critical screen.",
-          "whenToUse": "When QA spots brittle flows or when juniors script error handling for forms and uploads.",
-          "aiPhrases": [
-            "Design a recovery lane for the brief uploader so users can still submit assets if the file fails."
-          ],
-          "examples": [
-            "Offer ‘Email files later’ CTA plus link to guidelines when upload blocks progress."
+            "Headline, subhead, proof, and button all visible without scrolling."
           ]
         }
       ]

@@ -15,6 +15,19 @@ type HomeScreenProps = {
 export default function HomeScreen({ pageTypes }: HomeScreenProps) {
   return (
     <div className="space-y-6">
+      <header className="space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-300">
+          Vibe Guide
+        </p>
+        <h1 className="text-3xl font-semibold text-white">
+          Build with AI, even if you&apos;re not an engineer
+        </h1>
+        <p className="text-sm text-slate-300">
+          Plain-English words, prompts, and habits for founders and makers shipping real products
+          with AI. Pick where you are:
+        </p>
+      </header>
+
       {pageTypes.map((pageType) => (
         <article
           key={pageType.id}
@@ -35,17 +48,17 @@ export default function HomeScreen({ pageTypes }: HomeScreenProps) {
           <div className="grid gap-3 sm:grid-cols-3">
             <HomeActionLink
               title="AI Prompts"
-              description="Styles and people to channel"
+              description="Paste-ready prompts that channel an expert"
               href={promptListPath(pageType.id)}
             />
             <HomeActionLink
               title="Vocabulary"
-              description="Structural components for landing pages"
+              description="The words you need, in plain English"
               href={vocabularyListPath(pageType.id)}
             />
             <HomeActionLink
               title="Principles"
-              description="Core rules behind effective landing pages"
+              description="Habits that keep you shipping safely"
               href={principleListPath(pageType.id)}
             />
           </div>

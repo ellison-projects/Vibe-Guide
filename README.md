@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vibe Guide
 
-## Getting Started
+A plain-English guide that turns "vibe coding" into confident shipping for
+**founders and makers who build real products with AI but aren't engineers.**
+It gives you the words, prompts, and habits to make good technical calls and to
+communicate clearly with developers and AI assistants — without a
+computer-science background.
 
-First, run the development server:
+## The journey
+
+Content is organized into page types that follow the founder/maker path:
+
+1. **Speak the Language** — decode the dev words so you can prompt clearly.
+2. **Build with AI** — drive AI coding tools well and trust what you ship.
+3. **When It Breaks** — read errors, reproduce them, and fix them calmly.
+4. **Ship It Live** — go from "works on my screen" to live on the internet, safely.
+5. **Make a Page That Converts** — the fundamentals of a landing page that earns the click.
+
+Each page type exposes three sections:
+
+- **AI Prompts** — paste-ready prompts that channel an approachable expert.
+- **Vocabulary** — the words a founder needs, each defined in plain English.
+- **Principles** — the core habits that keep building with AI safe and sane.
+
+## Content lives in data, not code
+
+All user-facing content is JSON in `data/`, never hardcoded in components:
+
+- `data/page-types.json` — the page types with their `prompts` and `principles`,
+  each linked to a vocabulary bucket via `vocabularyBucketId`.
+- `data/vocab.json` — `buckets[]`, each a list of vocabulary `terms`.
+- `data/people.json` — the experts that prompts channel; a name matching a
+  `people` entry auto-links to a profile anywhere in the text.
+
+Routing is generic over `data/`
+(`app/[pageTypeId]/{prompts,vocabulary,principles}`), so **adding a page type is
+a data change, not a code change.** `lib/data.ts` holds the types and lookups.
+
+See [`CLAUDE.md`](./CLAUDE.md) for the full audience definition and content
+conventions.
+
+## Tech
+
+Next.js (App Router, static export) + React + Tailwind CSS.
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Before you push
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The build is the gate — run it (and `npm run lint`) before pushing.

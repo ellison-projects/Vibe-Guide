@@ -20,10 +20,10 @@ export default function PrincipleListSection({ pageType }: PrincipleListSectionP
           Principles
         </p>
         <h2 className="text-2xl font-semibold text-white">
-          Core rules behind effective landing pages
+          Core habits for <PeopleAwareText text={pageType.title} />
         </h2>
         <p className="text-sm text-slate-300">
-          Use these to audit every section of <PeopleAwareText text={pageType.title} /> work.
+          Lightweight rules to keep your <PeopleAwareText text={pageType.title} /> work on track.
         </p>
       </header>
 
